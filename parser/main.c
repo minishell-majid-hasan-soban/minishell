@@ -118,9 +118,9 @@ t_token *process_command(char *commands) {
 			replace_char_in_strings(space_tokens[j], -1, ' ');	
             // Here, only space tokens are processed and stored.
             if (j == 0) { // First token is the command.
-                tokens[n_tokens++] = new_token(TOKEN_COMMAND, space_tokens[j]);
+                tokens[n_tokens++] = new_token(TOKEN_command, space_tokens[j]);
             } else {     // Following tokens are arguments.
-                tokens[n_tokens++] = new_token(TOKEN_ARGUMENT, space_tokens[j]);
+                tokens[n_tokens++] = new_token(TOKEN_argument, space_tokens[j]);
             }
             j++;
         }
@@ -139,18 +139,64 @@ t_token *process_command(char *commands) {
     return tokens;
 }
 
+void assign_types(t_token *tokens)
+{
+	int i = -1;
+
+	while(tokens[++i].type != -1)
+	{
+		if(!ft_strncmp("|", tokens[i].value, 1))
+			tokens[i].type = TOKEN_pipe;
+		else if(!ft_strncmp(">", tokens[i].value, 1))
+			tokens[i].type = TOKEN_red_out;
+		else if(!ft_strncmp("<", tokens[i].value, 1))
+			tokens[i].type = TOKEN_red_in;
+		else if(!ft_strncmp("\"", tokens[i].value, 1))
+			tokens[i].type = TOKEN_argument;
+		else if(!ft_strncmp("'", tokens[i].value, 1))
+			tokens[i].type = TOKEN_argument;
+		else if(!ft_strncmp(">>", tokens[i].value, 2))
+			tokens[i].type = TOKEN_here_doc_out;
+		else if(!ft_strncmp("<<", tokens[i].value, 2))
+			tokens[i].type = TOKEN_here_doc_in;
+		else if(!ft_strncmp("$?", tokens[i].value, 2))
+			tokens[i].type = TOKEN_exit_status;
+		else if(!ft_strncmp("$", tokens[i].value, 1))
+			tokens[i].type = TOKEN_env_var;
+		else if(i > 0 && tokens[i - 1].type == TOKEN_command)
+			tokens[i].type = TOKEN_argument;
+		else
+			tokens[i].type = TOKEN_command;
+	}
+}
+
 int main() {
-	char commands[] = "ls -l | grep 'txt | test' | wc -l | ";
+	char commands[] = "ls -l | grep 'txt | test' | wc -l";
     t_token *tokens = process_command(commands);
+	assign_types(tokens);
+  const char *tokenTypeNames[] = {
+    "TOKEN_command",
+    "TOKEN_argument",
+    "TOKEN_pipe",
+    "TOKEN_red_out",
+    "TOKEN_red_in",
+    "TOKEN_here_doc_in",
+    "TOKEN_here_doc_out",
+    "TOKEN_env_var",
+    "TOKEN_exit_status"
+	};
 
-    int i = 0;
-    while (tokens[i].type != -1) { // Use the end marker for termination condition
-        printf("Token Type: %d, Value: %s\n", tokens[i].type, tokens[i].value);
-        free(tokens[i].value); // Free the duplicated string
-        i++;
-    }
-
-    free(tokens); // Finally, free the array of tokens.
+	int i = 0;
+	while (tokens[i].type != -1) { // Use the end marker for termination condition
+	    if (tokens[i].type >= 0 && tokens[i].type <= 8) { // Ensure the type is within the bounds of your array
+	        printf("Token Type: %s, Value: %s\n", tokenTypeNames[tokens[i].type], tokens[i].value);
+	    } else {
+	        printf("Unknown Token Type: %d, Value: %s\n", tokens[i].type, tokens[i].value);
+	    }
+	    free(tokens[i].value); // Free the duplicated string
+	    i++;
+	}
+   	free(tokens); // Finally, free the array of tokens.
 
     return 0;
 }
