@@ -3,6 +3,44 @@
 #include <stdlib.h>
 #include "pars.h"
 
+void *ft_realloc(void *ptr, size_t old_size, size_t new_size) {
+    if (new_size == 0 && ptr != NULL)
+	{
+        free(ptr);
+        return NULL;
+    }
+    if (ptr == NULL)
+        return malloc(new_size);
+    void *new_ptr = malloc(new_size);
+    if (new_ptr == NULL)
+		return NULL;
+	size_t bytes_to_copy = (old_size < new_size) * old_size + !(old_size < new_size) * new_size;
+    ft_memcpy(new_ptr, ptr, bytes_to_copy);
+    free(ptr);
+   return new_ptr;
+}
+
+char **add_pipes(char **command)
+{
+	int i = 1;
+	while(command[i - 1])
+		i++;
+	
+	command = ft_realloc(command, i * sizeof(char *), i * sizeof(char *) + (i - 1) * sizeof(char *));
+	int j = 1;
+	int a = 1;
+	while(j < (i + i - 3))
+	{
+		ft_memmove(command + j + 1, command + j, (i - a) * sizeof(char *));
+		command[j] = malloc(sizeof(char) * 2);
+		command[j][0] = '|';
+		command[j][1] = 0;
+		a++;
+		j+=2;
+	}
+	return command;
+}
+
 void replace_char_in_strings(char* str, const char c, const char rep) {
     bool in_single_quote = false;
     bool in_double_quote = false;
@@ -44,6 +82,16 @@ t_token new_token(int type, char *value) {
     return token;
 }
 
+void print_double_ptr(char **command)
+{
+	int i = -1;
+	while(command[++i])
+	{
+		printf("%s\n", command[i]);
+	}
+	printf("---------------------------------------------\n");
+}
+
 t_token *process_command(char *commands) {
     int capacity = 10;  // Initial capacity
     int n_tokens = 0;   // Number of tokens
@@ -51,7 +99,10 @@ t_token *process_command(char *commands) {
 
 	replace_char_in_strings(commands, '|', -1);
     char **pipe_tokens = ft_split(commands, '|');
-    int i = 0;
+	print_double_ptr(pipe_tokens);
+    pipe_tokens = add_pipes(pipe_tokens);
+	print_double_ptr(pipe_tokens);
+	int i = 0;
     while (pipe_tokens[i] != NULL) {
         replace_char_in_strings(pipe_tokens[i], -1, '|');
 		replace_char_in_strings(pipe_tokens[i], ' ', -1);	
@@ -89,7 +140,7 @@ t_token *process_command(char *commands) {
 }
 
 int main() {
-	char commands[] = "ls -l | grep 'txt | test' | wc -l";
+	char commands[] = "ls -l | grep 'txt | test' | wc -l | ";
     t_token *tokens = process_command(commands);
 
     int i = 0;
