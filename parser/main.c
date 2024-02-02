@@ -25,73 +25,81 @@ void replace_char_in_strings(char* str, const char c, const char rep) {
     }
 }
 
-// Function to free a double pointer array
+
 void free_double_ptr_array(char **arr) {
     if (!arr) return;
-    for (int i = 0; arr[i] != NULL; ++i) {
+    int i = 0;
+    while (arr[i] != NULL) {
         free(arr[i]);
+        i++;
     }
     free(arr);
 }
 
-// Function to create a new token
-t_token *new_token(int type, char *value) {
-    t_token *token = (t_token *)malloc(sizeof(t_token));
-    if (!token) {
-        perror("Failed to allocate memory for a new token");
-        exit(EXIT_FAILURE);
-    }
-    token->type = type;
-    token->value = value; // Assuming value is already allocated, or static string
+t_token new_token(int type, char *value) {
+    t_token token;
+    token.type = type;
+    token.value = ft_strdup(value); // Duplicate the string to ensure safety.
+    // Note: Ensure this strdup memory is managed properly to avoid leaks.
     return token;
 }
 
-// Function to print a token
-void print_token(t_token *token) {
-    if (token->type == TOKEN_COMMAND)
-        printf("Command: %s\n", token->value);
-    else if (token->type == TOKEN_ARGUMENT)
-        printf("Argument: %s\n", token->value);
-}
+t_token *process_command(char *commands) {
+    int capacity = 10;  // Initial capacity
+    int n_tokens = 0;   // Number of tokens
+    t_token *tokens = (t_token *)malloc(capacity * sizeof(t_token));
 
-
-
-int main() {
-    char test_str[] = "This is a 'test string' with \"quotes\" and \\\"escaped quotes\\\" more 'tests with c' inside";
-    char to_replace = 't';  // Character to replace within quotes.
-    
-    printf("Original String: %s\n", test_str);
-    replace_char_in_strings(test_str, to_replace, -1);
-    printf("Modified String: %s\n", test_str);
-
-   
-    printf("\n");
-   char commands[] = "ls -l | grep 'txt | test' | wc -l\0";
 	replace_char_in_strings(commands, '|', -1);
     char **pipe_tokens = ft_split(commands, '|');
+    int i = 0;
+    while (pipe_tokens[i] != NULL) {
+        replace_char_in_strings(pipe_tokens[i], -1, '|');
+		replace_char_in_strings(pipe_tokens[i], ' ', -1);	
+		char **space_tokens = ft_split(pipe_tokens[i], ' ');
 
-    for (int i = 0; pipe_tokens[i] != NULL; ++i) {
-        // Each pipe token is considered a command
-		replace_char_in_strings(pipe_tokens[i], -1, '|');
-        t_token *command_token = new_token(TOKEN_COMMAND, pipe_tokens[i]);
-        print_token(command_token);
-        free(command_token); // Assume dynamic allocation for demonstration
-		
-        // Split command into arguments
-		replace_char_in_strings(pipe_tokens[i], ' ', -1);
-        char **space_tokens = ft_split(pipe_tokens[i], ' ');
+        int j = 0;
+        while (space_tokens[j] != NULL) {
+            if (n_tokens >= capacity){
+                capacity *= 2; // Double the capacity
+                tokens = (t_token *)realloc(tokens, capacity * sizeof(t_token));
+            }
 
-        for (int j = 0; space_tokens[j] != NULL; ++j) {
-		    // Each space token is considered an argument
-			replace_char_in_strings(space_tokens[j], -1, ' ');
-            t_token *arg_token = new_token(TOKEN_ARGUMENT, space_tokens[j]);
-            print_token(arg_token);
-            free(arg_token); // Assume dynamic allocation for demonstration
+			replace_char_in_strings(space_tokens[j], -1, ' ');	
+            // Here, only space tokens are processed and stored.
+            if (j == 0) { // First token is the command.
+                tokens[n_tokens++] = new_token(TOKEN_COMMAND, space_tokens[j]);
+            } else {     // Following tokens are arguments.
+                tokens[n_tokens++] = new_token(TOKEN_ARGUMENT, space_tokens[j]);
+            }
+            j++;
         }
-        
-        free_double_ptr_array(space_tokens);
+
+        free_double_ptr_array(space_tokens); // Cleanup space tokens.
+        i++;
     }
 
-    free_double_ptr_array(pipe_tokens);
+    free_double_ptr_array(pipe_tokens); // Cleanup pipe tokens.
+
+    // Resize the token array to the exact number of tokens + 1 for a NULL termination as a safety measure.
+    tokens = (t_token *)realloc(tokens, (n_tokens + 1) * sizeof(t_token));
+    tokens[n_tokens].type = -1; // Mark the end with a special type. No NULL termination needed for non-pointer structs.
+    tokens[n_tokens].value = NULL; // Ensures a clear end if checking value.
+
+    return tokens;
+}
+
+int main() {
+	char commands[] = "ls -l | grep 'txt | test' | wc -l";
+    t_token *tokens = process_command(commands);
+
+    int i = 0;
+    while (tokens[i].type != -1) { // Use the end marker for termination condition
+        printf("Token Type: %d, Value: %s\n", tokens[i].type, tokens[i].value);
+        free(tokens[i].value); // Free the duplicated string
+        i++;
+    }
+
+    free(tokens); // Finally, free the array of tokens.
+
     return 0;
 }
