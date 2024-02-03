@@ -21,9 +21,15 @@
 
 
 typedef struct s_token {
-    int type;   // TOKEN_COMMAND or TOKEN_ARGUMENT
-    char *value;
+    int		type;   // TOKEN_COMMAND or TOKEN_ARGUMENT
+    char	*value;
 } t_token;
 
+
+typedef struct s_token_arr
+{
+	t_token	*arr;
+	long	size;
+} t_token_arr;
 
 #endif
