@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/28 00:24:52 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_setenv(t_env **env, char *name, char *value, int overwrite)
 	return (ft_env_addback(env, name, value));
 }
 
-int	ft_cd(t_data *data, char **args)
+int	ft_cd(t_shell *data, char **args)
 {
 	int		ret;
 	char	*pwd;

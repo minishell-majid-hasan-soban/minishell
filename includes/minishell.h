@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 09:55:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 14:16:20 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct	s_command
 	t_redirection	*redirections;
 	t_builtin		cmd_type;
 	t_error			error;
-}				t_command;
+}					t_command;
 
 /*
 ** t_node: struct for the tree nodes:
@@ -91,16 +91,16 @@ typedef struct	s_command
 ** left: the left child of the node
 ** right: the right child of the node
 */
-typedef struct	s_node
+typedef struct	s_ast
 {
 	t_node_type			type;
 	t_command			*command;
 	t_node_dir			direction;
 	bool				piped;
-	struct s_node		*left;
-	struct s_node		*right;
+	struct s_ast		*left;
+	struct s_ast		*right;
 	t_error				error;
-}						t_node;
+}						t_ast;
 
 /*
 ** t_ast: struct for the abstract syntax tree:
@@ -120,15 +120,18 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct		s_data
+typedef struct		s_shell
 {
+	t_ast			*ast;
 	t_env			*env;
-	t_node			*ast;
 	int				fd_in;
 	int				fd_out;
-	int				status;
+	int				fd_err;
+	int				p_fd[2];
+	int				exit_status;
 	bool			*g_sigint;
-}					t_data;
+	t_error			error;
+}					t_shell;
 
 // // string_utils
 int		ft_strlen(const char *s);
@@ -141,19 +144,19 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 // // builtins_cmd
-int		ft_pwd(t_data *data);
+int		ft_pwd(t_shell *data);
 int		ft_echo(char **args);
-int		ft_cd(t_data *data, char **args);
+int		ft_cd(t_shell *data, char **args);
 void	ft_perror(char *name, char *str, char *suffix);
 int		nbr_args(char **args);
 void	ft_env(char *prefix, t_env *env, bool null_value);
-int		ft_unset(char **args, t_data *data);
-void	ft_exit(t_data *data);
-int		ft_export(t_data *data, char **args);
+int		ft_unset(char **args, t_shell *data);
+void	ft_exit(t_shell *data);
+int		ft_export(t_shell *data, char **args);
 int		ft_env_addback(t_env **env, char *name, char *value);
 
 // // redirections
-int		red_in(char **args, t_data *data);
+int		red_in(char **args, t_shell *data);
 
 // // hanlders
 int		dup2_handle(int fd1, int fd2);

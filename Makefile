@@ -9,10 +9,10 @@ INC = includes
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
+	$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
 
 %.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(RL)/inc
+	$(CC) $(CFLAGS) -I$(RL)/inc -I$(INC) -c $< -o $@ 
 
 clean:
 	rm -f $(OBJ)

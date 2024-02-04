@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:23:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 03:29:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_unsetenv(char *name, t_data *data)
+void	ft_unsetenv(char *name, t_shell *data)
 {
 	t_env	*tmp;
 	t_env	*prev;
@@ -37,7 +37,7 @@ void	ft_unsetenv(char *name, t_data *data)
 	}
 }
 
-int	ft_unset(char **args, t_data *data)
+int	ft_unset(char **args, t_shell *data)
 {
 	int	i;
 

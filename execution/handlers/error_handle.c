@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_in.c                                           :+:      :+:    :+:   */
+/*   error_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/27 23:51:00 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
+/*   Created: 2024/02/04 11:35:50 by hsobane           #+#    #+#             */
+/*   Updated: 2024/02/04 11:39:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	red_in(char **args, t_shell *data)
+void	ft_error(t_shell *shell, char *error)
 {
-	int		fd;
-
-	if (!args || !*args)
-		return (ft_perror(data->name, "", "parse error"), -1);
-	fd = open(args[0], O_RDONLY);
-	if (fd < 0)
-		return (ft_perror(data->name, "", args[0]), -1);
-	if (dup2_handle(fd, 0) < 0)
-		return (ft_perror(data->name, "", args[0]), -1);
-	return (0);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
+	shell->exit_status = 1;
 }

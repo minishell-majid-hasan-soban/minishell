@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 04:32:32 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/28 04:41:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	pipe_process(t_data *data, char **args, int fd[2])
+int	pipe_process(t_shell *data, char **args, int fd[2])
 {
 	pid_t	pid;
 
@@ -35,7 +35,7 @@ int	pipe_process(t_data *data, char **args, int fd[2])
 	return (0);
 }
 
-int	ft_pipe(char **args, t_data *data, bool last)
+int	ft_pipe(char **args, t_shell *data, bool last)
 {
 	int		fd[2];
 	pid_t	pid;

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 07:37:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void t(char *str)
 int main(int ac, char **av, char **env) {
 
 	char *str;
-	t_data *data = (t_data *)malloc(sizeof(t_data));
+	t_shell *data = (t_shell *)malloc(sizeof(t_shell));
 	data->env = (t_env *)malloc(sizeof(t_env));
 	data->name = av[0];
 	data->env->name = ft_strdup("HOME");

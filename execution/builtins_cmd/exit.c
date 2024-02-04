@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 07:36:17 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	clear_data(t_data *data)
+void	clear_data(t_shell *data)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
@@ -28,7 +28,7 @@ void	clear_data(t_data *data)
 	}
 }
 
-void	ft_exit(t_data *data)
+void	ft_exit(t_shell *data)
 {
 	clear_data(data);
 	clear_history();

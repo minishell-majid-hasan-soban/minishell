@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 01:38:20 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/28 03:48:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	her_doc_process(t_data *data, char **args, int fd[2])
+int	her_doc_process(t_shell *data, char **args, int fd[2])
 {
 	char	*line;
 
@@ -34,7 +34,7 @@ int	her_doc_process(t_data *data, char **args, int fd[2])
 	exit(0);
 }
 
-int	her_doc(char **args, t_data *data)
+int	her_doc(char **args, t_shell *data)
 {
 	int		fd[2];
 	char	*line;

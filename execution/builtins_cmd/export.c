@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 04:53:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_add_env(t_data *data, char *str)
+int	ft_add_env(t_shell *data, char *str)
 {
 	char	*name;
 	char	*value;
@@ -35,7 +35,7 @@ int	ft_add_env(t_data *data, char *str)
 	return (0);
 }
 
-int		ft_export(t_data *data, char **args)
+int		ft_export(t_shell *data, char **args)
 {
 	int		i;
 	char	**strs;

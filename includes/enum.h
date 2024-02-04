@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 09:01:09 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 09:19:50 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 12:01:52 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ typedef enum	e_token_type
 	TOKEN_PIPE,
 	TOKEN_GREAT,
 	TOKEN_LESS,
-	TOKEN_DGREAT,
-	TOKEN_DLESS,
+	TOKEN_DGREAT,		// >> double greater than, append
+	TOKEN_DLESS,		// << double less than, heredoc
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_NEWLINE,
+	TOKEN_OP,			// open parenthesis
+	TOKEN_CP,			// close parenthesis
 	TOKEN_EOF
 }				t_token_type;
 
@@ -36,8 +38,8 @@ typedef enum t_error
 {
 	T_NONE,
 	T_SYNTAX,
-	T_MALLOC
-	
+	T_MALLOC,
+	T_FUNC
 }				t_error;
 
 /*
@@ -49,10 +51,10 @@ typedef enum t_error
 */
 typedef enum e_node_type
 {
-	NODE_COMMAND,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR
+	N_CMD,
+	N_PIPE,
+	N_AND,
+	N_OR
 }				t_node_type;
 
 /*
