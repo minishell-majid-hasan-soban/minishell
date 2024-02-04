@@ -127,7 +127,8 @@ typedef struct	s_node
 {
 	t_node_type			token;
 	t_command			command;
-	struct s_node		*children;
+	struct s_node		*left;
+	struct s_node		*right;
 }				t_node;
 
 typedef struct s_ast_tree

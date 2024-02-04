@@ -145,8 +145,8 @@ int add_word(char **prompt, t_token_arr *tokens)
 	word = ft_substr(*prompt, 0, prompt_ptr - (*prompt));
 	if (!word)
 		return (0);
-	*prompt += prompt_ptr - (*prompt);
 	printf("prompt_ptr - (*prompt) = %ld\n", prompt_ptr - (*prompt));
+	*prompt += prompt_ptr - (*prompt);
 	return (add_token_word(tokens, word));
 }
 
@@ -171,12 +171,12 @@ t_token_arr tokenize(char *prompt)
 		if(is_separator(prompt))
 		{
 			ret = handle_seperator(&prompt, &tokens);
-			printf("here 1\n");
+			//printf("here 1\n");
 		}
 		else
 		{
 		 	ret = add_word(&prompt, &tokens);
-			printf("here 2\n");
+			//printf("here 2\n");
 
 		}
 		if(ret == -1)
@@ -202,7 +202,7 @@ void free_token_arr(t_token_arr *tokens)
 
 
 int main() {
-	char *str = "ls | grep thing > test < thing << >> || cd || ygerfuy | test && \"   test &&  pipe | < > << >> || \"";
+	char *str = "ls | grep thing > test < thing << >> || cd || ygerfuy | test && \"   test &&  pipe | < > << >> || \"|";
 	t_token_arr tokens = tokenize(str);
 	
 	int i = -1;
