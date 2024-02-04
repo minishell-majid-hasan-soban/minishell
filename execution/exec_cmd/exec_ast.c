@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 14:17:17 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 14:34:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ static char *ft_get_path(t_shell *shell, char *cmd)
 {
 	char	**paths;
 	char	*path;
+	char	*to_free;
 	int		i;
 
 	i = 0;
-	paths = ft_strsplit(ft_getenv(shell->env, "PATH"), ':');
+	paths = ft_plit(ft_getenv(shell->env, "PATH"), ':');
 	while (paths[i])
 	{
-		path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(path, cmd);
+		to_free = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(to_free, cmd);
+		free(to_free);
 		if (access(path, X_OK) == 0)
 		{
 			ft_free_args(paths);
@@ -51,7 +53,7 @@ static void exec_cmd(t_shell *shell, t_ast *ast)
 		ft_strdel(&path);
 	}
 	else
-		ft_printf("minishell: command not found: %s\n", args[0]);
+		shell->exit_status = 127;
 	ft_free_args(args);
 	exit(1);
 }
@@ -75,6 +77,13 @@ static void exec_child_pipe(t_shell *shell, t_ast *ast)
 		else
 			exec_cmd(shell, ast);
 	}
+}
+
+static void exec_and(t_shell *shell, t_ast *ast)
+{
+	exec_ast(shell);
+	if (shell->exit_status == 0)
+		exec_ast(shell);
 }
 
 static void	exec_pipe(t_shell *shell, t_ast *ast)
