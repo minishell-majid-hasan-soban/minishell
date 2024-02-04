@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/28 03:45:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/04 09:55:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,96 @@
 # include <string.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include "libft.h"
+# include "enum.h"
+
+extern bool	g_sigint;
+
+/*
+** t_token: struct for tokens:
+** value: the value of the token if it's a word, like "echo" or "file" or "argument"
+** type: the type of the token
+** error: the error of the token, if TOKEN_NEWLINE is followed by nothing, it's a syntax error
+** next: the next token, list easy a sat
+** prev: the previous token
+*/
+typedef struct	s_token
+{
+	char				*value;
+	int					type;
+	t_error				error;
+	struct s_token		*next;
+	struct s_token		*prev;
+}						t_token;
+
+/*
+** t_redirection: struct for redirections:
+** type: the type of the redirection, like R_INPUT or R_OUTPUT [t_redirection_type enum above]
+** file: the file of the redirection, like "file" in "echo hello > file"
+** heredoc_fd: used if the redirection is a heredoc, it hodls the read end of the pipe
+** next: the next redirection
+** prev: the previous redirection
+*/
+typedef struct	s_redirection
+{
+	t_redirection_type		type;
+	char					*file;
+	int						heredoc_fd;
+	bool					expanded;
+	char					*expanded_file;
+	struct	s_redirection	*next;
+	struct	s_redirection	*prev;
+	t_error					error;
+}							t_redirection;
+
+/*
+** t_command: struct for commands:
+** name: the name of the command, like "echo" or "ls"
+** args: the arguments of the command, like "echo hello" -> "hello" is the argument
+** redirections: the redirections of the command, like "echo hello > file" -> "file" is the redirection of type R_OUTPUT
+** t_redirection: is above this struct
+*/
+typedef struct	s_command
+{
+	char			*name;
+	char			**args;
+	char			*expanded_name;
+	char			**expanded_args;
+	t_redirection	*redirections;
+	t_builtin		cmd_type;
+	t_error			error;
+}				t_command;
+
+/*
+** t_node: struct for the tree nodes:
+** token: the token of the node
+** left: the left child of the node
+** right: the right child of the node
+*/
+typedef struct	s_node
+{
+	t_node_type			type;
+	t_command			*command;
+	t_node_dir			direction;
+	bool				piped;
+	struct s_node		*left;
+	struct s_node		*right;
+	t_error				error;
+}						t_node;
+
+/*
+** t_ast: struct for the abstract syntax tree:
+** graphical representation of the tree: cmd1 a > b > c | cmd2 d < e
+** 		      PIPE					  {node: pipe}
+** 		     /    	\				  
+** 		 COMMAND  	  COMMAND		  {node: command}
+** 	   / /  |  \  	  /  |    \
+** cmd1 a > b > c 	cmd2 d  <  e	  {same node command: redirection list}
+**
+*/
 
 typedef struct		s_env
 {
@@ -33,10 +123,11 @@ typedef struct		s_env
 typedef struct		s_data
 {
 	t_env			*env;
-	char			*name;
+	t_node			*ast;
 	int				fd_in;
 	int				fd_out;
 	int				status;
+	bool			*g_sigint;
 }					t_data;
 
 // // string_utils
