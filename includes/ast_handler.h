@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 08:44:24 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/05 08:46:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 12:28:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 # include "minishell.h"
 
+typedef struct s_ast	t_ast;
+
 void	ft_close(t_ast *ast, int fd);
-void	ft_close_pipe(t_ast *ast);
+void	ft_close_pipe(t_ast *ast, int fd[2]);
 void	ft_dup2(t_ast *ast, int old_fd, int new_fd);
 pid_t	ft_fork(t_ast *ast);
-void	ft_pipe(t_ast *ast);
+void	ft_pipe(t_ast *ast, int fd[2]);
 void	ft_error(t_ast *ast, char *error);
+int		ft_execve(t_ast *ast, char **args);
 
 #endif

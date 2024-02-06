@@ -5,33 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 11:28:53 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/05 17:42:33 by hsobane          ###   ########.fr       */
+/*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
+/*   Updated: 2024/02/06 13:57:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libc.h>
+#include "minishell.h"
 
-void	handler(int sig, siginfo_t *info, void *ucontext)
+int main(int ac, char **av, char **envp)
 {
-	(void)ucontext;
-	printf("Signal %d from %d\n", sig, info->si_pid);
-}
+	int			i;
+	t_shell		shell;
+	// t_ast		ast;
+	char		**key_value;
 
-int	main(void)
-{
-	struct sigaction	act;
-	
-	printf("sa_flags: %d\n", act.sa_flags);
-	printf("sa_sigaction add : %p\n", act.sa_sigaction);
-	printf("sa_handler add : %p\n", act.sa_handler);
-	act.sa_sigaction = &handler;
-	printf("sa_sigaction add : %p\n", act.sa_sigaction);
-	printf("sa_handler add : %p\n", act.sa_handler);
-	act.sa_flags = SA_RESTART;
-	sigaction(SIGUSR1, &act, NULL);
-	printf("PID: %d\n", getpid());
-	printf("sa_flags: %d\n", act.sa_flags);
-	while (1)
-		pause();
+	(void)ac;
+	(void)av;
+	shell.env = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		key_value = ft_split(envp[i], '=');
+		// printf("key: %s, value: %s\n", key_value[0], key_value[1]);
+		ft_env_addback(&shell.env, key_value[0], key_value[1]);
+		i++;
+	}
+	while (shell.env)
+	{
+		printf("key: %s, value: %s\n", shell.env->name, shell.env->value);
+		shell.env = shell.env->next;
+	}
+	return (0);
 }

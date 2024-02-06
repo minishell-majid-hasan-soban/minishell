@@ -6,11 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/05 17:04:58 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 12:46:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void handle_dollar(t_ast *ast, char *arg, int *i, char **expanded);
 
 static size_t	ft_argslen(char **args)
 {
@@ -35,7 +37,7 @@ static char	*get_substring(char *arg, int *i)
 	return (sub);
 }
 
-static void append_squote(t_ast *ast, char *arg, int *i, char **expanded)
+static void append_squote(char *arg, int *i, char **expanded)
 {
 	int		start;
 	char	*tmp;
@@ -62,7 +64,7 @@ static void append_dquote(t_ast *ast, char *arg, int *i, char **expanded)
 	while (arg[*i] && arg[*i] != '\"')
 	{
 		if (arg[*i] == '\'')
-			append_squote(ast, arg, i, expanded);
+			append_squote(arg, i, expanded);
 		if (arg[*i] == '$')
 			handle_dollar(ast, arg, i, expanded);
 		else
@@ -88,7 +90,7 @@ static void handle_dollar(t_ast *ast, char *arg, int *i, char **expanded)
 		while (arg[*i] && (ft_isalnum(arg[*i]) || arg[*i] == '_'))
 			(*i)++;
 		tmp = ft_substr(arg, start, *i - start);
-		var = ft_getenv(ast->shell->env, tmp);
+		var = get_value(ast->shell->env, tmp);
 		free(tmp);
 	}
 	to_free = *expanded;
@@ -100,8 +102,6 @@ static void handle_dollar(t_ast *ast, char *arg, int *i, char **expanded)
 static char	*ft_expand_arg(t_ast *ast, char *arg)
 {
 	char	*expanded;
-	char	*tmp;
-	char	*tmp2;
 	int		i;
 
 	i = 0;
@@ -109,7 +109,7 @@ static char	*ft_expand_arg(t_ast *ast, char *arg)
 	while (arg[i])
 	{
 		if (arg[i] == '\'')
-			append_squote(ast, arg, &i, &expanded);
+			append_squote(arg, &i, &expanded);
 		else if (arg[i] == '\"')
 			append_dquote(ast, arg, &i, &expanded);
 		else if (arg[i] == '$')
@@ -131,6 +131,6 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	while (args[i])
 		expanded[j++] = ft_expand_arg(ast, args[i++]);
 	expanded[j] = NULL;
-	ft_free_args(args);
+	// ft_free_args(args);
 	return (expanded);
 }

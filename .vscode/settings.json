@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"minishell.h": "c",
+		"builtins.h": "c",
+		"ast_handler.h": "c"
+	}
+}

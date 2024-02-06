@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 14:16:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 11:43:14 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@
 # include <signal.h>
 # include "libft.h"
 # include "enum.h"
+# include "ast_handler.h"
+# include "builtins.h"
 
 extern bool	g_sigint;
+typedef struct s_shell	t_shell;
+typedef struct s_env	t_env;
+typedef struct s_command	t_command;
+typedef struct s_redirection	t_redirection;
+typedef struct s_token	t_token;
+typedef struct s_ast	t_ast;
 
 /*
 ** t_token: struct for tokens:
@@ -80,6 +88,7 @@ typedef struct	s_command
 	char			**args;
 	char			*expanded_name;
 	char			**expanded_args;
+	int				fd[2];
 	t_redirection	*redirections;
 	t_builtin		cmd_type;
 	t_error			error;
@@ -100,6 +109,7 @@ typedef struct	s_ast
 	struct s_ast		*left;
 	struct s_ast		*right;
 	t_error				error;
+	t_shell				*shell;
 }						t_ast;
 
 /*
@@ -122,22 +132,22 @@ typedef struct		s_env
 
 typedef struct		s_shell
 {
+	char			*name;
 	t_ast			*ast;
 	t_env			*env;
 	int				fd_in;
 	int				fd_out;
 	int				fd_err;
-	int				p_fd[2];
 	int				exit_status;
 	bool			*g_sigint;
 	t_error			error;
 }					t_shell;
 
 // // string_utils
-int		ft_strlen(const char *s);
+// int		ft_strlen(const char *s);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(const char *s1);
-int		ft_putstr_fd(char *s, int fd);
+// int		ft_putstr_fd(char *s, int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);

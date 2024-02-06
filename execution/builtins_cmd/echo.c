@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:42:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 03:07:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 10:58:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_echo(char **args)
 {

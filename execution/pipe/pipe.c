@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 04:32:32 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 11:02:01 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	pipe_process(t_shell *data, char **args, int fd[2])
 {
@@ -35,25 +35,3 @@ int	pipe_process(t_shell *data, char **args, int fd[2])
 	return (0);
 }
 
-int	ft_pipe(char **args, t_shell *data, bool last)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	if (!args || !*args)
-		return (ft_perror(data->name, "", "parse error"), -1);
-	if (pipe(fd) < 0)
-		return (ft_perror(data->name, "pipe: ", ""), -1);
-	pid = fork();
-	if (pid < 0)
-		return (ft_perror(data->name, "fork: ", ""), -1);
-	if (pid == 0)
-		return (pipe_process(data, args, fd));
-	if (close_handle(fd[0]) < 0)
-		return (ft_perror(data->name, "close: ", ""), -1);
-	if (wait(&data->status) < 0)
-		return (ft_perror(data->name, "wait: ", ""), -1);
-	if (dup2(fd[1], 1) < 0)
-		return (ft_perror(data->name, "dup2: ", ""), -1);
-	return (0);
-}

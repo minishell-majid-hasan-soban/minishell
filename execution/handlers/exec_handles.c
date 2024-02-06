@@ -6,56 +6,76 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 11:42:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 12:38:57 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_close(t_shell *shell, int fd)
+int		ft_execve(t_ast *ast, char **args)
+{
+	char	**env;
+
+	env = ft_env_to_arr(ast->shell->env);
+	if (!env)
+	{
+		ast->error = T_FUNC;
+		// free_array(env);
+		return (-1);
+	}
+	if (execve(args[0], args, env) == -1)
+	{
+		perror(ast->shell->name);
+		ast->error = T_FUNC;
+		return (-1);
+	}
+	return (0);
+}
+
+void	ft_close(t_ast *ast, int fd)
 {
 	if (close(fd) == -1)
 	{
-		shell->error = T_FUNC;
-		ft_error(shell, strerror(errno));
+		perror(ast->shell->name);
+		ast->error = T_FUNC;
 	}
 }
 
-void	ft_close_pipe(t_shell *shell)
+void	ft_close_pipe(t_ast *ast, int fd[2])
 {
-	ft_close(shell, shell->p_fd[0]);
-	ft_close(shell, shell->p_fd[1]);
+	ft_close(ast, fd[0]);
+	ft_close(ast, fd[1]);
 }
 
-void	ft_dup2(t_shell *shell, int old_fd, int new_fd)
+void	ft_dup2(t_ast *ast, int old_fd, int new_fd)
 {
-	if (dup2(old_fd, new_fd) == -1 && shell->error == T_NONE)
+	if (dup2(old_fd, new_fd) == -1 && ast->error == T_NONE)
 	{
-		shell->error = T_FUNC;
-		ft_error(shell, strerror(errno));
+		ast->error = T_FUNC;
+		perror(ast->shell->name);
 	}
 }
 
-pid_t	ft_fork(t_shell *shell)
+pid_t	ft_fork(t_ast *ast)
 {
 	pid_t	pid;
 
-	if (shell->error != T_NONE)
+	if (ast->error != T_NONE)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
 	{
-		shell->error = T_FUNC;
-		ft_error(shell, strerror(errno));
+		ast->error = T_FUNC;
+		perror(ast->shell->name);
 	}
 	return (pid);
 }
 
-void	ft_pipe(t_shell *shell)
+void	ft_pipe(t_ast *ast, int fd[2])
 {
-	if (pipe(shell->p_fd) == -1 && shell->error == T_NONE)
+	if (pipe(fd) == -1 && ast->error == T_NONE)
 	{
-		shell->error = T_FUNC;
-		ft_error(shell, strerror(errno));
+		ast->error = T_FUNC;
+		perror(ast->shell->name);
 	}
 }

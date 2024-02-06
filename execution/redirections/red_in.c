@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 23:51:00 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 10:25:50 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 10:58:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	red_in(char **args, t_shell *data)
 {
