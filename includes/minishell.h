@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/04 14:16:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 21:34:20 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ typedef struct	s_token
 	struct s_token		*prev;
 }						t_token;
 
+typedef struct s_token_arr
+{
+	t_token	*arr;
+	long	size;
+	long	count;
+}	t_token_arr;
+
+
 /*
 ** t_redirection: struct for redirections:
 ** type: the type of the redirection, like R_INPUT or R_OUTPUT [t_redirection_type enum above]
@@ -78,6 +86,8 @@ typedef struct	s_command
 {
 	char			*name;
 	char			**args;
+	long			arg_count;
+	long			arg_size;
 	char			*expanded_name;
 	char			**expanded_args;
 	t_redirection	*redirections;
@@ -134,10 +144,10 @@ typedef struct		s_shell
 }					t_shell;
 
 // // string_utils
-int		ft_strlen(const char *s);
+// int		ft_strlen(const char *s);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(const char *s1);
-int		ft_putstr_fd(char *s, int fd);
+// int		ft_putstr_fd(char *s, int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
