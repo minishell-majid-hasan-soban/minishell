@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 12:46:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 15:00:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	ft_argslen(char **args)
 	return (len);
 }
 
-static char	*get_substring(char *arg, int *i)
+static char	*get_substr(char *arg, int *i)
 {
 	char	*sub;
 	int		start;
@@ -68,7 +68,7 @@ static void append_dquote(t_ast *ast, char *arg, int *i, char **expanded)
 		if (arg[*i] == '$')
 			handle_dollar(ast, arg, i, expanded);
 		else
-			get_substring(arg, i);
+			get_substr(arg, i);
 	}
 }
 
@@ -99,9 +99,11 @@ static void handle_dollar(t_ast *ast, char *arg, int *i, char **expanded)
 	free(var);
 }
 
-static char	*ft_expand_arg(t_ast *ast, char *arg)
+char	*ft_expand_arg(t_ast *ast, char *arg)
 {
 	char	*expanded;
+	char	*tmp;
+	char	*to_free;
 	int		i;
 
 	i = 0;
@@ -114,8 +116,15 @@ static char	*ft_expand_arg(t_ast *ast, char *arg)
 			append_dquote(ast, arg, &i, &expanded);
 		else if (arg[i] == '$')
 			handle_dollar(ast, arg, &i, &expanded);
+		else
+		{
+			tmp = get_substr(arg, &i);
+			to_free = expanded;
+			expanded = ft_strjoin(expanded, tmp);
+			free(to_free);
+			free(tmp);
+		}
 	}
-	expanded = ft_strjoin(expanded, arg + i);
 	return (expanded);
 }
 

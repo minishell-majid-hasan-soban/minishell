@@ -1,3 +1,9 @@
+
+BLUE = \033[0;34m
+GREEN = \033[0;32m
+RED = \033[0;31m
+RESET = \033[0m
+
 LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       libft/ft_strjoin.c      libft/ft_substr.c \
 	 	libft/ft_isascii.c      libft/ft_lstlast.c      libft/ft_putchar_fd.c   libft/ft_strlcat.c      libft/ft_tolower.c \
 	 	libft/ft_isdigit.c      libft/ft_lstmap.c       libft/ft_putendl_fd.c   libft/ft_strlcpy.c      libft/ft_toupper.c \
@@ -24,16 +30,20 @@ INC = includes
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
+	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
 %.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h
-	$(CC) $(CFLAGS) -I$(RL)/inc -I$(INC) -c $< -o $@ 
+	@$(CC) $(CFLAGS) -I$(RL)/inc -I$(INC) -c $< -o $@ 
+	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@echo "$(RED)Object files have been removed!$(RESET)"
 
 fclean: clean
-	rm -f $(NAME) $(OBJ)
+	@rm -f $(NAME) $(OBJ)
+	@echo "$(RED)$(NAME) has been removed!$(RESET)"
 
 re: fclean all
 

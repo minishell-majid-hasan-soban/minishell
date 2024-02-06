@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 12:45:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 14:59:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char	*get_value(t_env *env, char *name)
 	while (env)
 	{
 		if (ft_strcmp(env->name, name) == 0)
-			return (env->value);
+			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 char	*ft_joind_kv(char *key, char *value, char *sep)
