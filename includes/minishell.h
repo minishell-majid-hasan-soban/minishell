@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 14:34:33 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:18:58 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ typedef struct	s_redirection
 */
 typedef struct	s_command
 {
-	char			*name;
 	char			**args;
 	char			*expanded_name;
 	char			**expanded_args;
