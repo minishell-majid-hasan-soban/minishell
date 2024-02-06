@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:21:06 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/26 22:21:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 10:49:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	nbr_args(char **args)
 {

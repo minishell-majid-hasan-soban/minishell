@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 04:27:28 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/27 23:55:42 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 10:51:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	ft_perror(char *name, char *str, char *suffix)
 {

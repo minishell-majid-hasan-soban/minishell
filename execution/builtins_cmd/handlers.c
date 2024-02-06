@@ -6,11 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 00:55:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/01/28 01:18:22 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/06 10:58:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	close_handle(int fd)
 {
