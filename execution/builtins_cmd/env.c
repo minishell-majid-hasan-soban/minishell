@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 14:59:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/07 10:55:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,22 @@ char	**ft_env_to_arr(t_env *env)
 	return (envp);
 }
 
-void	ft_env(char *prefix, t_env *env, bool null_value)
+void	ft_print_env(t_env *env, bool export)
 {
-	while (env)
+	t_env	*tmp;
+	
+	tmp = env;
+	while (tmp)
 	{
-		if (null_value == true)
+		if (export)
 		{
-			printf("%s%s", prefix, env->name);
-			if (env->value)
-				printf("=\"%s\"\n", env->value);
+			if (tmp->value)
+				printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
+			else
+				printf("declare -x %s\n", tmp->name);
 		}
-		else if (env->value)
-			printf("%s%s=\"%s\"\n", prefix, env->name, env->value);
-		env = env->next;
+		else if (tmp->value)
+			printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
 }

@@ -14,18 +14,18 @@ LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       
 EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c					redirections/red_in.c \
 		builtins_cmd/cd.c               builtins_cmd/handlers.c         handlers/error_handle.c         redirections/red_out.c \
 		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c         redirections/her_doc.c \
-		builtins_cmd/env.c              builtins_cmd/unset.c            pipe/pipe.c                     string_utils/string_utils.c \
+		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utis.c			pipe/pipe.c \
 		builtins_cmd/exit.c             exec_cmd/exec_ast.c             redirections/append.c           string_utils/string_utils1.c \
-		builtins_cmd/export.c           expander/expander.c
+		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) test.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 RL = $(shell brew --prefix readline)
 NAME = minishell
 INC = includes
 
-all:=$(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)

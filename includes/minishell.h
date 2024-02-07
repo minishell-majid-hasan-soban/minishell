@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 22:30:47 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/07 10:40:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@
 # include "enum.h"
 # include "ast_handler.h"
 # include "builtins.h"
+
+# define YELLOW "\033[0;33m"
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define BLUE "\033[0;34m"
+# define CYAN "\033[0;36m"
+# define MAGENTA "\033[0;35m"
+# define WHITE "\033[0;37m"
+# define BOLD "\033[1m"
+# define UNDERLINE "\033[4m"
+# define BLINK "\033[5m"
+# define RESET "\033[0m"
+
 
 extern bool	g_sigint;
 typedef struct s_shell	t_shell;
@@ -164,18 +177,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-
-// // builtins_cmd
-int		ft_pwd(t_shell *data);
-int		ft_echo(char **args);
-int		ft_cd(t_shell *data, char **args);
-void	ft_perror(char *name, char *str, char *suffix);
-int		nbr_args(char **args);
-void	ft_env(char *prefix, t_env *env, bool null_value);
-int		ft_unset(char **args, t_shell *data);
-void	ft_exit(t_shell *data);
-int		ft_export(t_shell *data, char **args);
-int		ft_env_addback(t_env **env, char *name, char *value);
 
 // // redirections
 int		red_in(char **args, t_shell *data);
