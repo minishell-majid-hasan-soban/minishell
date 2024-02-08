@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/07 13:36:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:52:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ int	ft_cd(t_shell *shell, char **args)
 		printf("%s\n", new_pwd);
 	if (ft_setenv(shell, "OLDPWD", pwd, 1)
 		|| ft_setenv(shell, "PWD", new_pwd, 1))
-		return (ft_perror(shell->name, "cd: ", ""), -1);
+		return (1);
 	return (0);
 }
