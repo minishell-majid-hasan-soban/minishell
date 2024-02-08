@@ -534,8 +534,8 @@ void print_ast(const t_ast* node, const char* prefix, int isLeft) {
 
 
 int main() {
-	// char *str = "| ls  ls  | grep thing > test < thing << a >> b || cd || ygerfuy | test && ((ls >> test | ls | test && node >> n)) || \" ()  test &&  pipe | < > << >> || \"";
-	char *str = ">|ls";
+	// char *str = "(a | b | c) && (d || e) | ( k  << e )";
+	char *str = "> ls > t";
 	t_token_arr tokens = tokenize(str);
 	
 	int i = -1;

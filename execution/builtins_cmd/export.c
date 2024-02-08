@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/07 16:28:38 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/08 15:21:27 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
+int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 {
 	t_env	*tmp;
 	char	*tmp2;
@@ -26,18 +26,18 @@ static int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 			tmp->value = ft_strjoin(tmp->value, value);
 			free(tmp2);
 			if (tmp->value == NULL)
-				return (ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
+				return (ft_putstr_fd("minishell: malloc error\n", 2), 1);
 			return (0);
 		}
 		free(tmp->value);
 		tmp->value = ft_strdup(value);
 		if (tmp->value == NULL)
-			return (ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
+			return (ft_putstr_fd("minishell: malloc error\n", 2), 1);
 		return (0);
 	}
 	else if (tmp == NULL && ft_strcmp(name, "_") != 0)
 		if (ft_env_addback(&shell->env, name, value))
-			return (ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
+			return (ft_putstr_fd("minishell: malloc error\n", 2), 1);
 	return (0);
 }
 
