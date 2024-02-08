@@ -23,6 +23,26 @@ void *ft_realloc(void *ptr, size_t old_size, size_t new_size) {
 }
 
 
+void print_token(t_token *token)
+{
+	char types[][100] = 
+	{
+	"TOKEN_WORD",
+	"TOKEN_PIPE",
+	"TOKEN_GREAT",
+	"TOKEN_LESS",
+	"TOKEN_DGREAT",		// >> double greater than, append
+	"TOKEN_DLESS",		// << double less than, heredoc
+	"TOKEN_AND",
+	"TOKEN_OR",
+	"TOKEN_NEWLINE",
+	"TOKEN_OP",			// open parenthesis
+	"TOKEN_CP",			// close parenthesis
+	"TOKEN_EOF"
+	};
+	printf("token type = %s, value = %s\n", types[token->type], token->value);
+}
+
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
@@ -39,21 +59,20 @@ int	is_str(char c)
 	return (0);
 }
 
-int	is_separator_space(char *str)
-{
-	if (is_space(*str)
-		|| !ft_strncmp(str, "<", 1) || !ft_strncmp(str, ">", 1)
-		|| !ft_strncmp(str, "|", 1) || !ft_strncmp(str, "&&", 2))
-		return (1);
-	return (0);
-}
-
 int is_separator(char *str)
 {
 	if (!ft_strncmp(str, "<", 1) || !ft_strncmp(str, ">", 1)
-		|| !ft_strncmp(str, "|", 1) || !ft_strncmp(str, "&&", 2))
+		|| !ft_strncmp(str, "|", 1) || !ft_strncmp(str, "&&", 2)
+		|| !ft_strncmp(str, "(", 1) || !ft_strncmp(str, ")", 1))
 		return (1);
 	return 0;
+}
+
+int	is_separator_space(char *str)
+{
+	if (is_space(*str) || is_separator(str))
+		return (1);
+	return (0);
 }
 
 int is_in_str(char *str, char c)
@@ -127,6 +146,10 @@ int handle_seperator(char **prompt, t_token_arr *tokens)
 		return (add_separator(TOKEN_LESS, prompt, tokens));
 	else if (!ft_strncmp(*prompt, ">", 1))
 		return (add_separator(TOKEN_GREAT, prompt, tokens));
+	else if (!ft_strncmp(*prompt, "(", 1))
+		return (add_separator(TOKEN_OP, prompt, tokens));
+	else if (!ft_strncmp(*prompt, ")", 1))
+		return (add_separator(TOKEN_CP, prompt, tokens));
 	return -1;
 }
 
@@ -186,12 +209,10 @@ t_token_arr tokenize(char *prompt)
 		if(is_separator(prompt))
 		{
 			ret = handle_seperator(&prompt, &tokens);
-			//printf("here 1\n");
 		}
 		else
 		{
 		 	ret = add_word(&prompt, &tokens);
-			//printf("here 2\n");
 
 		}
 		if(ret == -1)
@@ -227,11 +248,38 @@ t_ast* create_ast_node(t_node_type type, t_command* command) {
     return node;
 }
 
+void free_args(t_command *command)
+{
+	int i = -1;
+	while(++i < command->arg_count)
+		free(command->args[i]);
+	free(command->args);
+}
+
+void free_redirections(t_redirection *redirections)
+{
+	if(redirections == NULL)
+		return ;
+	free_redirections(redirections->next);
+	free(redirections->file);
+}
+
+void free_command(t_command *command)
+{
+	free_args(command);
+	command->args = NULL;
+	free_redirections(command->redirections);
+	command->redirections = NULL;
+	free(command);
+}
+
 void free_ast(t_ast* node) {
     if (node == NULL) return;
     free_ast(node->left);
     free_ast(node->right);
-    // Optionally free command depending on how you manage memory.
+
+	if(node->command)
+		free_command(node->command);
     free(node);
 }
 
@@ -248,11 +296,9 @@ int add_node_arg(t_command *command, char *arg)
 		if(!command->args)
 			return -1;
 		command->arg_size *= 2;
-	printf("here 1\n");
 	}
-	printf("here 2\n");
 	
-	command->args[command->arg_count++] = arg;
+	command->args[command->arg_count++] = ft_strdup(arg);
 	return (1);
 }
 
@@ -263,7 +309,7 @@ t_redirection *create_redirection(t_redirection_type type, t_token file)
 		return (NULL);
 	if(file.type != TOKEN_WORD)
 		return (NULL);
-	redir->file = file.value;
+	redir->file = strdup(file.value);
 	redir->type = type;
 	redir->next = NULL;
 	return (redir);
@@ -271,7 +317,6 @@ t_redirection *create_redirection(t_redirection_type type, t_token file)
 
 int add_back_redirection(t_command *command, t_redirection *redir)
 {
-	printf("here redir\n");
 	if(!(command->redirections))
 	{
 		(command->redirections) = redir;
@@ -295,25 +340,69 @@ t_redirection_type get_redirection_type(t_token_type type)
 		return R_APPEND;
 	return R_HEREDOC;
 }
+void print_parse_error_near(t_token *token)
+{
+		char types[][100] = 
+	{
+	"",
+	"|",
+	">",
+	"<",
+	">>",		// >> double greater than, append
+	"<<",		// << double less than, heredoc
+	"&&",
+	"||",
+	"NEWLINE",
+	"(",			// open parenthesis
+	")",			// close parenthesis
+	"'\\n'"
+	};
+	printf("minishell: parse error near '%s'\n", types[token->type]);
+}
 
-t_command	*extract_command(t_token** curr_token)
+
+t_ast* parse_expression(t_token** curr_token, int min_precedence, char is_in_op);
+
+t_ast	*extract_command(t_token** curr_token)
 {
 	t_command *command = malloc(sizeof(t_command));
 	*command = (t_command){0};
 	if(!command)
 		return (NULL);
-	while((*curr_token)->type != TOKEN_AND && (*curr_token)->type != TOKEN_OR && (*curr_token)->type != TOKEN_PIPE && (*curr_token)->type != TOKEN_EOF)
+	if((*curr_token)->type == TOKEN_OP)
+	{
+		(*curr_token)++;
+		t_ast *ast = parse_expression(curr_token, 1, 1);
+		printf("here ---------\n");
+		print_token((*curr_token));
+		if((*curr_token)->type != TOKEN_CP)
+		{
+			printf("minishell: expected ')'\n");
+			free_ast(ast);
+			return NULL;
+		}
+		(*curr_token)++;
+
+		return ast;
+	}
+	while((*curr_token)->type != TOKEN_AND && (*curr_token)->type != TOKEN_OR && (*curr_token)->type != TOKEN_PIPE && (*curr_token)->type != TOKEN_EOF && (*curr_token)->type != TOKEN_OP && (*curr_token)->type != TOKEN_CP)
 	{
 		if((*curr_token)->type == TOKEN_WORD)
 		{
 			add_node_arg(command, (*curr_token)->value);
-		}else if((*curr_token)->type != TOKEN_WORD)
+		} else
 		{
 			add_back_redirection(command, create_redirection(get_redirection_type((*curr_token)->type), *((*curr_token)+1)));
 		}
 		(*curr_token)++;
 	}
-	return command;
+	if(command->arg_count <= 0)
+	{
+		print_parse_error_near((*curr_token));
+		free_command(command);
+		return NULL;
+	}
+	return create_ast_node(N_CMD, command);
 }
 
 char token_is_operator(t_token *curr_token)
@@ -346,15 +435,34 @@ t_node_type determine_node_type(t_token *op_token)
 
 }
 
-t_ast* parse_expression(t_token** curr_token, int min_precedence) {
-    t_ast* lhs_ast = create_ast_node(N_CMD, extract_command(curr_token)); // Assume this extracts a command and advances the token.
 
+t_ast* parse_expression(t_token** curr_token, int min_precedence, char is_in_op) {
+    t_ast* lhs_ast = extract_command(curr_token); // Assume this extracts a command and advances the token.
+	if(lhs_ast == NULL)
+		return NULL;
+	if((*curr_token)->type == TOKEN_CP && is_in_op)
+		return lhs_ast;
+	if((*curr_token)->type != TOKEN_EOF && !token_is_operator(*curr_token))
+	{
+		if((*curr_token)->type == TOKEN_WORD)
+			printf("minishell: parse error near '%s'\n", (*curr_token)->value);
+		else 
+			print_parse_error_near((*curr_token));
+		// print_token((*curr_token));
+		free_ast(lhs_ast);
+		return NULL;
+	}
     while ((*curr_token)->type != TOKEN_EOF && token_is_operator(*curr_token) && token_precedence(*curr_token) >= min_precedence) {
         t_token* op_token = *curr_token;
         *curr_token = ++(*curr_token); // Move past the operator.
 
-        t_ast* rhs_ast = parse_expression(curr_token, token_precedence(op_token) + 1);
-
+        t_ast* rhs_ast = parse_expression(curr_token, token_precedence(op_token) + 1, is_in_op);
+		if(rhs_ast == NULL)
+		{
+			free_ast(lhs_ast);
+			return NULL;
+		}
+		
         t_ast* new_ast = create_ast_node(determine_node_type(op_token), NULL); // Convert token to a node type.
         new_ast->left = lhs_ast; // Attach the LHS AST as the left child.
         new_ast->right = rhs_ast; // Attach the RHS AST as the right child.
@@ -379,7 +487,7 @@ char* redirection_type_to_string(t_redirection_type type)
 
 void print_redirections(t_redirection* redirection) {
     while (redirection != NULL) {
-        printf(" -> %s %s", redirection_type_to_string(redirection->type), redirection->file);
+        printf(" (%s -> %s)", redirection_type_to_string(redirection->type), redirection->file);
         redirection = redirection->next;
     }
     printf("\n");
@@ -426,7 +534,8 @@ void print_ast(const t_ast* node, const char* prefix, int isLeft) {
 
 
 int main() {
-	char *str = "ls | grep thing > test < thing << a >> b || cd || ygerfuy | test && \"   test &&  pipe | < > << >> || \"|";
+	// char *str = "| ls  ls  | grep thing > test < thing << a >> b || cd || ygerfuy | test && ((ls >> test | ls | test && node >> n)) || \" ()  test &&  pipe | < > << >> || \"";
+	char *str = ">|ls";
 	t_token_arr tokens = tokenize(str);
 	
 	int i = -1;
@@ -448,7 +557,8 @@ int main() {
 	while (++i < tokens.count)
 		printf("token type = %s, value = %s\n", types[tokens.arr[i].type], tokens.arr[i].value);
 	t_token *arr = tokens.arr;
-	t_ast *ast = parse_expression(&arr, 1);
+	t_ast *ast = parse_expression(&arr, 1, 0);
 	print_ast(ast, " ", 0);
 	free_token_arr(&tokens);
+	free_ast(ast);
 }
