@@ -142,7 +142,7 @@ int add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
 		print_parse_error_near(&tokens->arr[tokens->count - 1]);
 		return -1;
 	}
-	t_token_type past_token_type = tokens->arr[tokens->count-2].type;
+	t_token_type past_token_type = tokens->arr[tokens->count - 2 * (tokens->count >= 2)].type;
 	if((type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE) && (past_token_type == TOKEN_AND || past_token_type == TOKEN_OR || past_token_type == TOKEN_PIPE))
 	{
 		print_parse_error_near(&tokens->arr[tokens->count - 1]);
@@ -564,8 +564,8 @@ void print_ast(const t_ast* node, const char* prefix, int isLeft) {
 
 
 int main() {
-	char *str = "ls  ls  | grep thing > test < thing << a >> b || ls || <  ygerfuy | test && ((ls >> test | ls | test && node >> n)) || test \" ()  test &&  pipe | < > << >> || \"";
-	// char *str = "| ls > ls > ls | ls";
+	// char *str = "ls  ls  | grep thing > test < thing << a >> b || ls || <  ygerfuy | test && ((ls >> test | ls | test && node >> n)) || test \" ()  test &&  pipe | < > << >> || \"";
+	char *str = "> ls | ls";
 
 	t_token_arr tokens = tokenize(str);
 	if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
