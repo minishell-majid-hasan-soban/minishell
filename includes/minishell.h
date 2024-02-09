@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/07 10:40:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/07 17:03:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <limits.h>
 # include "libft.h"
 # include "enum.h"
 # include "ast_handler.h"
@@ -127,6 +128,7 @@ typedef struct	s_ast
 	t_node_type			type;
 	t_command			*command;
 	t_node_dir			direction;
+	int					exit_status;
 	bool				piped;
 	struct s_ast		*left;
 	struct s_ast		*right;
