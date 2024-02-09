@@ -534,7 +534,9 @@ void print_command_args(t_command* cmd) {
             printf("\n");
         //}
     } else {
-        printf("-Empty Command\n");
+        printf("-Empty Command");
+		print_redirections(cmd->redirections);
+		printf("\n");
     }
 }
 
