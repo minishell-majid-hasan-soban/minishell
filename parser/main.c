@@ -193,7 +193,10 @@ int skip_str(char **str, char quote)
 {
 	(*str)++;
 	if(!is_in_str(*str, quote))
+	{
+		printf("minishell: syntax error, expected `%c`\n", quote);
 		return -1;
+	}
 
 	while(**str != quote)
 		(*str)++;
@@ -210,7 +213,7 @@ int add_word(char **prompt, t_token_arr *tokens)
 	while (*prompt_ptr && !is_separator_space(prompt_ptr))
 		if (is_str(*prompt_ptr))
 		{
-			if (!skip_str(&prompt_ptr, *prompt_ptr))
+			if (skip_str(&prompt_ptr, *prompt_ptr) == -1)
 				return (-1);
 		}
 		else
@@ -565,7 +568,7 @@ void print_ast(const t_ast* node, const char* prefix, int isLeft) {
 
 int main() {
 	// char *str = "ls  ls  | grep thing > test < thing << a >> b || ls || <  ygerfuy | test && ((ls >> test | ls | test && node >> n)) || test \" ()  test &&  pipe | < > << >> || \"";
-	char *str = "> ls | ls";
+	char *str = "ls (ls) || test" ;
 
 	t_token_arr tokens = tokenize(str);
 	if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
