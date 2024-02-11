@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 22:24:18 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/11 22:32:29 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,13 @@ void	print_command_args(t_command	*cmd)
 void	print_ast(const t_ast *node, const char *prefix, int is_left)
 {
 	char	next_prefix[256];
+	int		i;
 
 	if (node == NULL)
 		return ;
+	i = -1;
+	while (++i < 256)
+		next_prefix[i] = 0;
 	printf("%s", prefix);
 	if (is_left)
 		printf("%s", "|--");
