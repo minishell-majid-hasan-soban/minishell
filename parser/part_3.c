@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 21:41:21 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/12 16:30:20 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
 	}
 	past_token_type = tokens->arr[tokens->count - 2
 		* (tokens->count >= 2)].type;
-	if ((type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE)
+	if ((type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE || type == TOKEN_CP)
 		&& (past_token_type == TOKEN_AND || past_token_type == TOKEN_OR
-			|| past_token_type == TOKEN_PIPE))
+			|| past_token_type == TOKEN_PIPE || past_token_type == TOKEN_OP))
 	{
 		print_parse_error_near(&tokens->arr[tokens->count - 1]);
 		return (-1);

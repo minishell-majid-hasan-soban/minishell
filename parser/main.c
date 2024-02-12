@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:08:33 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 22:24:28 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/12 16:31:05 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 int main() {
-	char *str = "ls  ls  | grep thing > test < thing << a >> b || ls || <  ygerfuy | test && ((ls >> test | ls | test && node >> n)) ||  ' ()  test &&  pipe | < > << >> || '";
+	char *str = "ls || ls ()";
 	// char *str = "(lskjdfkjhsdfjkhdshjds)" ;
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);

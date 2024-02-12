@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 22:00:24 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/12 16:14:47 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	token_precedence(t_token *curr_token)
 	else if ((*curr_token).type == TOKEN_OR)
 		return (1);
 	else if ((*curr_token).type == TOKEN_PIPE)
-		return (1);
+		return (2);
 	return (1);
 }
 
