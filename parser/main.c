@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:08:33 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/12 16:31:05 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/14 15:16:30 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 int main() {
-	char *str = "ls || ls ()";
+	char *str = "| ls";
 	// char *str = "(lskjdfkjhsdfjkhdshjds)" ;
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);

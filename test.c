@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/08 14:45:59 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/14 18:34:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@
 // 	return (0);
 // }
 
+# define S 300000
+
 int main()
 {
 	// int		ret;
@@ -80,9 +82,8 @@ int main()
 	// 	printf("getcwd PWD : %s\n\n", getcwd(NULL, 0));
 	// 	i++;
 	// }
-	int p = execve("", (char *[]){"", NULL}, NULL);
-	perror("execve");
-	printf("p: %d\n", p);
-	
+	// int p = execve("", (char *[]){"", NULL}, NULL);
+	// perror("execve");
+	// printf("p: %d\n", p);
 	return (0);
 }
