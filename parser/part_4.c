@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/12 16:27:30 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/14 15:27:11 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_token_arr	tokenize(char *prompt)
 		|| tokens.arr[tokens.count - 1 * (tokens.count > 0)].type == TOKEN_OR
 		|| tokens.arr[tokens.count - 1 * (tokens.count > 0)].type == TOKEN_PIPE)
 	{
-		print_parse_error_near(&tokens.arr[tokens.count - 1 * (tokens.count > 0)]);
+		print_parse_error_near(&tokens.arr[tokens.count]);
 		free_token_arr(&tokens);
 		return (tokens);
 	}
