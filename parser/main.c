@@ -6,7 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:08:33 by amajid            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/02/14 15:16:30 by hsobane          ###   ########.fr       */
+=======
+/*   Updated: 2024/02/14 15:31:09 by amajid           ###   ########.fr       */
+>>>>>>> db8972e50116c65dffc70edf0964c60f0d831945
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +18,11 @@
 
 
 int main() {
+<<<<<<< HEAD
 	char *str = "| ls";
+=======
+	char *str = "ls |";
+>>>>>>> db8972e50116c65dffc70edf0964c60f0d831945
 	// char *str = "(lskjdfkjhsdfjkhdshjds)" ;
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);
