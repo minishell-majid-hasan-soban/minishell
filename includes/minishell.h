@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/14 14:56:38 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 09:03:56 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,5 +190,9 @@ int		pipe_handle(int *pipefd);
 // // expansion
 char	*ft_expand_arg(t_ast *ast, char *arg);
 char	**ft_expand_args(t_ast *ast, char **args);
+
+// // exec
+void	ft_free_args(char **args, int i);
+int		exec_redir(t_ast *ast, t_redirection *redir);
 
 #endif

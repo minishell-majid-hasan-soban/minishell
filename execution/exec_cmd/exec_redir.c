@@ -6,21 +6,39 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/14 17:07:29 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 09:32:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ft_check_exp_error(char *file, char *file_exp)
+{
+	if (!file_exp)
+		return (1);
+	else if (!*file_exp || ft_strchr(file_exp, ' '))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd("ambiguous redirect\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 static int	exec_redir_input(t_ast *ast, t_redirection *redir)
 {
-	int	fd;
-
+	int		fd;
+	char	*file_exp;
+	
+	file_exp = ft_expand_arg(ast, redir->file);
+	if (ft_check_exp_error(redir->file, file_exp))
+		return (1);
 	fd = open(redir->file, O_RDONLY);
 	if (fd < 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir->file, 2);
+		ft_putstr_fd(file_exp, 2);
 		ft_putstr_fd(": ", 2);
 		perror("");
 		return (1);
@@ -33,12 +51,16 @@ static int	exec_redir_input(t_ast *ast, t_redirection *redir)
 static int	exec_redir_output(t_ast *ast, t_redirection *redir)
 {
 	int	fd;
-
-	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	char	*file_exp;
+	
+	file_exp = ft_expand_arg(ast, redir->file);
+	if (ft_check_exp_error(redir->file, file_exp))
+		return (1);
+	fd = open(file_exp, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir->file, 2);
+		ft_putstr_fd(file_exp, 2);
 		ft_putstr_fd(": ", 2);
 		perror("");
 		return (1);
@@ -50,13 +72,17 @@ static int	exec_redir_output(t_ast *ast, t_redirection *redir)
 
 static int	exec_redir_append(t_ast *ast, t_redirection *redir)
 {
-	int	fd;
+	int		fd;
+	char	*file_exp;
 
-	fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	file_exp = ft_expand_arg(ast, redir->file);
+	if (ft_check_exp_error(redir->file, file_exp))
+		return (1);
+	fd = open(file_exp, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir->file, 2);
+		ft_putstr_fd(file_exp, 2);
 		ft_putstr_fd(": ", 2);
 		perror("");
 		return (1);

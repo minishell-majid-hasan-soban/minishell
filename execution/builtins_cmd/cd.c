@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/08 16:35:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 11:10:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	handle_env(t_shell *shell, char *arg)
 	{
 		tmp = ft_getenv(shell->env, "OLDPWD");
 		if (tmp == NULL)
-			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 0);
+			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
 	}
 	if (chdir(tmp->value) == -1)
 		return (ft_cd_error(tmp->value), 1);

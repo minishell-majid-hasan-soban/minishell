@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exec_handles2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 05:36:32 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 11:07:27 by hsobane          ###   ########.fr       */
+/*   Created: 2024/02/15 08:24:03 by hsobane           #+#    #+#             */
+/*   Updated: 2024/02/15 08:35:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_shell *shell, char **args)
+void	ft_waitpid(t_ast *ast, pid_t pid, int *status)
 {
-	char	*pwd;
-
-	(void)args;
-	pwd = getcwd(NULL, 0);
-	if (pwd == NULL)
+	if (waitpid(pid, status, 0) == -1)
 	{
-		ft_putstr_fd("minishell: pwd: getcwd: ", 2);
+		ft_putstr_fd("minishell: waitpid: ", 2);
 		perror("");
-		ft_putstr_fd("\n", 2);
-		shell->exit_status = 1;
+		*status = 1;
 	}
 	else
 	{
-		ft_putstr_fd(pwd, 1);
-		ft_putstr_fd("\n", 1);
-		free(pwd);
+		if (WIFEXITED(*status))
+			*status = WEXITSTATUS(*status);
 	}
-	return (0);
 }
