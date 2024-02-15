@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 11:06:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 17:07:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int is_builtin(t_ast *ast, char *cmd)
 	return (0);
 }
 
-static exec_builtin(t_ast *ast, char **args)
+static int exec_builtin(t_ast *ast, char **args)
 {
 	if (!ft_strcmp(args[0], "echo"))
 		return (ft_echo(args));
@@ -99,31 +99,30 @@ static exec_builtin(t_ast *ast, char **args)
 	if (!ft_strcmp(args[0], "unset"))
 		return (ft_unset(ast->shell, args));
 	if (!ft_strcmp(args[0], "env"))
-		return (ft_env(ast->shell, args));
+		return (ft_env(ast->shell, args, false));
 	if (!ft_strcmp(args[0], "exit"))
 		return (ft_exit(ast->shell, args));
 	return (0);
 }
 
-int	exec_args(t_ast *ast, char **args)
+int	exec_args(t_ast *ast)
 {
 	char	*path;
 	char	**envp;
+	char	**args;
 
+	args = ast->command->args;
 	if (!args || !args[0])
 		return (0);
 	if (ft_strcmp(args[0], "\"\"") || ft_strcmp(args[0], "''"))
 		return (ft_cmd_nf_err(args[0]), 127);
-	path = ft_get_path(ast, args[0]);
+	path = ast->command->expanded_args[0];
 	if (!path || !*path)
 		return (0);
 	if (is_builtin(ast, path) == 1)
-		return (ft_exec_builtin(ast, args));
+		return (exec_builtin(ast, args));
 	ft_execve(path, args);
-	free(path);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(args[0], 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
+	(free(path), ft_putstr_fd("minishell: ", 2), ft_putstr_fd(args[0], 2));
+	(ft_putstr_fd(": ", 2), perror(""));
 	return (126);
 }

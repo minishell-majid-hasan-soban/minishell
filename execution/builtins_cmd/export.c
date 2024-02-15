@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/08 15:21:27 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 16:37:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 	return (0);
 }
 
+static void ft_prit_inval_name(char *str)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
 int	ft_add_env(t_ast *ast, char *str)
 {
 	char	*name;
@@ -55,8 +62,7 @@ int	ft_add_env(t_ast *ast, char *str)
 	if (!name)
 		return (ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
 	if (!ft_valid_name(name))
-		return (ast->exit_status = 1, free(name),
-			ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 0);
+		return (ast->exit_status = 1, free(name), ft_prit_inval_name(str), 1);
 	append = ft_strchr(str, '+') != NULL;
 	name[ft_strlen(name) - append] = '\0';
 	if (ft_strchr(str, '=') == NULL)
@@ -64,24 +70,18 @@ int	ft_add_env(t_ast *ast, char *str)
 	else
 		value = ft_substr(str, ft_strchr(str, '=') - str + 1, ft_strlen(str));
 	if (!value)
-		return (free(name), ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
+		return (free(name),
+			ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
 	if (ft_setenv(ast->shell, name, value, append))
 		return (free(name), free(value), 1);
 	return (0);
 }
 
-int		ft_export(t_ast *ast)
+int		ft_export(t_ast *ast, char **args)
 {
-	int		i;
-	char	**args;
-	char	**tmp;
-
-	i = 1;
-	args = ast->command->args;
 	args++;
-	tmp = args;
 	if (args[0] == NULL)
-		return (ft_print_env(ast->shell->env, true), 0);
+		return (ft_env(ast->shell->env, true), 0);
 	while (*args)
 	{
 		if (ft_add_env(ast, *args))

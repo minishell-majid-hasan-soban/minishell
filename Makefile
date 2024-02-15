@@ -32,7 +32,7 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
 %.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h
-	@$(CC) $(CFLAGS) -I$(RL)/inc -I$(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(RL)/include -I$(INC) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
 clean:

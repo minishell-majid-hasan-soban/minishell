@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 10:46:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 17:14:01 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	exec_ast(t_ast *ast);
 
-static int	exec_child(t_ast *ast, char **args, t_redirection *redir)
+static int	exec_child(t_ast *ast)
 {
 	int				status;
 	pid_t			pid;
@@ -25,16 +25,25 @@ static int	exec_child(t_ast *ast, char **args, t_redirection *redir)
 		return (1);
 	else if (pid == 0)
 	{
-		if (exec_redir(ast, redir) == 1 || ast->error != T_NONE)
+		if (exec_redir(ast) == 1)
 			exit(1);
-		status = exec_args(ast, args);
+		status = exec_args(ast);
 		exit(status);
 	}
 	else
 		ft_waitpid(ast, pid, &status);
-	if (args && args[0])
-		status = exec_args(ast, args);
-	return (1);
+	return (status);
+}
+
+static int	exec_parent(t_ast *ast)
+{
+	int	status;
+	
+	status = 0;
+	if (exec_redir(ast) == 1)
+		return (1);
+	status = exec_args(ast);
+	return (status);
 }
 
 static int exec_cmd(t_ast *ast)
@@ -46,10 +55,10 @@ static int exec_cmd(t_ast *ast)
 	status = 0;
 	args = ast->command->expanded_args;
 	redir = ast->command->redirections;
-	if (!args || !args[0] || is_builtin(ast, args) == 1)
-		status = exec_parent(ast, args, redir);
+	if (!args || !args[0] || is_builtin(ast, args[0]) == 1)
+		status = exec_parent(ast);
 	else
-		status = exec_child(ast, args, redir);
+		status = exec_child(ast);
 	
 	return (ast->error != T_NONE);
 }

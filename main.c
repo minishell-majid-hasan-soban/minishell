@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/07 09:57:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/15 16:37:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int ac, char **av, char **env) {
 		else if (ft_strcmp(str, "cd") == 0)
 			ft_cd(data, (char *[]){NULL});
 		else if (ft_strcmp(str, "env") == 0)
-			ft_print_env(data->env, false);
+			ft_env(data->env, false);
 		else if (ft_strcmp(str, "unset") == 0)
 			ft_unset((char *[]){"HOME"}, data);
 		else if (ft_strcmp(str, "exit") == 0)
