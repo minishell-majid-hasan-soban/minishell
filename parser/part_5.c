@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 16:46:00 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:21:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_redirection	*create_redirection(t_redirection_type type, t_token file)
 {
 	t_redirection	*redir;
 
-	redir = malloc(sizeof(t_redirection));
+	redir = ft_calloc(1, sizeof(t_redirection));
 	if (!redir)
 		return (NULL);
 	if (file.type != TOKEN_WORD)
@@ -65,6 +65,7 @@ t_redirection	*create_redirection(t_redirection_type type, t_token file)
 	redir->file = strdup(file.value);
 	redir->type = type;
 	redir->next = NULL;
+	redir->prev = NULL;
 	return (redir);
 }
 
@@ -74,7 +75,7 @@ int	add_back_redirection(t_command *command, t_redirection *redir)
 
 	if (!(command->redirections))
 	{
-		(command->redirections) = redir;
+		command->redirections = redir;
 		return (1);
 	}
 	curr = command->redirections;

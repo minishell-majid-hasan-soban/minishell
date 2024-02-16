@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 16:01:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:29:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_ast	*create_ast_node(t_node_type type, t_command *command)
 {
 	t_ast	*node;
 
-	node = (t_ast *)malloc(sizeof(t_ast));
+	node = (t_ast *)ft_calloc(1, sizeof(t_ast));
 	if (node != NULL)
 	{
 		node->type = type;
