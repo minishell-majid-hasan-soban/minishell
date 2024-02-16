@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 16:12:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 16:46:00 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	add_node_arg(t_command *command, char *arg)
 	if (!new_args[ft_argslen(command->args)])
 		return (free(new_args), 1);
 	new_args[ft_argslen(command->args) + 1] = NULL;
-	ft_free_args(command->args, -1);
+	free(command->args);
 	command->args = new_args;
 	return (0);
 }
