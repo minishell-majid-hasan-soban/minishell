@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 12:24:28 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:55:56 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,38 @@ void	print_redirections(t_redirection *redirection)
 
 void	print_command_args(t_command	*cmd)
 {
-	int	i;
 
-	i = -1;
-	if (cmd && cmd->args)
+	while (cmd && cmd->args)
 	{
 		printf("- ");
-		while (++i < cmd->arg_count)
+		while (*cmd->args)
 		{
-			printf("%s ", cmd->args[i]);
+			printf("%s ", *cmd->args);
+			cmd->args++;
 		}
 		print_redirections(cmd->redirections);
 		printf("\n");
 	}
-	else
-	{
-		printf("-Empty Command");
-		print_redirections(cmd->redirections);
-		printf("\n");
-	}
+	
+	// int	i;
+
+	// i = -1;
+	// if (cmd && cmd->args)
+	// {
+	// 	printf("- ");
+	// 	while (++i < cmd->arg_count)
+	// 	{
+	// 		printf("%s ", cmd->args[i]);
+	// 	}
+	// 	print_redirections(cmd->redirections);
+	// 	printf("\n");
+	// }
+	// else
+	// {
+	// 	printf("-Empty Command");
+	// 	print_redirections(cmd->redirections);
+	// 	printf("\n");
+	// }
 }
 
 void	print_ast(const t_ast *node, const char *prefix, int is_left)

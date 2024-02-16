@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 10:21:53 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 16:03:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ t_ast	*extract_command(t_token **curr_token)
 	t_ast			*ast;
 	t_redirection	*redir;
 
-	command = malloc(sizeof(t_command));
-	*command = (t_command){0};
+	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
 	if ((*curr_token)->type == TOKEN_OP)

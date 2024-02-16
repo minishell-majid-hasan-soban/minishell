@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 13:58:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 16:01:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,17 @@ t_ast	*create_ast_node(t_node_type type, t_command *command)
 
 void	free_args(t_command *command)
 {
-	int	i;
+	char	**args;
 
-	i = -1;
-	while (++i < command->arg_count)
-		free(command->args[i]);
+	if (command == NULL)
+		return ;
+	args = command->args;
+	while (args && *args)
+	{
+		free(*args);
+		args++;
+	}
+	free(*args);
 	free(command->args);
 }
 

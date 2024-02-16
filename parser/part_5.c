@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 10:10:40 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 16:12:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,19 @@ void	free_ast(t_ast* node)
 
 int	add_node_arg(t_command *command, char *arg)
 {
-	if (command->arg_size == 0)
-	{
-		command->args = ft_realloc(command->args, 0, sizeof(char *) * 2);
-		if (!command->args)
-			return (-1);
-		command->arg_size = 2;
-	}
-	if (command->arg_count + 1 > command->arg_size)
-	{
-		command->args = ft_realloc(command->args, command->arg_size
-				* sizeof(char *), command->arg_size * 2 * sizeof(char *));
-		if (!command->args)
-			return (-1);
-		command->arg_size *= 2;
-	}
-	command->args[command->arg_count++] = ft_strdup(arg);
-	return (1);
+	char	**new_args;
+
+	new_args = malloc(sizeof(char *) * (ft_argslen(command->args) + 2));
+	if (!new_args)
+		return (1);
+	ft_memcpy(new_args, command->args, sizeof(char *) * ft_argslen(command->args));
+	new_args[ft_argslen(command->args)] = strdup(arg);
+	if (!new_args[ft_argslen(command->args)])
+		return (free(new_args), 1);
+	new_args[ft_argslen(command->args) + 1] = NULL;
+	ft_free_args(command->args, -1);
+	command->args = new_args;
+	return (0);
 }
 
 t_redirection	*create_redirection(t_redirection_type type, t_token file)

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 08:00:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 16:12:04 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ void	ft_free_args(char **args, int i)
 {
 	int	j;
 
+	printf("args : %p\n", args);
 	j = 0;
-	if (i < 0)
+	if (args && i < 0)
 	{
-		while (args[j])
+		while ( args[j])
 			free(args[j++]);
 		free(args[j]);
 	}
 	else
 	{
-		while (i >= 0)
+		while (args && i >= 0)
 			free(args[i--]);
 	}
 	free(args);

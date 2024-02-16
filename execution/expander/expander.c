@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 13:48:22 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:44:33 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void handle_dollar(t_ast *ast, char *arg, int *i, char **expanded);
 
-static size_t	ft_argslen(char **args)
+size_t	ft_argslen(char **args)
 {
 	size_t	len;
 
