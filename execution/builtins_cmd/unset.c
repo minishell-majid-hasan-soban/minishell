@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:23:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 16:35:19 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 07:53:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	ft_unsetenv(char *name, t_shell *shell)
 	}
 }
 
-int	ft_unset(t_shell *shell, char **args)
+int	ft_unset(t_ast *ast, char **args)
 {
 	int	i;
 
 	i = 1;
 	while (args[i])
 	{
-		ft_unsetenv(args[i], shell);
+		ft_unsetenv(args[i], ast->shell);
 		i++;
 	}
 	return (0);

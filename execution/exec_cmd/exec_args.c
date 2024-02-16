@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 17:07:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 08:00:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void ft_cmd_nf_err(char *cmd)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
-int is_builtin(t_ast *ast, char *cmd)
+int is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (1);
@@ -91,24 +91,23 @@ static int exec_builtin(t_ast *ast, char **args)
 	if (!ft_strcmp(args[0], "echo"))
 		return (ft_echo(args));
 	if (!ft_strcmp(args[0], "cd"))
-		return (ft_cd(ast->shell, args));
+		return (ft_cd(ast, args));
 	if (!ft_strcmp(args[0], "pwd"))
-		return (ft_pwd(ast->shell, args));
+		return (ft_pwd(ast, args));
 	if (!ft_strcmp(args[0], "export"))
-		return (ft_export(ast->shell, args));
+		return (ft_export(ast, args));
 	if (!ft_strcmp(args[0], "unset"))
-		return (ft_unset(ast->shell, args));
+		return (ft_unset(ast, args));
 	if (!ft_strcmp(args[0], "env"))
-		return (ft_env(ast->shell, args, false));
+		return (ft_env(ast, args, false));
 	if (!ft_strcmp(args[0], "exit"))
-		return (ft_exit(ast->shell, args));
+		return (ft_exit(ast, args));
 	return (0);
 }
 
 int	exec_args(t_ast *ast)
 {
 	char	*path;
-	char	**envp;
 	char	**args;
 
 	args = ast->command->args;
@@ -116,12 +115,12 @@ int	exec_args(t_ast *ast)
 		return (0);
 	if (ft_strcmp(args[0], "\"\"") || ft_strcmp(args[0], "''"))
 		return (ft_cmd_nf_err(args[0]), 127);
-	path = ast->command->expanded_args[0];
+	path = ft_get_path(ast, ast->command->expanded_args[0]);
 	if (!path || !*path)
 		return (0);
-	if (is_builtin(ast, path) == 1)
+	if (is_builtin(path) == 1)
 		return (exec_builtin(ast, args));
-	ft_execve(path, args);
+	ft_execve(ast, args);
 	(free(path), ft_putstr_fd("minishell: ", 2), ft_putstr_fd(args[0], 2));
 	(ft_putstr_fd(": ", 2), perror(""));
 	return (126);

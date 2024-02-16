@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 16:37:22 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 08:47:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		ft_export(t_ast *ast, char **args)
 {
 	args++;
 	if (args[0] == NULL)
-		return (ft_env(ast->shell->env, true), 0);
+		return (ft_env(ast, NULL, true), 0);
 	while (*args)
 	{
 		if (ft_add_env(ast, *args))

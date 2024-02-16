@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 21:27:08 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/16 10:21:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdlib.h>
-# include "../includes/minishell.h"
+
+typedef struct s_token_arr		t_token_arr;
+typedef struct	s_token			t_token;
+typedef struct	s_redirection	t_redirection;
+typedef struct	s_command		t_command;
 
 void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void				print_parse_error_near(t_token *token);
@@ -49,7 +53,7 @@ t_ast				*extract_command(t_token** curr_token);
 char				token_is_operator(t_token *curr_token);
 int					token_precedence(t_token *curr_token);
 t_node_type			determine_node_type(t_token *op_token);
-t_ast*				parse_expression(t_token** curr_token, int min_precedence, char is_in_op);
+t_ast*				parse_expression(t_token** curr_token, int min_precedence, bool in_op);
 char*				redirection_type_to_string(t_redirection_type type);
 void				print_redirections(t_redirection* redirection);
 void				print_command_args(t_command* cmd);

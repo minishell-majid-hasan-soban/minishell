@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 16:41:14 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 07:53:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ char	**ft_env_to_arr(t_env *env)
 	return (envp);
 }
 
-int	ft_env(t_env *env, char **args, bool export)
+int	ft_env(t_ast *ast, char **args, bool export)
 {
 	t_env	*tmp;
 	
-	tmp = env;
+	(void)args;
+	tmp = ast->shell->env;
 	while (tmp)
 	{
 		if (export)
@@ -80,4 +81,5 @@ int	ft_env(t_env *env, char **args, bool export)
 			printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
+	return (0);
 }

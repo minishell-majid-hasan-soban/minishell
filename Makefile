@@ -16,8 +16,11 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c         redirections/her_doc.c \
 		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utis.c			pipe/pipe.c \
 		builtins_cmd/exit.c             exec_cmd/exec_ast.c             redirections/append.c           string_utils/string_utils1.c \
-		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c
-SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) test.c
+		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
+		exec_cmd/exec_redir.c			handlers/exec_handles2.c 
+PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
+		parser/part_5.c					parser/part_6.c					parser/part_7.c 
+SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER) test.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g

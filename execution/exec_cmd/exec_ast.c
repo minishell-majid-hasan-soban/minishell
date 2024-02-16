@@ -6,13 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 17:14:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 12:16:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	exec_ast(t_ast *ast);
 
 static int	exec_child(t_ast *ast)
 {
@@ -55,7 +53,7 @@ static int exec_cmd(t_ast *ast)
 	status = 0;
 	args = ast->command->expanded_args;
 	redir = ast->command->redirections;
-	if (!args || !args[0] || is_builtin(ast, args[0]) == 1)
+	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
 	else
 		status = exec_child(ast);
@@ -65,8 +63,6 @@ static int exec_cmd(t_ast *ast)
 
 static void exec_child_pipe(t_ast *ast, t_node_dir dir)
 {
-	int	status;
-	
 	if (dir == N_LEFT)
 	{
 		ft_close(ast, ast->command->fd[0]);
@@ -116,23 +112,20 @@ static int	exec_pipe(t_ast *ast)
 		return (ft_close_pipe(ast, ast->command->fd), 1);
 	else if (l_pid == 0)
 		exec_child_pipe(ast->left, N_LEFT);
-	else
-	{
-		r_pid = ft_fork(ast);
-		if (r_pid < 0)
-			return (ft_close_pipe(ast, ast->command->fd), 1);
-		else if (r_pid == 0)
-			exec_child_pipe(ast, N_RIGHT);
-		ft_close_pipe(ast, ast->command->fd);
-		ft_waitpid(ast, l_pid, &status);
-		ft_waitpid(ast, r_pid, &status);
-		if (ast->error != T_NONE)
-			return (1);
-		return (status);
-	}
+	r_pid = ft_fork(ast);
+	if (r_pid < 0)
+		return (ft_close_pipe(ast, ast->command->fd), 1);
+	else if (r_pid == 0)
+		exec_child_pipe(ast, N_RIGHT);
+	ft_close_pipe(ast, ast->command->fd);
+	ft_waitpid(ast, l_pid, &status);
+	ft_waitpid(ast, r_pid, &status);
+	if (ast->error != T_NONE)
+		return (1);
+	return (status);
 }
 
-static int	exec_ast(t_ast *ast)
+int	exec_ast(t_ast *ast)
 {
 	if (ast->type == N_PIPE)
 		return (exec_pipe(ast));
@@ -142,4 +135,5 @@ static int	exec_ast(t_ast *ast)
 		return (exec_or(ast));
 	else if (ast->type == N_CMD)
 		return (exec_cmd(ast));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 08:17:12 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:38:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	ft_close(t_ast *ast, int fd)
 	{
 		ft_putstr_fd("minishell: close: ", 2);
 		perror("");
-		ast->error = T_FUNC;
+		if (ast)
+			ast->error = T_FUNC;
 	}
 }
 
@@ -54,8 +55,10 @@ void	ft_close_pipe(t_ast *ast, int fd[2])
 
 void	ft_dup2(t_ast *ast, int old_fd, int new_fd)
 {
-	if (ast->error == T_NONE && dup2(old_fd, new_fd) == -1)
+	if (dup2(old_fd, new_fd) == -1)
 	{
+		if (ast && ast->error == T_NONE)
+			return ;
 		ast->error = T_FUNC;
 		ft_putstr_fd("minishell: dup2: ", 2);
 		perror("");
@@ -66,7 +69,7 @@ pid_t	ft_fork(t_ast *ast)
 {
 	pid_t	pid;
 
-	if (ast->error != T_NONE)
+	if (ast && ast->error != T_NONE)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
@@ -80,8 +83,10 @@ pid_t	ft_fork(t_ast *ast)
 
 void	ft_pipe(t_ast *ast, int fd[2])
 {
-	if (ast->error == T_NONE && pipe(fd) == -1)
+	if (pipe(fd) == -1)
 	{
+		if (ast && ast->error != T_NONE)
+			return ;
 		ast->error = T_FUNC;
 		ft_putstr_fd("minishell: pipe: ", 2);
 		perror("");

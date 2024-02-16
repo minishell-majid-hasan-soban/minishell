@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/15 11:10:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 07:51:20 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,20 @@ static int	handle_perent_dir(t_shell *shell)
 	return (ft_setpwd(shell, new_pwd), free(new_pwd), 0);
 }
 
-int	ft_cd(t_shell *shell, char **args)
+int	ft_cd(t_ast *ast, char **args)
 {
 	char	*pwd;
 	
 	if (args[1] == NULL || ft_strcmp(args[1], "-") == 0
 		|| ft_strcmp(args[1], "~") == 0)
-		return (handle_env(shell, args[1]));
+		return (handle_env(ast->shell, args[1]));
 	else if (ft_strcmp(args[1], "..") == 0)
-		return (handle_perent_dir(shell));
+		return (handle_perent_dir(ast->shell));
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 		return (ft_cd_error(".."), 1);
 	if (chdir(args[1]) == -1)
 		return (free(pwd), ft_cd_error(args[1]), 1);
-	ft_setpwd(shell, pwd);
+	ft_setpwd(ast->shell, pwd);
 	return (free(pwd), 0);
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   part_7.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 22:32:29 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/16 12:24:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
+#include "minishell.h"
 
 t_ast	*parse_expression(t_token **curr_token,
-int min_precedence, char is_in_op)
+int min_precedence, bool in_op)
 {
 	t_ast	*l_ast;
 	t_token	*op_token;
@@ -23,7 +23,7 @@ int min_precedence, char is_in_op)
 	l_ast = extract_command(curr_token);
 	if (l_ast == NULL)
 		return (NULL);
-	if ((*curr_token)->type == TOKEN_CP && is_in_op)
+	if ((*curr_token)->type == TOKEN_CP && in_op)
 		return (l_ast);
 	if ((*curr_token)->type != TOKEN_EOF && !token_is_operator(*curr_token))
 	{
@@ -40,7 +40,7 @@ int min_precedence, char is_in_op)
 		op_token = *curr_token;
 		*curr_token = ++(*curr_token);
 		r_ast = parse_expression(curr_token,
-				token_precedence(op_token) + 1, is_in_op);
+				token_precedence(op_token) + 1, in_op);
 		if (r_ast == NULL)
 		{
 			free_ast(l_ast);
