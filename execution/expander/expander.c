@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 15:00:55 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:48:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static size_t	ft_argslen(char **args)
 	size_t	len;
 
 	len = 0;
-	while (args[len])
+	while (args && args[len])
 		len++;
 	return (len);
 }
@@ -140,6 +140,5 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	while (args[i])
 		expanded[j++] = ft_expand_arg(ast, args[i++]);
 	expanded[j] = NULL;
-	// ft_free_args(args);
 	return (expanded);
 }

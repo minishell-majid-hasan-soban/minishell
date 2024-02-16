@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 10:10:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:58:21 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	free_token_arr(t_token_arr *tokens)
 	(*tokens) = (t_token_arr){0};
 }
 
-t_ast	*create_ast_node(t_node_type type, t_command	*command)
+t_ast	*create_ast_node(t_node_type type, t_command *command)
 {
 	t_ast	*node;
 

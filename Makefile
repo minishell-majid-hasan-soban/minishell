@@ -20,7 +20,7 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c 
-SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER) test.c
+SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  parser/main.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g

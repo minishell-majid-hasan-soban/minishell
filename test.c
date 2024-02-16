@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 12:19:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:10:49 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,73 @@ static void	ft_free_shell(t_shell *shell)
 	exit(status);
 }
 
+static void print_redir(t_redirection *redir)
+{
+	if (redir == NULL)
+		return ;
+	else if (redir->type == R_INPUT)
+		ft_putstr_fd("R_INPUT\n", 1);
+	else if (redir->type == R_OUTPUT)
+		ft_putstr_fd("R_OUTPUT\n", 1);
+	else if (redir->type == R_APPEND)
+		ft_putstr_fd("R_APPEND\n", 1);
+	else if (redir->type == R_HEREDOC)
+		ft_putstr_fd("R_HEREDOC\n", 1);
+	else
+		ft_putstr_fd("UNKNOWN\n", 1);
+}
+
+static void print_node_type(t_ast *ast)
+{
+	ft_putstr_fd("type: ", 1);
+	if (ast->type == N_CMD)
+		ft_putstr_fd("COMMAND\n", 1);
+	else if (ast->type == N_PIPE)
+		ft_putstr_fd("PIPE\n", 1);
+	else if (ast->type == N_AND)
+		ft_putstr_fd("AND\n", 1);
+	else if (ast->type == N_OR)
+		ft_putstr_fd("OR\n", 1);
+	else
+		ft_putstr_fd("UNKNOWN\n", 1);
+}
+
+static void ft_print_ast(t_ast *ast)
+{
+	char			**args;
+	t_redirection	*redir;
+
+	if (ast == NULL)
+		return ;
+	ft_print_ast(ast->left);
+	ft_print_ast(ast->right);
+	print_node_type(ast);
+	if (ast->command == NULL)
+		return ;
+	ft_putstr_fd("command: \n", 1);
+	args = ast->command->args;
+	ft_putstr_fd("args : \n", 1);
+	while (*args)
+	{
+		ft_putstr_fd("\t", 1);
+		ft_putstr_fd(*(args++), 1);
+		ft_putstr_fd("\n", 1);
+	}
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("redirection: \n", 1);
+	redir = ast->command->redirections;
+	while (redir)
+	{
+		ft_putstr_fd("\t", 1);
+		ft_putstr_fd(redir->file, 1);
+		ft_putstr_fd(" ", 1);
+		print_redir(redir);
+		redir = redir->next;
+	}
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("\n", 1);
+}
+//	((a > b aa aaa > c gg) | (d < e) || (f > g > h)) && (i < j < k && l > m > n) || (o > p > q) 
 int main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
@@ -152,8 +219,9 @@ int main(int argc, char **argv, char **envp)
 		ast = parse_expression(&tokens.arr, 1, false);
 		if (ast)
 		{
-			shell.exit_status = exec_ast(ast);
-			ft_free_ast(&ast);
+			ft_print_ast(ast);
+			// shell.exit_status = exec_ast(ast);
+			// ft_free_ast(&ast);
 		}
 		free(shell.line);
 	}
