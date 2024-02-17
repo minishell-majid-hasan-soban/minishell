@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 08:51:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:11:26 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	exec_parent(t_ast *ast)
 	status = 0;
 	if (exec_redir(ast) == 1)
 		return (1);
+	fflush(stdout);
 	status = exec_args(ast);
 	return (status);
 }
@@ -59,19 +60,19 @@ static int exec_cmd(t_ast *ast)
 	return (ast->error != T_NONE);
 }
 
-static void exec_child_pipe(t_ast *ast, t_node_dir dir)
+static void exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2])
 {
 	if (dir == N_LEFT)
 	{
-		ft_close(ast, ast->command->fd[0]);
-		ft_dup2(ast, ast->command->fd[1], 1);
-		ft_close(ast, ast->command->fd[1]);
+		ft_close(ast, fd[0]);
+		ft_dup2(ast, fd[1], 1);
+		ft_close(ast, fd[1]);
 	}
 	else if (dir == N_RIGHT)
 	{
-		ft_close(ast, ast->command->fd[1]);
-		ft_dup2(ast, ast->command->fd[0], 0);
-		ft_close(ast, ast->command->fd[0]);
+		ft_close(ast, fd[1]);
+		ft_dup2(ast, fd[0], 0);
+		ft_close(ast, fd[0]);
 	}
 	if (ast->error != T_NONE)
 		exit(1);
@@ -103,19 +104,20 @@ static int	exec_pipe(t_ast *ast)
 	pid_t	l_pid;
 	pid_t	r_pid;
 	int		status;
+	int		fd[2];
 
-	ft_pipe(ast, ast->command->fd);
+	ft_pipe(ast, fd);
 	l_pid = ft_fork(ast);
 	if (l_pid < 0)
-		return (ft_close_pipe(ast, ast->command->fd), 1);
+		return (ft_close_pipe(ast, fd), 1);
 	else if (l_pid == 0)
-		exec_child_pipe(ast->left, N_LEFT);
+		exec_child_pipe(ast->left, N_LEFT, fd);
 	r_pid = ft_fork(ast);
 	if (r_pid < 0)
-		return (ft_close_pipe(ast, ast->command->fd), 1);
+		return (ft_close_pipe(ast, fd), 1);
 	else if (r_pid == 0)
-		exec_child_pipe(ast, N_RIGHT);
-	ft_close_pipe(ast, ast->command->fd);
+		exec_child_pipe(ast->right, N_RIGHT, fd);
+	ft_close_pipe(ast, fd);
 	ft_waitpid(ast, l_pid, &status);
 	ft_waitpid(ast, r_pid, &status);
 	if (ast->error != T_NONE)

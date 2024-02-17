@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 10:46:48 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:34:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ typedef struct	s_command
 	long			arg_count;
 	long			arg_size;
 	char			**expanded_args;
-	int				fd[2];
 	t_redirection	*redirections;
 	t_builtin		cmd_type;
 	t_error			error;
@@ -128,6 +127,7 @@ typedef struct	s_ast
 	t_node_type			type;
 	t_command			*command;
 	t_node_dir			direction;
+	int					fd[2];
 	bool				piped;
 	struct s_ast		*left;
 	struct s_ast		*right;

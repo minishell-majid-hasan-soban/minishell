@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 11:21:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:05:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,17 @@ static char *ft_get_path(t_ast *ast, char *cmd)
 		path = ft_strjoin(to_free, cmd);
 		if (!to_free || !path)
 			return (free(to_free), free(path), ft_free_args(paths, i), NULL);
-		if (access(path, F_OK | X_OK) == 0)
+		if (access(path, F_OK) == 0)
 			return (ft_free_args(paths, i), free(to_free), path);
 		(free(to_free), free(path));
 	}
 	ft_free_args(paths, i);
-	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
-		return (ft_strdup(cmd));
-	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/') == NULL)
-		return (ft_cmd_nf_err(cmd, 126), cmd);
-	return (ft_cmd_nf_err(cmd, 125), cmd);
+	path = ft_strdup(cmd);
+	if (!path)
+		return (ft_putstr_fd("minishell: malloc: ", 2), NULL);
+	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
+		return (path);
+	return (ft_cmd_nf_err(cmd, 127), NULL);
 }
 
 int is_builtin(char *cmd)
@@ -140,7 +141,5 @@ int	exec_args(t_ast *ast)
 	if (is_builtin(path) == 1)
 		return (exec_builtin(ast, args));
 	ft_execve(ast, path, args);
-	(free(path), ft_putstr_fd("minishell: ", 2), ft_putstr_fd(args[0], 2));
-	(ft_putstr_fd(": ", 2), perror(""));
 	return (126);
 }

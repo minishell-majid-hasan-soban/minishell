@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 11:10:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:31:17 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ static void	ft_free_command(t_command *cmd)
 	while (redir)
 	{
 		tmp = redir;
+		if (redir->type == R_HEREDOC)
+			if (close(redir->heredoc_fd) == -1)
+				ft_putstr_fd("minishell: close: ", 2), perror("");
 		redir = redir->next;
 		free(tmp->file);
 		free(tmp->expanded_file);
@@ -198,7 +201,7 @@ void ft_print_ast(t_ast *ast)
 }
 //	((a > b aa aaa > c gg) | (d < e) || (f > g > h)) && (i < j < k && l > m > n) || (o > p > q)
 
-static int	ft_read_here_doc(t_ast *ast, int fd_w, int fd_r, char *file)
+static int	ft_read_here_doc(t_ast *ast, int fd_w, char *file)
 {
 	char			*line;
 	
@@ -214,7 +217,6 @@ static int	ft_read_here_doc(t_ast *ast, int fd_w, int fd_r, char *file)
 		}
 		(ft_putstr_fd(line, fd_w), ft_putstr_fd("\n", fd_w), free(line));
 	}
-	ast->command->redirections->heredoc_fd = fd_r;
 	ft_close(ast, fd_w);
 	return (0);
 }
@@ -223,7 +225,6 @@ static int	init_here_doc(t_ast *ast)
 {
 	t_redirection	*redir;
 	int				fd_w;
-	int				fd_r;
 
 	redir = ast->command->redirections;
 	while (redir)
@@ -234,12 +235,12 @@ static int	init_here_doc(t_ast *ast)
 			if (fd_w == -1)
 				return (ft_putstr_fd("minishell: ", 2),
 					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
-			fd_r = open("/tmp/.minishell_heredoc", O_RDONLY);
-			if (fd_r == -1)
+			redir->heredoc_fd = open("/tmp/.minishell_heredoc", O_RDONLY);
+			if (redir->heredoc_fd == -1)
 				return (ft_close(ast, fd_w), ft_putstr_fd("minishell: ", 2),
 					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
 			unlink("/tmp/.minishell_heredoc");
-			if (ft_read_here_doc(ast, fd_w, fd_r, redir->file))
+			if (ft_read_here_doc(ast, fd_w, redir->file))
 				return (1);
 		}
 		redir = redir->next;
@@ -283,20 +284,25 @@ int main(int argc, char **argv, char **envp)
 		shell.line = readline("minishell> ");
 		if (shell.line == NULL)
 			(ft_putstr_fd("exit\n", 1), ft_free_shell(&shell));
-		if (ft_strlen(shell.line) > 0)
-			add_history(shell.line);
+		if (ft_strlen(shell.line) == 0)
+		{
+			free(shell.line);
+			continue ;
+		}
+		add_history(shell.line);
 		tokens = tokenize(shell.line);
 		if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
 			return (ft_free_shell(&shell), 0);
 		ast = parse_expression(&tokens.arr, 1, false);
 		if (ast)
 		{
-			print_ast(ast, " ", 0);
+			// print_ast(ast, " ", 0);
 			ft_init_ast(&ast, &shell, false);
 			shell.exit_status = exec_ast(ast);
 			ft_free_ast(&ast);
 		}
 		free(shell.line);
+		(dup2(shell.fd_in, 0), dup2(shell.fd_out, 1));
 	}
 	return (0);
 }

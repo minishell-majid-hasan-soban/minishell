@@ -6,11 +6,19 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 10:59:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:11:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	exit_status()
+{
+	if (errno == 13 || errno == 20 || errno == 8 || errno == 21)			// errno 8 : Exec format error happens when the file is not an executable, for example, when trying to execute a directory
+		exit(126);															// errno 20 : Not a directory happens when trying to execute a directory
+	else
+		exit(127);
+}
 
 void	ft_execve(t_ast *ast, char *path, char **args)
 {
@@ -31,15 +39,17 @@ void	ft_execve(t_ast *ast, char *path, char **args)
 		ft_putstr_fd(": ", 2);
 		perror("");
 		ft_free_args(env, -1);
-		exit(1);
+		exit_status();
 	}
-	exit(0);
 }
 
 void	ft_close(t_ast *ast, int fd)
 {
 	if (close(fd) == -1)
 	{
+		if (ast->type == N_CMD)
+			printf("CMD = %s\n", ast->command->args[0]);
+		fflush(stdout);
 		ft_putstr_fd("minishell: close: ", 2);
 		perror("");
 		if (ast)

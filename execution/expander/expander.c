@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 15:44:33 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:09:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	i = 0;
 	j = 0;
 	expanded = (char **)malloc(sizeof(char *) * (ft_argslen(args) + 1));
-	while (args[i])
+	while (args && args[i])
 		expanded[j++] = ft_expand_arg(ast, args[i++]);
 	expanded[j] = NULL;
 	return (expanded);
