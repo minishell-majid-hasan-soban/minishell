@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 15:10:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 11:10:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void	ft_free_command(t_command *cmd)
 
 static void	ft_free_ast(t_ast **ast)
 {
-	if (ast == NULL)
+	if (ast == NULL || *ast == NULL)
 		return ;
 	ft_free_ast(&(*ast)->left);
 	ft_free_ast(&(*ast)->right);
@@ -161,7 +161,7 @@ static void print_node_type(t_ast *ast)
 		ft_putstr_fd("UNKNOWN\n", 1);
 }
 
-static void ft_print_ast(t_ast *ast)
+void ft_print_ast(t_ast *ast)
 {
 	char			**args;
 	t_redirection	*redir;
@@ -196,7 +196,79 @@ static void ft_print_ast(t_ast *ast)
 	ft_putstr_fd("\n", 1);
 	ft_putstr_fd("\n", 1);
 }
-//	((a > b aa aaa > c gg) | (d < e) || (f > g > h)) && (i < j < k && l > m > n) || (o > p > q) 
+//	((a > b aa aaa > c gg) | (d < e) || (f > g > h)) && (i < j < k && l > m > n) || (o > p > q)
+
+static int	ft_read_here_doc(t_ast *ast, int fd_w, int fd_r, char *file)
+{
+	char			*line;
+	
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL)
+			return (0);
+		if (ft_strcmp(line, file) == 0)
+		{
+			free(line);
+			break ;
+		}
+		(ft_putstr_fd(line, fd_w), ft_putstr_fd("\n", fd_w), free(line));
+	}
+	ast->command->redirections->heredoc_fd = fd_r;
+	ft_close(ast, fd_w);
+	return (0);
+}
+
+static int	init_here_doc(t_ast *ast)
+{
+	t_redirection	*redir;
+	int				fd_w;
+	int				fd_r;
+
+	redir = ast->command->redirections;
+	while (redir)
+	{
+		if (redir->type == R_HEREDOC)
+		{
+			fd_w = open("/tmp/.minishell_heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			if (fd_w == -1)
+				return (ft_putstr_fd("minishell: ", 2),
+					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
+			fd_r = open("/tmp/.minishell_heredoc", O_RDONLY);
+			if (fd_r == -1)
+				return (ft_close(ast, fd_w), ft_putstr_fd("minishell: ", 2),
+					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
+			unlink("/tmp/.minishell_heredoc");
+			if (ft_read_here_doc(ast, fd_w, fd_r, redir->file))
+				return (1);
+		}
+		redir = redir->next;
+	}
+	return (0);
+}
+
+static int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
+{
+	int		status;
+	
+	status = 0;
+	if (*ast == NULL)
+		return (0);
+	if ((*ast)->type == N_PIPE)
+		piped = true;
+	else
+		piped = false;
+	if (ft_init_ast(&(*ast)->left, shell, piped)
+		|| ft_init_ast(&(*ast)->right, shell, piped))
+		return (1);
+	(*ast)->shell = shell;
+	(*ast)->piped = piped;
+	(*ast)->error = T_NONE;
+	if ((*ast)->type == N_CMD)
+		status = init_here_doc(*ast);
+	return (status);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
@@ -219,9 +291,10 @@ int main(int argc, char **argv, char **envp)
 		ast = parse_expression(&tokens.arr, 1, false);
 		if (ast)
 		{
-			ft_print_ast(ast);
-			// shell.exit_status = exec_ast(ast);
-			// ft_free_ast(&ast);
+			print_ast(ast, " ", 0);
+			ft_init_ast(&ast, &shell, false);
+			shell.exit_status = exec_ast(ast);
+			ft_free_ast(&ast);
 		}
 		free(shell.line);
 	}

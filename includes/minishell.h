@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 15:44:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:46:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ typedef struct	s_ast
 	t_node_type			type;
 	t_command			*command;
 	t_node_dir			direction;
-	int					exit_status;
 	bool				piped;
 	struct s_ast		*left;
 	struct s_ast		*right;

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/08 09:45:56 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:45:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	ft_exit(t_ast *ast, char **args)
 	{
 		i = ft_atoi(args[1]);
 		if (args[2])
-			return (ast->exit_status = 1,
-				printf("minishell: exit: too many arguments\n"), 0);
+			return (printf("minishell: exit: too many arguments\n"), 0);
 		clear_shell(ast->shell, i);
 	}
 	else

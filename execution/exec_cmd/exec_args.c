@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 16:43:12 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 11:21:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ void	ft_free_args(char **args, int i)
 {
 	int	j;
 
-	printf("in : %p\n", args);
 	j = 0;
 	if (args && i < 0)
 	{
 		while ( args[j])
 		{
-			printf("freeing %s\n", args[j]);
 			free(args[j++]);
 		}
-		printf("freeing %s\n", args[j]);
 		free(args[j]);
 	}
 	else
@@ -34,7 +31,28 @@ void	ft_free_args(char **args, int i)
 			free(args[i--]);
 	}
 	free(args);
-	printf("out : %p\n", args);
+}
+
+static void ft_cmd_nf_err(char *cmd, int status)
+{
+	if (status == 127)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	else if (status == 126)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+	}
+	else if (status == 125)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
 }
 
 static char *ft_get_path(t_ast *ast, char *cmd)
@@ -61,16 +79,11 @@ static char *ft_get_path(t_ast *ast, char *cmd)
 		(free(to_free), free(path));
 	}
 	ft_free_args(paths, i);
-	if (access(cmd, F_OK | X_OK) == 0 && ft_strchr(cmd, '/'))
+	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	return (NULL);
-}
-
-static void ft_cmd_nf_err(char *cmd)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/') == NULL)
+		return (ft_cmd_nf_err(cmd, 126), cmd);
+	return (ft_cmd_nf_err(cmd, 125), cmd);
 }
 
 int is_builtin(char *cmd)
@@ -119,14 +132,14 @@ int	exec_args(t_ast *ast)
 	args = ast->command->args;
 	if (!args || !args[0])
 		return (0);
-	if (ft_strcmp(args[0], "\"\"") || ft_strcmp(args[0], "''"))
-		return (ft_cmd_nf_err(args[0]), 127);
+	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0)
+		return (ft_cmd_nf_err(args[0], 127), 127);
 	path = ft_get_path(ast, ast->command->expanded_args[0]);
 	if (!path || !*path)
 		return (0);
 	if (is_builtin(path) == 1)
 		return (exec_builtin(ast, args));
-	ft_execve(ast, args);
+	ft_execve(ast, path, args);
 	(free(path), ft_putstr_fd("minishell: ", 2), ft_putstr_fd(args[0], 2));
 	(ft_putstr_fd(": ", 2), perror(""));
 	return (126);

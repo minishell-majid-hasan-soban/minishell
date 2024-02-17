@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 13:47:12 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 08:51:08 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,15 @@ static int	exec_parent(t_ast *ast)
 static int exec_cmd(t_ast *ast)
 {
 	int				status;
-	t_redirection	*redir;
 	char			**args;
 
 	status = 0;
 	args = ft_expand_args(ast, ast->command->args);
-	redir = ast->command->redirections;
+	ast->command->expanded_args = args;
 	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
 	else
 		status = exec_child(ast);
-	
 	return (ast->error != T_NONE);
 }
 

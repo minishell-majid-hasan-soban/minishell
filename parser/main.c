@@ -2,7 +2,7 @@
 #include "minishell.h"
 
 int main() {
-	char *str = "> b";
+	char *str = "(a > b aa aaa > c gg) | (d < e) || (f > g > h)";
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);
 	if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
@@ -28,7 +28,7 @@ int main() {
 	t_token *arr = tokens.arr;
 	t_ast *ast = parse_expression(&arr, 1, 0);
 	print_ast(ast, " ", 0);
-	free_token_arr(&tokens);
-	free_ast(ast);
+	// free_token_arr(&tokens);
+	// free_ast(ast);
 }
 

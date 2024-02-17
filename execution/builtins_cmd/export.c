@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 08:47:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:46:15 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_add_env(t_ast *ast, char *str)
 	if (!name)
 		return (ft_putstr_fd("minishell: export: malloc error\n", 2), 1);
 	if (!ft_valid_name(name))
-		return (ast->exit_status = 1, free(name), ft_prit_inval_name(str), 1);
+		return (free(name), ft_prit_inval_name(str), 1);
 	append = ft_strchr(str, '+') != NULL;
 	name[ft_strlen(name) - append] = '\0';
 	if (ft_strchr(str, '=') == NULL)

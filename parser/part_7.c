@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 18:12:55 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 08:30:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ char	*redirection_type_to_string(t_redirection_type type)
 
 void	print_redirections(t_redirection *redirection)
 {
-	while (redirection != NULL)
+	t_redirection	*tmp;
+
+	tmp = redirection;
+	while (tmp)
 	{
-		printf("Redirection: ");
-		printf(" (%s -> %s)", redirection_type_to_string(redirection->type),
-			redirection->file);
-		redirection = redirection->next;
+		printf(" (%s -> %s)", redirection_type_to_string(tmp->type),
+			tmp->file);
+		tmp = tmp->next;
 	}
 	printf("\n");
 }
@@ -86,8 +88,7 @@ void	print_command_args(t_command *cmd)
 	if (cmd == NULL)
 		return ;
 	args = cmd->args;
-	printf("ars = %p\n", args);
-	while (args)
+	if (args)
 	{
 		printf("- ");
 		while (*args)
@@ -95,9 +96,9 @@ void	print_command_args(t_command *cmd)
 			printf("%s ", *args);
 			args++;
 		}
-		print_redirections(cmd->redirections);
-		printf("\n");
 	}
+	print_redirections(cmd->redirections);
+	printf("\n");
 }
 
 void	print_ast(const t_ast *node, const char *prefix, int is_left)
@@ -107,15 +108,14 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 
 	if (node == NULL)
 		return ;
+	printf("%s", prefix);
 	i = -1;
 	while (++i < 256)
 		next_prefix[i] = 0;
-	printf("%s", prefix);
 	if (is_left)
 		printf("%s", "|--");
 	else
 		printf("%s", "\\--");
-	fflush(stdout);
 	if (node->type == N_CMD)
 		print_command_args(node->command);
 	else
@@ -127,7 +127,6 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 		else
 			printf("%s\n", "OR");
 	}
-	fflush(stdout);
 	ft_strlcat(next_prefix, prefix, 256);
 	if (is_left)
 		ft_strlcat(next_prefix, "|   ", 256);

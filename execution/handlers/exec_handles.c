@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 10:38:59 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:59:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_execve(t_ast *ast, char **args)
+void	ft_execve(t_ast *ast, char *path, char **args)
 {
 	char	**env;
 
@@ -24,7 +24,7 @@ void	ft_execve(t_ast *ast, char **args)
 		ft_putstr_fd(": malloc: failed to allocate memory\n", 2);
 		exit(1);
 	}
-	if (execve(args[0], args, env) == -1)
+	if (execve(path, args, env) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(args[0], 2);
