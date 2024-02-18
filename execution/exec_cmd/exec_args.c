@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 18:05:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 10:24:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void ft_cmd_nf_err(char *cmd, int status)
 	}
 }
 
-static char *ft_get_path(t_ast *ast, char *cmd)
+static char *ft_get_path(t_ast *ast, char *cmd, int *status)
 {
 	char	**paths;
 	char	*path;
@@ -73,7 +73,7 @@ static char *ft_get_path(t_ast *ast, char *cmd)
 		to_free = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(to_free, cmd);
 		if (!to_free || !path)
-			return (free(to_free), free(path), ft_free_args(paths, i), NULL);
+			return (*status = 1, free(to_free), free(path), ft_free_args(paths, i), NULL);
 		if (access(path, F_OK) == 0)
 			return (ft_free_args(paths, i), free(to_free), path);
 		(free(to_free), free(path));
@@ -81,10 +81,10 @@ static char *ft_get_path(t_ast *ast, char *cmd)
 	ft_free_args(paths, i);
 	path = ft_strdup(cmd);
 	if (!path)
-		return (ft_putstr_fd("minishell: malloc: ", 2), NULL);
+		return (*status = 1, ft_putstr_fd("minishell: malloc: ", 2), NULL);
 	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
 		return (path);
-	return (ft_cmd_nf_err(cmd, 127), NULL);
+	return (ft_cmd_nf_err(cmd, 127), *status = 127, NULL);
 }
 
 int is_builtin(char *cmd)
@@ -109,7 +109,7 @@ int is_builtin(char *cmd)
 static int exec_builtin(t_ast *ast, char **args)
 {
 	if (!ft_strcmp(args[0], "echo"))
-		return (ft_echo(args));
+		return (ft_echo(ast, args));
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(ast, args));
 	if (!ft_strcmp(args[0], "pwd"))
@@ -129,17 +129,18 @@ int	exec_args(t_ast *ast)
 {
 	char	*path;
 	char	**args;
+	int		status;
 
 	args = ast->command->args;
 	if (!args || !args[0])
 		return (0);
 	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0)
 		return (ft_cmd_nf_err(args[0], 127), 127);
-	path = ft_get_path(ast, ast->command->expanded_args[0]);
-	if (!path || !*path)
-		return (0);
-	if (is_builtin(path) == 1)
+	if (is_builtin(ast->command->expanded_args[0]) == 1)
 		return (exec_builtin(ast, args));
+	path = ft_get_path(ast, ast->command->expanded_args[0], &status);
+	if (!path || !*path)
+		return (status);
 	ft_execve(ast, path, args);
 	return (126);
 }

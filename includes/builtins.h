@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:32:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 12:18:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 07:54:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_env	t_env;
 typedef struct s_shell	t_shell;
 
 int		ft_cd(t_ast *ast, char **args);
-int		ft_echo(char **args);
+int		ft_echo(t_ast *ast, char **args);
 int		ft_export(t_ast *ast, char **args);
 int		ft_exit(t_ast *ast, char **args);
 int		ft_pwd(t_ast *ast, char **args);
