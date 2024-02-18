@@ -6,17 +6,17 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/18 17:30:01 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/18 17:32:00 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <malloc/_malloc.h>
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdlib.h>
+#include "minishell.h"
 
 typedef struct s_token_arr		t_token_arr;
 typedef struct	s_token			t_token;
