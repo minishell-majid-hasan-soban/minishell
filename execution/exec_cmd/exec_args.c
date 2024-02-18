@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/18 10:24:59 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 11:26:45 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,15 @@ static void ft_cmd_nf_err(char *cmd, int status)
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 	}
-	else if (status == 126)
+	else if (status == 2)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-	}
-	else if (status == 125)
-	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(": filename argument required\n", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": usage: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(" filename [arguments]\n", 2);
 	}
 }
 
@@ -134,8 +132,13 @@ int	exec_args(t_ast *ast)
 	args = ast->command->args;
 	if (!args || !args[0])
 		return (0);
-	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0)
+	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0
+		|| ft_strcmp(args[0], "..") == 0)
 		return (ft_cmd_nf_err(args[0], 127), 127);
+	if (ft_strcmp(args[0], "") == 0)
+		return (0);
+	if (ft_strcmp(args[0], ".") == 0)
+		return (ft_cmd_nf_err(args[0], 2), 2);
 	if (is_builtin(ast->command->expanded_args[0]) == 1)
 		return (exec_builtin(ast, args));
 	path = ft_get_path(ast, ast->command->expanded_args[0], &status);

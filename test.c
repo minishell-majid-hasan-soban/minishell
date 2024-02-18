@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 18:31:17 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 11:09:08 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ int main(int argc, char **argv, char **envp)
 		add_history(shell.line);
 		tokens = tokenize(shell.line);
 		if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
-			return (ft_free_shell(&shell), 0);
+			shell.exit_status = 2;
 		ast = parse_expression(&tokens.arr, 1, false);
 		if (ast)
 		{

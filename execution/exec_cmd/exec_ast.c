@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 18:11:26 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 11:07:04 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int exec_cmd(t_ast *ast)
 		status = exec_parent(ast);
 	else
 		status = exec_child(ast);
-	return (ast->error != T_NONE);
+	return (status);
 }
 
 static void exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2])
