@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/07 17:03:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:34:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "enum.h"
 # include "ast_handler.h"
 # include "builtins.h"
+# include "parser.h"
 
 # define YELLOW "\033[0;33m"
 # define RED "\033[0;31m"
@@ -44,7 +45,7 @@
 # define RESET "\033[0m"
 
 
-extern bool	g_sigint;
+extern unsigned int		g_signal;
 typedef struct s_shell	t_shell;
 typedef struct s_env	t_env;
 typedef struct s_command	t_command;
@@ -109,9 +110,7 @@ typedef struct	s_command
 	char			**args;
 	long			arg_count;
 	long			arg_size;
-	char			*expanded_name;
 	char			**expanded_args;
-	int				fd[2];
 	t_redirection	*redirections;
 	t_builtin		cmd_type;
 	t_error			error;
@@ -128,7 +127,7 @@ typedef struct	s_ast
 	t_node_type			type;
 	t_command			*command;
 	t_node_dir			direction;
-	int					exit_status;
+	int					fd[2];
 	bool				piped;
 	struct s_ast		*left;
 	struct s_ast		*right;
@@ -151,19 +150,19 @@ typedef struct		s_env
 {
 	char			*name;
 	char			*value;
+	bool			local;
 	struct s_env	*next;
 }					t_env;
 
 typedef struct		s_shell
 {
-	char			*name;
+	char			*line;
 	t_ast			*ast;
 	t_env			*env;
 	int				fd_in;
 	int				fd_out;
-	int				fd_err;
 	int				exit_status;
-	bool			*g_sigint;
+	unsigned int	*g_signal;
 	t_error			error;
 }					t_shell;
 
@@ -191,5 +190,13 @@ int		pipe_handle(int *pipefd);
 // // expansion
 char	*ft_expand_arg(t_ast *ast, char *arg);
 char	**ft_expand_args(t_ast *ast, char **args);
+size_t	ft_argslen(char **args);
+
+// // exec
+void	ft_free_args(char **args, int i);
+int		exec_redir(t_ast *ast);
+int		exec_args(t_ast *ast);
+int		is_builtin(char *cmd);
+int		exec_ast(t_ast *ast);
 
 #endif

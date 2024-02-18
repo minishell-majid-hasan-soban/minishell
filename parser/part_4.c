@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/14 15:30:34 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:29:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
+#include "minishell.h"
 
 t_token_arr	tokenize(char *prompt)
 {
@@ -63,11 +63,11 @@ void	free_token_arr(t_token_arr *tokens)
 	(*tokens) = (t_token_arr){0};
 }
 
-t_ast	*create_ast_node(t_node_type type, t_command	*command)
+t_ast	*create_ast_node(t_node_type type, t_command *command)
 {
 	t_ast	*node;
 
-	node = (t_ast *)malloc(sizeof(t_ast));
+	node = (t_ast *)ft_calloc(1, sizeof(t_ast));
 	if (node != NULL)
 	{
 		node->type = type;
@@ -80,11 +80,17 @@ t_ast	*create_ast_node(t_node_type type, t_command	*command)
 
 void	free_args(t_command *command)
 {
-	int	i;
+	char	**args;
 
-	i = -1;
-	while (++i < command->arg_count)
-		free(command->args[i]);
+	if (command == NULL)
+		return ;
+	args = command->args;
+	while (args && *args)
+	{
+		free(*args);
+		args++;
+	}
+	free(*args);
 	free(command->args);
 }
 

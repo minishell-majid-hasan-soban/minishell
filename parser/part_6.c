@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   part_6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/12 16:14:47 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:28:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
+#include "minishell.h"
 
 t_redirection_type	get_redirection_type(t_token_type type)
 {
@@ -29,14 +29,13 @@ t_ast	*extract_command(t_token **curr_token)
 	t_ast			*ast;
 	t_redirection	*redir;
 
-	command = malloc(sizeof(t_command));
-	*command = (t_command){0};
+	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
 	if ((*curr_token)->type == TOKEN_OP)
 	{
 		(*curr_token)++;
-		ast = parse_expression(curr_token, 1, 1);
+		ast = parse_expression(curr_token, 1, true);
 		if ((*curr_token)->type != TOKEN_CP)
 		{
 			printf("minishell: expected ')'\n");

@@ -1,21 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/11 21:08:33 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/14 15:31:09 by amajid           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "../includes/parser.h"
-
+#include "minishell.h"
 
 int main() {
-	char *str = "ls |";
-	// char *str = "(lskjdfkjhsdfjkhdshjds)" ;
+	char *str = "(a > b aa aaa > c gg) | (d < e) || (f > g > h)";
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);
 	if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
@@ -41,6 +28,7 @@ int main() {
 	t_token *arr = tokens.arr;
 	t_ast *ast = parse_expression(&arr, 1, 0);
 	print_ast(ast, " ", 0);
-	free_token_arr(&tokens);
-	free_ast(ast);
+	// free_token_arr(&tokens);
+	// free_ast(ast);
 }
+

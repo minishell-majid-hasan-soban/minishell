@@ -6,125 +6,134 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/06 12:41:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/18 11:07:04 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_ast(t_ast *ast);
-
-static char *ft_get_path(t_ast *ast, char *cmd)
+static int	exec_child(t_ast *ast)
 {
-	char	**paths;
-	char	*path;
-	char	*to_free;
-	int		i;
-	t_env	*env;
-
-	i = 0;
-	env = ft_getenv(ast->shell->env, "PATH");
-	if (!env)
-		return (NULL);
-	paths = ft_split(env->value, ':');
-	while (paths[i])
+	int				status;
+	pid_t			pid;
+	
+	status = 0;
+	pid = ft_fork(ast);
+	if (pid < 0)
+		return (1);
+	else if (pid == 0)
 	{
-		to_free = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(to_free, cmd);
-		free(to_free);
-		if (access(path, X_OK) == 0)
-		{
-			// ft_free_args(paths);
-			return (path);
-		}
-		// ft_strdel(&path);
-		i++;
-	}
-	// ft_free_args(paths);
-	if (access(cmd, X_OK) == 0 && (cmd[0] == '.' || cmd[0] == '/'))
-		return (ft_strdup(cmd));
-	return (NULL);
-}
-
-static void exec_cmd(t_ast *ast)
-{
-	char	**args;
-	char	*path;
-
-	args = ast->command->expanded_args;
-	path = ft_get_path(ast, args[0]);
-	if (path)
-	{
-		ft_execve(ast, args);
-		// ft_strdel(&path);
+		if (exec_redir(ast) == 1)
+			exit(1);
+		status = exec_args(ast);
+		exit(status);
 	}
 	else
-		ast->shell->exit_status = 127;
-	// ft_free_args(args);
-	exit(1);
+		ft_waitpid(ast, pid, &status);
+	return (status);
 }
 
-static void exec_child_pipe(t_ast *ast)
+static int	exec_parent(t_ast *ast)
 {
-	if (ast->direction == N_LEFT)
+	int	status;
+	
+	status = 0;
+	if (exec_redir(ast) == 1)
+		return (1);
+	fflush(stdout);
+	status = exec_args(ast);
+	return (status);
+}
+
+static int exec_cmd(t_ast *ast)
+{
+	int				status;
+	char			**args;
+
+	status = 0;
+	args = ft_expand_args(ast, ast->command->args);
+	ast->command->expanded_args = args;
+	if (!args || !args[0] || is_builtin(args[0]) == 1)
+		status = exec_parent(ast);
+	else
+		status = exec_child(ast);
+	return (status);
+}
+
+static void exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2])
+{
+	if (dir == N_LEFT)
 	{
-		ft_close(ast, ast->command->fd[0]);
-		ft_dup2(ast, ast->command->fd[1], 1);
-		ft_close(ast, ast->command->fd[1]);
-		exec_cmd(ast);
+		ft_close(ast, fd[0]);
+		ft_dup2(ast, fd[1], 1);
+		ft_close(ast, fd[1]);
 	}
-	else if (ast->direction == N_RIGHT)
+	else if (dir == N_RIGHT)
 	{
-		ft_close(ast, ast->command->fd[1]);
-		ft_dup2(ast, ast->command->fd[0], 0);
-		ft_close(ast, ast->command->fd[0]);
-		if (ast->type == N_PIPE)
-			exec_cmd(ast);
-		else
-			exec_cmd(ast);
+		ft_close(ast, fd[1]);
+		ft_dup2(ast, fd[0], 0);
+		ft_close(ast, fd[0]);
 	}
+	if (ast->error != T_NONE)
+		exit(1);
+	exit(exec_ast(ast));
 }
 
-static void exec_and(t_ast *ast)
+static int exec_and(t_ast *ast)
 {
-	exec_ast(ast);
-	if (ast->shell->exit_status == 0)
-		exec_ast(ast);
+	int	status;
+	
+	status = exec_ast(ast->left);
+	if (status == 0)
+		status = exec_ast(ast->right);
+	return (status);
 }
 
-static void exec_or(t_ast *ast)
+static int exec_or(t_ast *ast)
 {
-	exec_ast(ast);
-	if (ast->shell->exit_status != 0)
-		exec_ast(ast);
+	int	status;
+
+	status = exec_ast(ast->left);
+	if (status != 0)
+		status = exec_ast(ast->right);
+	return (status);
 }
 
-static void	exec_pipe(t_ast *ast)
+static int	exec_pipe(t_ast *ast)
 {
 	pid_t	l_pid;
 	pid_t	r_pid;
+	int		status;
+	int		fd[2];
 
-	ft_pipe(ast, ast->command->fd);
+	ft_pipe(ast, fd);
 	l_pid = ft_fork(ast);
-	if (l_pid == 0)
-		exec_child_pipe(ast);
-	else
-	{
-		r_pid = ft_fork(ast);
-		if (r_pid == 0)
-			exec_child_pipe(ast);
-		ft_close_pipe(ast, ast->command->fd);
-	}
+	if (l_pid < 0)
+		return (ft_close_pipe(ast, fd), 1);
+	else if (l_pid == 0)
+		exec_child_pipe(ast->left, N_LEFT, fd);
+	r_pid = ft_fork(ast);
+	if (r_pid < 0)
+		return (ft_close_pipe(ast, fd), 1);
+	else if (r_pid == 0)
+		exec_child_pipe(ast->right, N_RIGHT, fd);
+	ft_close_pipe(ast, fd);
+	ft_waitpid(ast, l_pid, &status);
+	ft_waitpid(ast, r_pid, &status);
+	if (ast->error != T_NONE)
+		return (1);
+	return (status);
 }
 
-static void	exec_ast(t_ast *ast)
+int	exec_ast(t_ast *ast)
 {
 	if (ast->type == N_PIPE)
-		exec_pipe(ast);
-	else if (ast->type == N_CMD)
-		exec_cmd(ast);
+		return (exec_pipe(ast));
 	else if (ast->type == N_AND)
-		exec_and(ast);
+		return (exec_and(ast));
 	else if (ast->type == N_OR)
-		exec_or(ast);
+		return (exec_or(ast));
+	else if (ast->type == N_CMD)
+		return (exec_cmd(ast));
+	return (0);
 }

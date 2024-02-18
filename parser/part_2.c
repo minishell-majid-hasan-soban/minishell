@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   part_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:29:16 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 21:30:08 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/16 10:10:07 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
+#include "minishell.h"
 
 int	is_separator(char *str)
 {

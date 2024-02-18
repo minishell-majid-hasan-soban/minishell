@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   part_7.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 22:32:29 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/17 08:30:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
+#include "minishell.h"
 
 t_ast	*parse_expression(t_token **curr_token,
-int min_precedence, char is_in_op)
+int min_precedence, bool in_op)
 {
 	t_ast	*l_ast;
 	t_token	*op_token;
@@ -23,7 +23,7 @@ int min_precedence, char is_in_op)
 	l_ast = extract_command(curr_token);
 	if (l_ast == NULL)
 		return (NULL);
-	if ((*curr_token)->type == TOKEN_CP && is_in_op)
+	if ((*curr_token)->type == TOKEN_CP && in_op)
 		return (l_ast);
 	if ((*curr_token)->type != TOKEN_EOF && !token_is_operator(*curr_token))
 	{
@@ -40,7 +40,7 @@ int min_precedence, char is_in_op)
 		op_token = *curr_token;
 		*curr_token = ++(*curr_token);
 		r_ast = parse_expression(curr_token,
-				token_precedence(op_token) + 1, is_in_op);
+				token_precedence(op_token) + 1, in_op);
 		if (r_ast == NULL)
 		{
 			free_ast(l_ast);
@@ -69,36 +69,36 @@ char	*redirection_type_to_string(t_redirection_type type)
 
 void	print_redirections(t_redirection *redirection)
 {
-	while (redirection != NULL)
+	t_redirection	*tmp;
+
+	tmp = redirection;
+	while (tmp)
 	{
-		printf(" (%s -> %s)", redirection_type_to_string(redirection->type),
-			redirection->file);
-		redirection = redirection->next;
+		printf(" (%s -> %s)", redirection_type_to_string(tmp->type),
+			tmp->file);
+		tmp = tmp->next;
 	}
 	printf("\n");
 }
 
-void	print_command_args(t_command	*cmd)
+void	print_command_args(t_command *cmd)
 {
-	int	i;
+	char	**args;
 
-	i = -1;
-	if (cmd && cmd->args)
+	if (cmd == NULL)
+		return ;
+	args = cmd->args;
+	if (args)
 	{
 		printf("- ");
-		while (++i < cmd->arg_count)
+		while (*args)
 		{
-			printf("%s ", cmd->args[i]);
+			printf("%s ", *args);
+			args++;
 		}
-		print_redirections(cmd->redirections);
-		printf("\n");
 	}
-	else
-	{
-		printf("-Empty Command");
-		print_redirections(cmd->redirections);
-		printf("\n");
-	}
+	print_redirections(cmd->redirections);
+	printf("\n");
 }
 
 void	print_ast(const t_ast *node, const char *prefix, int is_left)
@@ -108,10 +108,10 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 
 	if (node == NULL)
 		return ;
+	printf("%s", prefix);
 	i = -1;
 	while (++i < 256)
 		next_prefix[i] = 0;
-	printf("%s", prefix);
 	if (is_left)
 		printf("%s", "|--");
 	else
