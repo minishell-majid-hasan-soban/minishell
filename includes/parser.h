@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/11 21:27:08 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/18 17:27:52 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ char*				redirection_type_to_string(t_redirection_type type);
 void				print_redirections(t_redirection* redirection);
 void				print_command_args(t_command* cmd);
 void				print_ast(const t_ast* node, const char* prefix, int isLeft);
+char				*skip_quotes(char *str);
 
 #endif
