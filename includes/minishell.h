@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 07:41:42 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:06:00 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <limits.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include "libft.h"
 # include "enum.h"
 # include "ast_handler.h"
@@ -192,7 +194,7 @@ char	*ft_expand_arg(t_ast *ast, char *arg);
 char	**ft_expand_args(t_ast *ast, char **args);
 
 // // exec
-void	ft_free_args(char **args, int i);
+void	ft_free_args(char **args);
 int		exec_redir(t_ast *ast);
 int		exec_args(t_ast *ast);
 int		is_builtin(char *cmd);

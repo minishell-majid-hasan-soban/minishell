@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 11:07:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 13:10:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void globFiles(const char *pattern, const char *directory) {
         perror("Error opening directory");
         return;
     }
+	printf("dir name: %s\n", dir->__dd_buf);
 
     // Iterate through directory entries
     while ((entry = readdir(dir)) != NULL) {

@@ -6,30 +6,20 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/18 11:26:45 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:05:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_args(char **args, int i)
+void	ft_free_args(char **args)
 {
 	int	j;
 
 	j = 0;
-	if (args && i < 0)
-	{
-		while ( args[j])
-		{
-			free(args[j++]);
-		}
-		free(args[j]);
-	}
-	else
-	{
-		while (args && i >= 0)
-			free(args[i--]);
-	}
+	while ( args[j])
+		free(args[j++]);
+	free(args[j]);
 	free(args);
 }
 
@@ -71,12 +61,12 @@ static char *ft_get_path(t_ast *ast, char *cmd, int *status)
 		to_free = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(to_free, cmd);
 		if (!to_free || !path)
-			return (*status = 1, free(to_free), free(path), ft_free_args(paths, i), NULL);
+			return (*status = 1, free(to_free), free(path), ft_free_args(paths), NULL);
 		if (access(path, F_OK) == 0)
-			return (ft_free_args(paths, i), free(to_free), path);
+			return (ft_free_args(paths), free(to_free), path);
 		(free(to_free), free(path));
 	}
-	ft_free_args(paths, i);
+	ft_free_args(paths);
 	path = ft_strdup(cmd);
 	if (!path)
 		return (*status = 1, ft_putstr_fd("minishell: malloc: ", 2), NULL);

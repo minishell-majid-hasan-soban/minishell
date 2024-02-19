@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/18 11:52:45 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:05:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_execve(t_ast *ast, char *path, char **args)
 		ft_putstr_fd(args[0], 2);
 		ft_putstr_fd(": ", 2);
 		perror("");
-		ft_free_args(env, -1);
+		ft_free_args(env);
 		exit_status();
 	}
 }

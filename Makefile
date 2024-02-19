@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
-%.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h
+%.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h $(INC)/ast_handler.h $(INC)/builtins.h
 	@$(CC) $(CFLAGS) -I$(RL)/include -I$(INC) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
