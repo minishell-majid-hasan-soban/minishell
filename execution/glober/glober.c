@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 16:16:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:41:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,20 @@ static char	**glob_arg(char *pattern)
 		return (NULL);
 	files = ft_calloc(1, sizeof(char *));
 	if (!files)
-		return (NULL);
+		return (ft_putstr_fd(MALLOC_ERROR, 2),  NULL);
 	i = 0;
-	while ((entry = readdir(dir)))
+	entry = readdir(dir);
+	while (entry)
 	{
 		if (match(pattern, entry->d_name))
 		{
 			files = ft_realloc(files, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
-			files[i] = ft_strdup(entry->d_name);
-			i++;
+			files[i++] = ft_strdup(entry->d_name);
 		}
+		entry = readdir(dir);
 	}
-	closedir(dir);
+	if (closedir(dir) == -1)
+		return (NULL);
 	return (files);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 14:06:00 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:50:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define BLINK "\033[5m"
 # define RESET "\033[0m"
 
+# define MALLOC_ERROR "minishell: malloc error\n"
 
 extern unsigned int		g_signal;
 typedef struct s_shell	t_shell;
