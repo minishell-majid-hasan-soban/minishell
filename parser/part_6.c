@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 18:28:55 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:18:11 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_ast	*extract_command(t_token **curr_token)
 	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
-	if ((*curr_token)->type == TOKEN_OP)
+	if ((*curr_token)->type == TOKEN_OP)	// segfault input is minishell> "
 	{
 		(*curr_token)++;
 		ast = parse_expression(curr_token, 1, true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:56:16 by amajid            #+#    #+#             */
-/*   Updated: 2023/11/05 16:20:18 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/19 14:05:06 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	**work(const char *s, char c, size_t i, size_t index)
 	t_double_size	i_i;
 
 	ptr_count = calc_str_count(s, c);
-	result = malloc(sizeof(char *) * (ptr_count.count + 1));
+	result = ft_calloc(ptr_count.count + 1, sizeof(char *));
 	if (!result)
 		return (NULL);
 	while (s[i] && index < ptr_count.count)
@@ -100,7 +100,7 @@ char	**ft_split(const char *s, char c)
 	check = safty_check(s);
 	if (!check)
 	{
-		result = malloc(sizeof(char *));
+		result = ft_calloc(1, sizeof(char *));
 		if (!result)
 			return (NULL);
 		result[0] = 0;

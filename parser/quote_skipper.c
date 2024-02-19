@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../includes/parser.h"
+#include "minishell.h"
 
 
 int	skip_quotes_work(char **dest, char **str, char quote)
@@ -25,6 +25,8 @@ char *skip_quotes(char *str)
 {
 	int i = 0;
 	int j = 0;
+	if (!str)
+		return NULL;
 	char *result = ft_calloc(ft_strlen(str) + 2, 1);
 	char *tmp_str;
 	char *tmp_result;
@@ -40,11 +42,9 @@ char *skip_quotes(char *str)
 			continue;
 		}
 		result[j] = str[i];
-		printf("%c\n", str[i]);
 		i++;
 		j++;
 	}
 	result[j] = 0;
 	return result;
 }
-

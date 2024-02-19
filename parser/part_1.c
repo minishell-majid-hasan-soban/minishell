@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:00:08 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/19 20:02:07 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	size_t	bytes_to_copy;
 
 	if (new_size == 0 && ptr != NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
+		return (free(ptr), NULL);
 	if (ptr == NULL)
 		return (malloc(new_size));
 	new_ptr = ft_calloc(new_size, 1);

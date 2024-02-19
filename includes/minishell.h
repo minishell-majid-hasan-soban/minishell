@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 16:34:47 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:50:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <limits.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include "libft.h"
 # include "enum.h"
 # include "ast_handler.h"
@@ -44,6 +46,7 @@
 # define BLINK "\033[5m"
 # define RESET "\033[0m"
 
+# define MALLOC_ERROR "minishell: malloc error\n"
 
 extern unsigned int		g_signal;
 typedef struct s_shell	t_shell;
@@ -190,13 +193,13 @@ int		pipe_handle(int *pipefd);
 // // expansion
 char	*ft_expand_arg(t_ast *ast, char *arg);
 char	**ft_expand_args(t_ast *ast, char **args);
-size_t	ft_argslen(char **args);
 
 // // exec
-void	ft_free_args(char **args, int i);
+void	ft_free_args(char **args);
 int		exec_redir(t_ast *ast);
 int		exec_args(t_ast *ast);
 int		is_builtin(char *cmd);
 int		exec_ast(t_ast *ast);
+size_t	ft_argslen(char **args);
 
 #endif

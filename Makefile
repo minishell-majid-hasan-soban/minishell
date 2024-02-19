@@ -19,7 +19,7 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
-		parser/part_5.c					parser/part_6.c					parser/part_7.c 
+		parser/part_5.c					parser/part_6.c					parser/part_7.c					parser/quote_skipper.c 
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  test.c
 OBJ = $(SRC:.c=.o)
 CC = cc
@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
-%.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h
+%.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h $(INC)/ast_handler.h $(INC)/builtins.h
 	@$(CC) $(CFLAGS) -I$(RL)/include -I$(INC) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
