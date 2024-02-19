@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   part_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 10:09:58 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:00:08 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
