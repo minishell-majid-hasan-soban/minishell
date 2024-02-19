@@ -2,7 +2,7 @@
 #include "minishell.h"
 
 int main() {
-	char *str = "            ";
+	char *str = ">>>";
 	//atexit(check);
 	t_token_arr tokens = tokenize(str);
 	if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
