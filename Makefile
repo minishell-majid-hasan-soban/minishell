@@ -19,7 +19,7 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
-		parser/part_5.c					parser/part_6.c					parser/part_7.c 
+		parser/part_5.c					parser/part_6.c					parser/part_7.c					parser/quote_skipper.c 
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  test.c
 OBJ = $(SRC:.c=.o)
 CC = cc

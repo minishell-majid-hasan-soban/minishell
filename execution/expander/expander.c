@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/18 10:28:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:31:52 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,60 +24,51 @@ size_t	ft_argslen(char **args)
 	return (len);
 }
 
-static char	*get_substr(char *arg, int *i, bool skip)
-{
-	char	*sub;
-	int		start;
-	
-	start = *i;
-	if (skip)
-		(*i)++;
-	while (arg[*i] && arg[*i] != '\'' && arg[*i] != '\"' && arg[*i] != '$')
-		(*i)++;
-	if (skip && arg[*i])
-		(*i)++;
-	sub = ft_substr(arg, start, *i - start);
-	return (sub);
-}
-
-static void append_squote(t_ast *ast, char **arg, char **expanded, bool expand)
+static void append_squote(char **arg, char **expanded)
 {
 	int		i;
+	char	*tmp;
 	
 	i = 1;
 	while ((*arg)[i] && (*arg)[i] != '\'')
-	{
-		if ((*arg)[i] == '$' && expand)
-			handle_dollar(ast, arg, expanded);
-		else
-			get_substr(*arg, &i, false);
-		*arg += i;
-		i = 0;
-	}
+		i++;
+	tmp = *expanded;
+	*expanded = ft_strjoin(*expanded, ft_substr(*arg, 0, i + 1));	
+	free(tmp);
+	*arg += i + ((*arg)[i] != '\0');
 }
 
 static void append_dquote(t_ast *ast, char **arg, char **expanded)
 {
-	int		i;
+	char	*tmp;
+	char	*to_free;
 	
-	i = 1;
-	while ((*arg)[i] && (*arg)[i] != '\"')
+	tmp = ft_strdup("\"");
+	(*arg)++;
+	while (**arg && **arg != '\"')
 	{
-		if ((*arg)[i] == '\'')
-			append_squote(ast, arg, expanded, true);
-		if ((*arg)[i] == '$')
-			handle_dollar(ast, arg, expanded);
+		if (**arg == '$')
+			handle_dollar(ast, arg, &tmp);
 		else
-			get_substr(*arg, &i, false);
-		*arg += i;
-		i = 0;
+		{
+			to_free = tmp;
+			tmp = ft_strjoin(tmp, ft_substr(*arg, 0, 1));
+			free(to_free);
+			(*arg)++;
+		}
 	}
+	to_free = tmp;
+	tmp = ft_strjoin(tmp, "\"");
+	free(to_free);
+	to_free = *expanded;
+	*expanded = ft_strjoin(*expanded, tmp);
+	(free(to_free), free(tmp));
+	(*arg)++;
 }
 
 static void handle_dollar(t_ast *ast, char **arg, char **expanded)
 {
 	char	*var;
-	char	*tmp;
 	char	*to_free;
 	int		i;
 	
@@ -85,18 +76,23 @@ static void handle_dollar(t_ast *ast, char **arg, char **expanded)
 	if (**arg == '\0')
 		var = ft_strdup("$");
 	else if (**arg == '?')
+	{
 		var = ft_itoa(ast->shell->exit_status);
+		(*arg)++;
+	}
 	else
 	{
 		i = 0;
 		while ((*arg)[i] && (ft_isalnum((*arg)[i]) || (*arg)[i] == '_'))
 			i++;
-		tmp = ft_substr(*arg, 0, i);
-		*arg += i - 1;
-		var = get_value(ast->shell->env, tmp);
-		free(tmp);
+		if (i == 0)
+			var = ft_strdup("$");
+		else
+		{
+			var = get_value(ast->shell->env, ft_substr(*arg, 0, i));
+			*arg += i;
+		}
 	}
-	*arg += 1;
 	to_free = *expanded;
 	*expanded = ft_strjoin(*expanded, var);
 	(free(to_free), free(var));
@@ -105,27 +101,23 @@ static void handle_dollar(t_ast *ast, char **arg, char **expanded)
 char	*ft_expand_arg(t_ast *ast, char *arg)
 {
 	char	*expanded;
-	char	*tmp;
 	char	*to_free;
-	int		i;
 
 	expanded = ft_strdup("");
 	while (*arg)
 	{
 		if (*arg == '\'')
-			append_squote(ast, &arg, &expanded, false);
+			append_squote(&arg, &expanded);
 		else if (*arg == '\"')
 			append_dquote(ast, &arg, &expanded);
 		else if (*arg == '$')
 			handle_dollar(ast, &arg, &expanded);
 		else
 		{
-			i = 0;
-			tmp = get_substr(arg, &i, false);
-			arg += i;
 			to_free = expanded;
-			expanded = ft_strjoin(expanded, tmp);
-			(free(to_free), free(tmp));
+			expanded = ft_strjoin(expanded, ft_substr(arg, 0, 1));
+			free(to_free);
+			arg++;
 		}
 	}
 	return (expanded);
@@ -134,7 +126,7 @@ char	*ft_expand_arg(t_ast *ast, char *arg)
 char	**ft_expand_args(t_ast *ast, char **args)
 {
 	char	**expanded;
-	// char	*tmp;
+	char	*tmp;
 	int		i;
 	int		j;
 
@@ -142,7 +134,13 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	j = 0;
 	expanded = (char **)malloc(sizeof(char *) * (ft_argslen(args) + 1));
 	while (args && args[i])
-		expanded[j++] = ft_expand_arg(ast, args[i++]);
+	{
+		tmp = ft_expand_arg(ast, args[i++]);
+		expanded[j++] = skip_quotes(tmp);
+		free(tmp);
+		if (!expanded[j - 1])
+			return (NULL);
+	}
 	expanded[j] = NULL;
 	return (expanded);
 }

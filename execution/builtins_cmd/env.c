@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 07:53:39 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 09:47:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*get_value(t_env *env, char *name)
 {
+	if (!name)
+		return (NULL);
 	while (env)
 	{
 		if (ft_strcmp(env->name, name) == 0)
