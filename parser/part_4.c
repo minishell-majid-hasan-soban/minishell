@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:26:43 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/19 20:33:56 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token_arr	tokenize(char *prompt)
 			skip_space(&prompt);
 		if (is_separator(prompt))
 			ret = handle_seperator(&prompt, &tokens);
-		else
+		else if (*prompt)
 			ret = add_word(&prompt, &tokens);
 		if (ret == -1)
 		{
