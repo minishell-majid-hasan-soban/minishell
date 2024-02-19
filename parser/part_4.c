@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 18:29:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:26:43 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	free_args(t_command *command)
 		free(*args);
 		args++;
 	}
-	free(*args);
-	free(command->args);
+	if(command->args)
+		free(command->args);
 }
 
 void	free_redirections(t_redirection *redirections)

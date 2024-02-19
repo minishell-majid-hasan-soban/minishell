@@ -6,11 +6,11 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:02:07 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/19 20:13:49 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {

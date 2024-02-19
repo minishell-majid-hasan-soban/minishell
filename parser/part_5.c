@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/16 18:21:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:11:34 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	free_command(t_command *command)
 	free_redirections(command->redirections);
 	command->redirections = NULL;
 	free(command);
-}
-
+} 
+ 
 void	free_ast(t_ast* node)
 {
 	if (node == NULL)
