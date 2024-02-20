@@ -6,16 +6,16 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 18:41:29 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:11:54 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exit_status()
+static void	exit_status(void)
 {
-	if (errno == 13 || errno == 20 || errno == 8 || errno == 21)			// errno 8 : Exec format error happens when the file is not an executable, for example, when trying to execute a directory
-		exit(126);															// errno 20 : Not a directory happens when trying to execute a directory
+	if (errno == 13 || errno == 20 || errno == 8 || errno == 21)
+		exit(126);
 	else
 		exit(127);
 }
