@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/18 17:32:00 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 18:08:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int					add_eof(t_token_arr *tokens);
 int					handle_seperator(char **prompt, t_token_arr *tokens);
 int					skip_str(char **str, char quote);
 int					add_word(char **prompt, t_token_arr *tokens);
-t_token_arr			tokenize(char *prompt);
+t_token_arr			tokenize(char *prompt, t_ast *ast);
 void				free_token_arr(t_token_arr *tokens);
 t_ast				*create_ast_node(t_node_type type, t_command* command);
 void				free_args(t_command *command);

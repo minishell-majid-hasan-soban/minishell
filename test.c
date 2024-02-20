@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 17:36:13 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:08:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,10 +239,12 @@ int main(int argc, char **argv, char **envp)
 	t_shell		shell;
 	t_ast		*ast;
 	t_token_arr tokens;
+	t_ast		token_ast;
 	
 	(void)argc;
 	(void)argv;
 	ft_init_shell(&shell, envp);
+	token_ast.shell = &shell;
 	while (1)
 	{
 		shell.line = readline("minishell> ");
@@ -254,7 +256,7 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(shell.line);
-		tokens = tokenize(shell.line);
+		tokens = tokenize(shell.line, &token_ast);
 		if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
 			shell.exit_status = 2;
 		ast = parse_expression(&tokens.arr, 1, false);

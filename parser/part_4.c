@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:33:56 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 18:08:38 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token_arr	tokenize(char *prompt)
+t_token_arr	tokenize(char *prompt, t_ast *ast)
 {
 	t_token_arr	tokens;
 	int			ret;
 
+	(void)ast;
 	tokens = (t_token_arr){0, 1000, 0};
 	tokens.arr = ft_realloc(tokens.arr, 0, tokens.size * sizeof(t_token));
 	if (!tokens.arr)
