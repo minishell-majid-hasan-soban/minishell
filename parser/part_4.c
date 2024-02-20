@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:08:38 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:45:14 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token_arr	tokenize(char *prompt, t_ast *ast)
 		if (is_separator(prompt))
 			ret = handle_seperator(&prompt, &tokens);
 		else if (*prompt)
-			ret = add_word(&prompt, &tokens);
+			ret = add_word(&prompt, &tokens, ast);
 		if (ret == -1)
 		{
 			free_token_arr(&tokens);

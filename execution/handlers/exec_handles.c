@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_handles.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 17:27:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:41:29 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_execve(t_ast *ast, char *path, char **args)
 
 void	ft_close(t_ast *ast, int fd)
 {
+	if (fd < 0)
+		return ;
 	if (close(fd) == -1)
 	{
 		ft_putstr_fd("minishell: close: ", 2);

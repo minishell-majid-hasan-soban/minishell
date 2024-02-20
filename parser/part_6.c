@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   part_6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 10:18:11 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:56:50 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 t_redirection_type	get_redirection_type(t_token_type type)
 {
@@ -53,9 +54,7 @@ t_ast	*extract_command(t_token **curr_token)
 			add_node_arg(command, (*curr_token)->value);
 		else
 		{
-			redir = create_redirection(
-					get_redirection_type((*curr_token)->type),
-					*((*curr_token) + 1));
+			redir = create_redirection((*curr_token), *((*curr_token) + 1));
 			if (redir == NULL)
 			{
 				free_command(command);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:08:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:54:20 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int					add_separator(t_token_type type, char **prompt, t_token_arr *tokens);
 int					add_eof(t_token_arr *tokens);
 int					handle_seperator(char **prompt, t_token_arr *tokens);
 int					skip_str(char **str, char quote);
-int					add_word(char **prompt, t_token_arr *tokens);
+int					add_word(char **prompt, t_token_arr *tokens, t_ast *ast);
 t_token_arr			tokenize(char *prompt, t_ast *ast);
 void				free_token_arr(t_token_arr *tokens);
 t_ast				*create_ast_node(t_node_type type, t_command* command);
@@ -46,7 +46,7 @@ void				free_redirections(t_redirection *redirections);
 void				free_command(t_command *command);
 void				free_ast(t_ast* node);
 int					add_node_arg(t_command *command, char *arg);
-t_redirection		*create_redirection(t_redirection_type type, t_token file);
+t_redirection		*create_redirection(t_token *token_op, t_token file);
 int					add_back_redirection(t_command *command, t_redirection *redir);
 t_redirection_type	get_redirection_type(t_token_type type);
 t_ast				*extract_command(t_token** curr_token);
@@ -59,5 +59,6 @@ void				print_redirections(t_redirection* redirection);
 void				print_command_args(t_command* cmd);
 void				print_ast(const t_ast* node, const char* prefix, int isLeft);
 char				*skip_quotes(char *str);
-
+int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand);
+int					init_here_doc(t_ast *ast, char *limiter);
 #endif

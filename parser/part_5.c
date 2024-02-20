@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:11:34 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 18:56:09 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	add_node_arg(t_command *command, char *arg)
 	return (0);
 }
 
-t_redirection	*create_redirection(t_redirection_type type, t_token file)
+t_redirection	*create_redirection(t_token *token_op, t_token file)
 {
 	t_redirection	*redir;
 
@@ -63,9 +63,10 @@ t_redirection	*create_redirection(t_redirection_type type, t_token file)
 		return (NULL);
 	}
 	redir->file = strdup(file.value);
-	redir->type = type;
+	redir->type = get_redirection_type(token_op->type);
 	redir->next = NULL;
 	redir->prev = NULL;
+	redir->heredoc_fd = token_op->heredoc_fd;
 	return (redir);
 }
 
