@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:11:41 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:30:58 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
 			return (-1);
 		tokens->size *= 2;
 	}
-	tokens->arr[tokens->count++] = (t_token){NULL, type, T_NONE, NULL, NULL};
+	tokens->arr[tokens->count++] = (t_token){NULL, type, T_NONE, -1};
 	(*prompt)++;
 	if (type == TOKEN_DLESS || type == TOKEN_DGREAT
 		|| type == TOKEN_OR || type == TOKEN_AND)
@@ -58,7 +58,7 @@ int	add_eof(t_token_arr *tokens)
 		tokens->size *= 2;
 	}
 	tokens->arr[tokens->count++] = (t_token){NULL,
-		TOKEN_EOF, T_NONE, NULL, NULL};
+		TOKEN_EOF, T_NONE, -1};
 	return (1);
 }
 

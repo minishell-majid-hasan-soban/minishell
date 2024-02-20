@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 14:55:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 16:56:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ static int exec_cmd(t_ast *ast)
 {
 	int				status;
 	char			**args;
-	char			**globed_args;
 
 	status = 0;
 	args = ft_expand_args(ast, ast->command->args);
+	print_args(args, "expanded_args");
 	ast->command->expanded_args = args;
 	ast->command->globed_args = ft_glob_args(ast, args);
+	print_args(ast->command->globed_args, "globed_args");
 	// print_args(globed_args, "globed_args");
 	// print_args(args, "expanded_args");
 	if (!args || !args[0] || is_builtin(args[0]) == 1)

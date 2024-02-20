@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 13:10:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 16:47:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,7 @@ void globFiles(const char *pattern, const char *directory) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <pattern> <directory>\n", argv[0]);
-        return 1;
-    }
-
-    const char *pattern = argv[1];
-    const char *directory = argv[2];
-
-    // Call the globFiles function with the provided pattern and directory
-    globFiles(pattern, directory);
+    free(NULL);
 
     return 0;
 }

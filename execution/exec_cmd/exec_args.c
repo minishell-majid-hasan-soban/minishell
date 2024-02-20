@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 13:59:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 16:48:41 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ void	ft_free_args(char **args)
 	int	j;
 
 	j = 0;
-	while ( args[j])
+	while (args[j])
 		free(args[j++]);
-	free(args[j]);
 	free(args);
 }
 
@@ -130,10 +129,10 @@ int	exec_args(t_ast *ast)
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
 	if (is_builtin(ast->command->expanded_args[0]) == 1)
-		return (exec_builtin(ast, ast->command->expanded_args));
+		return (exec_builtin(ast, ast->command->globed_args));
 	path = ft_get_path(ast, ast->command->expanded_args[0], &status);
 	if (!path || !*path)
 		return (status);
-	ft_execve(ast, path, ast->command->expanded_args);
+	ft_execve(ast, path, ast->command->globed_args);
 	return (126);
 }

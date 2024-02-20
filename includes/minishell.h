@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 14:54:22 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 16:30:23 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ typedef struct	s_token
 	char				*value;
 	int					type;
 	t_error				error;
-	struct s_token		*next;
-	struct s_token		*prev;
+	int					heredoc_fd;
 }						t_token;
 
 typedef struct s_token_arr

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/17 08:30:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 16:21:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int min_precedence, bool in_op)
 	t_ast	*r_ast;
 	t_ast	*new_ast;
 
+	if(!(*curr_token))
+		return (NULL);
 	l_ast = extract_command(curr_token);
 	if (l_ast == NULL)
 		return (NULL);
