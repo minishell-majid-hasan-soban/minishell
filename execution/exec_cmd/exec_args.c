@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 14:05:28 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 10:43:07 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,6 @@ int	exec_args(t_ast *ast)
 	path = ft_get_path(ast, ast->command->expanded_args[0], &status);
 	if (!path || !*path)
 		return (status);
-	ft_execve(ast, path, args);
+	ft_execve(ast, path, ast->command->expanded_args);
 	return (126);
 }

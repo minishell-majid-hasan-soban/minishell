@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 10:05:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 10:40:14 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,30 @@ static int	exec_parent(t_ast *ast)
 	return (status);
 }
 
+void print_args(char **args, char *name)
+{
+	int	i;
+
+	i = 0;
+	printf("Command: %s\n", name);
+	while (args[i])
+	{
+		printf("args[%d]: %s\n", i, args[i]);
+		i++;
+	}
+	printf("\n");
+}
+
 static int exec_cmd(t_ast *ast)
 {
 	int				status;
 	char			**args;
+	char			**globed_args;
 
 	status = 0;
 	args = ft_expand_args(ast, ast->command->args);
-	ast->command->expanded_args = args;
+	globed_args = ft_glob_args(ast, args);
+	ast->command->expanded_args = globed_args;
 	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
 	else

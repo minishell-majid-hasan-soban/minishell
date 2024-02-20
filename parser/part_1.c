@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 20:13:49 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/20 08:19:21 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	if (new_size == 0 && ptr != NULL)
 		return (free(ptr), NULL);
 	if (ptr == NULL)
-		return (malloc(new_size));
-	new_ptr = ft_calloc(new_size, 1);
+		return (ft_calloc(1, new_size));
+	new_ptr = ft_calloc(1, new_size);
 	if (new_ptr == NULL)
 		return (NULL);
 	bytes_to_copy = (old_size < new_size) * old_size

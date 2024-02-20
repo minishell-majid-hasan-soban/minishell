@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 18:41:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 10:45:00 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static char	**glob_arg(char *pattern)
 	DIR				*dir;
 	struct dirent	*entry;
 	char			**files;
+	char			**tmp;
 	int				i;
 
 	dir = opendir(".");
@@ -55,15 +56,22 @@ static char	**glob_arg(char *pattern)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (match(pattern, entry->d_name))
+		if (match(pattern, entry->d_name) && ft_strncmp(entry->d_name, ".", 1)
+			&& ft_strcmp(entry->d_name, ".."))
 		{
+			tmp = files;
 			files = ft_realloc(files, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
+			if (!files)
+				return (ft_free_args(tmp), ft_putstr_fd(MALLOC_ERROR, 2), NULL);
+			// free(tmp);
 			files[i++] = ft_strdup(entry->d_name);
+			if (!files[i - 1])
+				return (ft_free_args(files), ft_putstr_fd(MALLOC_ERROR, 2), NULL);
 		}
 		entry = readdir(dir);
 	}
 	if (closedir(dir) == -1)
-		return (NULL);
+		return (ft_putstr_fd("minishell: closedir error\n", 2), files);
 	return (files);
 }
 
@@ -87,22 +95,37 @@ static char	**ft_strsjoin(char **dst, char **src)
 	return (new);
 }
 
-char	**ft_glober(t_ast *ast, char **args)
+char	**ft_glob_args(t_ast *ast, char **args)
 {
 	int		i;
 	char	**globed_args;
 	char	**new_args;
 	char	**tmp;
 
+	(void)ast;
 	i = 0;
 	new_args = ft_calloc(1, sizeof(char *));
 	globed_args = ft_calloc(1, sizeof(char *));
 	while (args[i])
 	{
+		if (ft_strchr(args[i], '*') == NULL)
+		{
+			tmp = globed_args;
+			globed_args = ft_realloc(globed_args, (ft_argslen(globed_args) + 1)
+				* sizeof(char *), (ft_argslen(globed_args) + 2) * sizeof(char *));
+			if (!globed_args)
+				return (ft_free_args(tmp), ft_putstr_fd(MALLOC_ERROR, 2), NULL);
+			// free(tmp);
+			globed_args[ft_argslen(globed_args)] = ft_strdup(args[i]);
+			i++;
+			continue ;
+		}
 		new_args = glob_arg(args[i]);
 		tmp = globed_args;
-		globed_args = ft_strsjoin(&globed_args, new_args);
-		(free(tmp), free(new_args));
+		globed_args = ft_strsjoin(globed_args, new_args);
+		free(tmp);
+		free(new_args);
 		i++;
 	}
+	return (globed_args);
 }
