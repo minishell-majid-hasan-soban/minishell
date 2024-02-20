@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 16:56:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 17:44:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	exec_parent(t_ast *ast)
 	status = 0;
 	if (exec_redir(ast) == 1)
 		return (1);
-	fflush(stdout);
 	status = exec_args(ast);
 	return (status);
 }
@@ -53,12 +52,12 @@ void print_args(char **args, char *name)
 	printf("Command: %s\n", name);
 	while (args[i])
 	{
-		printf("args[%d]: %s\n", i, args[i]);
+		printf("args[%d]: |%s|\n", i, args[i]);
 		i++;
 	}
 	printf("\n");
 }
-
+//  e"cho" *exe* | tr ' ' '\n'
 static int exec_cmd(t_ast *ast)
 {
 	int				status;
@@ -66,12 +65,8 @@ static int exec_cmd(t_ast *ast)
 
 	status = 0;
 	args = ft_expand_args(ast, ast->command->args);
-	print_args(args, "expanded_args");
 	ast->command->expanded_args = args;
 	ast->command->globed_args = ft_glob_args(ast, args);
-	print_args(ast->command->globed_args, "globed_args");
-	// print_args(globed_args, "globed_args");
-	// print_args(args, "expanded_args");
 	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
 	else

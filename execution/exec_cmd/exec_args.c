@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 16:48:41 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 17:18:42 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_free_args(char **args)
 	int	j;
 
 	j = 0;
-	while (args[j])
+	while (args && args[j])
 		free(args[j++]);
 	free(args);
 }

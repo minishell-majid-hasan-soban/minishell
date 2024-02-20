@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 14:05:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 17:27:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void	ft_close(t_ast *ast, int fd)
 {
 	if (close(fd) == -1)
 	{
-		if (ast->type == N_CMD)
-			printf("CMD = %s\n", ast->command->args[0]);
-		fflush(stdout);
 		ft_putstr_fd("minishell: close: ", 2);
 		perror("");
 		if (ast)

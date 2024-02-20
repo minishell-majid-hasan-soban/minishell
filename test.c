@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 16:53:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 17:36:13 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,8 @@ static void	ft_free_command(t_command *cmd)
 
 	if (cmd == NULL)
 		return ;
-	printf("args[0]: %s\n", cmd->args[0]);
 	ft_free_args(cmd->args);
-	printf("expanded_args[0]: %s\n", cmd->expanded_args[0]);
 	ft_free_args(cmd->expanded_args);
-	printf("globed_args[0]: %s\n", cmd->globed_args[0]);
 	ft_free_args(cmd->globed_args);
 	redir = cmd->redirections;
 	while (redir)
@@ -167,43 +164,6 @@ static void print_node_type(t_ast *ast)
 	else
 		ft_putstr_fd("UNKNOWN\n", 1);
 }
-
-void ft_print_ast(t_ast *ast)
-{
-	char			**args;
-	t_redirection	*redir;
-
-	if (ast == NULL)
-		return ;
-	ft_print_ast(ast->left);
-	ft_print_ast(ast->right);
-	print_node_type(ast);
-	if (ast->command == NULL)
-		return ;
-	ft_putstr_fd("command: \n", 1);
-	args = ast->command->args;
-	ft_putstr_fd("args : \n", 1);
-	while (*args)
-	{
-		ft_putstr_fd("\t", 1);
-		ft_putstr_fd(*(args++), 1);
-		ft_putstr_fd("\n", 1);
-	}
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("redirection: \n", 1);
-	redir = ast->command->redirections;
-	while (redir)
-	{
-		ft_putstr_fd("\t", 1);
-		ft_putstr_fd(redir->file, 1);
-		ft_putstr_fd(" ", 1);
-		print_redir(redir);
-		redir = redir->next;
-	}
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-}
-//	((a > b aa aaa > c gg) | (d < e) || (f > g > h)) && (i < j < k && l > m > n) || (o > p > q)
 
 static int	ft_read_here_doc(t_ast *ast, int fd_w, char *file)
 {
