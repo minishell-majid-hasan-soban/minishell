@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 10:31:52 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 14:52:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void handle_dollar(t_ast *ast, char **arg, char **expanded)
 		while ((*arg)[i] && (ft_isalnum((*arg)[i]) || (*arg)[i] == '_'))
 			i++;
 		if (i == 0)
-			var = ft_strdup("$");
+			var = ft_strdup("");
 		else
 		{
 			var = get_value(ast->shell->env, ft_substr(*arg, 0, i));
@@ -132,15 +132,14 @@ char	**ft_expand_args(t_ast *ast, char **args)
 
 	i = 0;
 	j = 0;
-	expanded = (char **)malloc(sizeof(char *) * (ft_argslen(args) + 1));
+	expanded = ft_calloc(ft_argslen(args) + 1, sizeof(char *));
 	while (args && args[i])
 	{
 		tmp = ft_expand_arg(ast, args[i++]);
 		expanded[j++] = skip_quotes(tmp);
 		free(tmp);
 		if (!expanded[j - 1])
-			return (NULL);
+			return (ft_free_args(expanded), NULL);
 	}
-	expanded[j] = NULL;
 	return (expanded);
 }

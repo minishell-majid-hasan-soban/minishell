@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 10:30:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 14:54:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,10 @@ typedef struct	s_redirection
 typedef struct	s_command
 {
 	char			**args;
+	char			**expanded_args;
+	char			**globed_args;
 	long			arg_count;
 	long			arg_size;
-	char			**expanded_args;
 	t_redirection	*redirections;
 	t_builtin		cmd_type;
 	t_error			error;

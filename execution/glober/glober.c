@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 10:45:00 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/20 14:54:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ char	**ft_glob_args(t_ast *ast, char **args)
 	char	**tmp;
 
 	(void)ast;
+	if (!args)
+		return (NULL);
 	i = 0;
 	new_args = ft_calloc(1, sizeof(char *));
 	globed_args = ft_calloc(1, sizeof(char *));

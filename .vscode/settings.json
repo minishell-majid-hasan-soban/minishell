@@ -3,6 +3,7 @@
 		"limits.h": "c",
 		"typeinfo": "c",
 		"minishell.h": "c",
-		"parser.h": "c"
+		"parser.h": "c",
+		"stdio.h": "c"
 	}
 }
