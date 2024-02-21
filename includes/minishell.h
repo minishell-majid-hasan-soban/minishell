@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:44:13 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:21:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "ast_handler.h"
 # include "builtins.h"
 # include "parser.h"
+#include <sys/stat.h>
 
 # define YELLOW "\033[0;33m"
 # define RED "\033[0;31m"
@@ -194,7 +195,7 @@ int				pipe_handle(int *pipefd);
 // // expansion
 char			*ft_expand_arg(t_ast *ast, char *arg);
 char			**ft_expand_args(t_ast *ast, char **args);
-void			handle_dollar(t_ast *ast, char **arg, char **expanded);
+void			handle_dollar(t_ast *ast, char **arg, char **expanded, bool quoted);
 
 // // glober
 char			**ft_glob_args(t_ast *ast, char **args);
@@ -211,6 +212,8 @@ int				is_builtin(char *cmd);
 int				exec_ast(t_ast *ast);
 size_t			ft_argslen(char **args);
 char			*ft_file_param(t_ast *ast, char *file);
+char			*ft_get_path(t_ast *ast, char *cmd, int *status);
+void			ft_cmd_nf_err(char *cmd, int status);
 
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);

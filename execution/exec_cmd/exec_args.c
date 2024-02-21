@@ -6,88 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:58:17 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:34:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_cmd_nf_err(char *cmd, int status)
-{
-	if (status == 127)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
-	else if (status == 2)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": filename argument required\n", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": usage: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(" filename [arguments]\n", 2);
-	}
-}
-
-static char	*ft_check_path(char **paths, char *cmd, int *status)
-{
-	int		i;
-	char	*path;
-	char	*to_free;
-
-	i = -1;
-	while (paths && paths[++i])
-	{
-		to_free = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(to_free, cmd);
-		if (!to_free || !path)
-		{
-			ft_putstr_fd(ALLOC_ERR, 2);
-			return (*status = 1, free(to_free), free(path), NULL);
-		}
-		if (access(path, X_OK))
-			return (free(to_free), path);
-		if (access(path, F_OK) == 0)
-			return (free(to_free), path);
-		(free(to_free), free(path));
-	}
-}
-
-static char	*ft_get_path(t_ast *ast, char *cmd, int *status)
-{
-	char	**paths;
-	char	*path;
-	char	*to_free;
-	int		i;
-	t_env	*env;
-
-	i = -1;
-	env = ft_getenv(ast->shell->env, "PATH");
-	paths = NULL;
-	if (env)
-		paths = ft_split(env->value, ':');
-	while (paths && paths[++i])
-	{
-		to_free = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(to_free, cmd);
-		if (!to_free || !path)
-			return (*status = 1, free(to_free), free(path),
-				ft_free_args(paths), NULL);
-		if (access(path, F_OK) == 0)
-			return (ft_free_args(paths), free(to_free), path);
-		(free(to_free), free(path));
-	}
-	ft_free_args(paths);
-	path = ft_strdup(cmd);
-	if (!path)
-		return (*status = 1, ft_putstr_fd("minishell: malloc: ", 2), NULL);
-	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
-		return (path);
-	return (ft_cmd_nf_err(cmd, 127), *status = 127, NULL);
-}
 
 int	is_builtin(char *cmd)
 {
@@ -145,8 +68,8 @@ int	exec_args(t_ast *ast)
 		return (ft_cmd_nf_err(args[0], 2), 2);
 	if (is_builtin(ast->command->expanded_args[0]) == 1)
 		return (exec_builtin(ast, ast->command->globed_args));
-	path = ft_get_path(ast, ast->command->expanded_args[0], &status);
-	if (!path || !*path)
+	path = ft_get_path(ast, ast->command->globed_args[0], &status);
+	if (!path || path == (void *)-1 || !*path)
 		return (status);
 	ft_execve(ast, path, ast->command->globed_args);
 	return (126);

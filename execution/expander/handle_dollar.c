@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 09:29:57 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:13:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*handle_question(t_ast *ast, char **arg)
 	return (var);
 }
 
-static char	*handle_alphanum(t_ast *ast, char **arg)
+static char	*handle_alphanum(t_ast *ast, char **arg, bool quoted)
 {
 	char	*var;
 	char	*to_free;
@@ -39,8 +39,10 @@ static char	*handle_alphanum(t_ast *ast, char **arg)
 	i = 0;
 	while ((*arg)[i] && (ft_isalnum((*arg)[i]) || (*arg)[i] == '_'))
 		i++;
-	if (i == 0)
+	if (i == 0 && !quoted)
 		return (ft_strdup(""));
+	else if (i == 0)
+		return (ft_strdup("$"));
 	to_free = ft_substr(*arg, 0, i);
 	var = get_value(ast->shell->env, to_free);
 	free(to_free);
@@ -48,7 +50,7 @@ static char	*handle_alphanum(t_ast *ast, char **arg)
 	return (var);
 }
 
-void	handle_dollar(t_ast *ast, char **arg, char **expanded)
+void	handle_dollar(t_ast *ast, char **arg, char **expanded, bool quoted)
 {
 	char	*var;
 	char	*to_free;
@@ -61,7 +63,7 @@ void	handle_dollar(t_ast *ast, char **arg, char **expanded)
 	else if (**arg == '_')
 		var = handle_undescore(ast, arg);
 	else
-		var = handle_alphanum(ast, arg);
+		var = handle_alphanum(ast, arg, quoted);
 	to_free = *expanded;
 	*expanded = ft_strjoin(*expanded, var);
 	(free(to_free), free(var));
