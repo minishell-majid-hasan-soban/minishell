@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 09:47:48 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:47:01 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**ft_env_to_arr(t_env *env)
 	while (tmp)
 	{
 		if (tmp->value)
-			envp[i]= ft_joind_nv(tmp->name, tmp->value, "=");
+			envp[i] = ft_joind_nv(tmp->name, tmp->value, "=");
 		i++;
 		tmp = tmp->next;
 	}
@@ -67,7 +67,7 @@ char	**ft_env_to_arr(t_env *env)
 int	ft_env(t_ast *ast, char **args, bool export)
 {
 	t_env	*tmp;
-	
+
 	(void)args;
 	tmp = ast->shell->env;
 	while (tmp)

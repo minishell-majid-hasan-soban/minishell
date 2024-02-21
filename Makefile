@@ -14,10 +14,12 @@ LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       
 EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c					redirections/red_in.c \
 		builtins_cmd/cd.c               builtins_cmd/handlers.c         handlers/error_handle.c         redirections/red_out.c \
 		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c         redirections/her_doc.c \
-		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utis.c			pipe/pipe.c \
+		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utis.c 		glober/globber_utils.c\
 		builtins_cmd/exit.c             exec_cmd/exec_ast.c             redirections/append.c           string_utils/string_utils1.c \
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
-		exec_cmd/exec_redir.c			handlers/exec_handles2.c 
+		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
+		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 
+
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c					parser/quote_skipper.c \
 		parser/herdoc_init.c 

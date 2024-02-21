@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 10:45:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:50:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	clear_shell(t_shell *shell, int status)
 {
 	(void)shell;
-	// clear_data(shell); TODO: clear data
 	exit(status);
 }
 
@@ -40,12 +39,11 @@ static bool	is_number(char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + str[i++] - '0';
-		if ((result > LONG_MAX && sign == 1) || (result > LONG_MAX + (size_t)1 && sign == -1))
+		if ((result > LONG_MAX && sign == 1)
+			|| (result > LONG_MAX + (size_t)1 && sign == -1))
 			return (false);
 	}
-	if (str[i] != '\0')
-		return (false);
-	return (true);
+	return (str[i] == '\0');
 }
 
 int	ft_exit(t_ast *ast, char **args)

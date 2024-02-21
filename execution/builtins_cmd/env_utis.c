@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:59:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 08:59:52 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:47:56 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_env	*ft_getenv(t_env *env, char *name)
 	}
 	return (NULL);
 }
+
 int	ft_env_addback(t_env **env, char *name, char *value)
 {
 	t_env	*tmp;

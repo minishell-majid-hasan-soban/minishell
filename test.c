@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 18:42:23 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 07:57:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,6 @@ int main(int argc, char **argv, char **envp)
 			// print_ast(ast, " ", 0);
 			ft_init_ast(&ast, &shell, false);
 			shell.exit_status = exec_ast(ast);
-			printf("DONE EXEC\n");
 			ft_free_ast(&ast);
 		}
 		free(shell.line);

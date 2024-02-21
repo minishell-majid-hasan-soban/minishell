@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 18:33:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:44:13 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define BLINK "\033[5m"
 # define RESET "\033[0m"
 
-# define ALLOC_ERR "minishell: malloc error\n"
+# define ALLOC_ERR "minishell: malloc: Cannot allocate memory\n"
 
 extern unsigned int		g_signal;
 typedef struct s_shell	t_shell;
@@ -170,39 +170,50 @@ typedef struct		s_shell
 }					t_shell;
 
 // // string_utils
+void			ft_free_args(char **args);
+
+
 // int		ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strdup(const char *s1);
-// int		ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strdup(const char *s1);
-// int		ft_putstr_fd(char *s, int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+int				ft_strcmp(const char *s1, const char *s2);
+char			*ft_strdup(const char *s1);
+int				ft_strcmp(const char *s1, const char *s2);
+char			*ft_strdup(const char *s1);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strchr(const char *s, int c);
+size_t			ft_strlcpy(char *dest, const char *src, size_t dstsize);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
 
 // // redirections
-int		red_in(char **args, t_shell *data);
+int				red_in(char **args, t_shell *data);
 
 // // hanlders
-int		dup2_handle(int fd1, int fd2);
-int		close_handle(int fd);
-int		pipe_handle(int *pipefd);
+int				dup2_handle(int fd1, int fd2);
+int				close_handle(int fd);
+int				pipe_handle(int *pipefd);
 
 // // expansion
-char	*ft_expand_arg(t_ast *ast, char *arg);
-char	**ft_expand_args(t_ast *ast, char **args);
+char			*ft_expand_arg(t_ast *ast, char *arg);
+char			**ft_expand_args(t_ast *ast, char **args);
+void			handle_dollar(t_ast *ast, char **arg, char **expanded);
 
 // // glober
-char	**ft_glob_args(t_ast *ast, char **args);
+char			**ft_glob_args(t_ast *ast, char **args);
+char			**ft_strsjoin(char **dst, char **src);
+struct dirent	*ft_readdir(DIR *dir);
+int				ft_entryjoin(struct dirent *entry, char ***files, char *pattern);
+int				match(char *pattern, char *string);
+int				glob_asterisk(char ***globed_args, char *args);
 
 // // exec
-void	ft_free_args(char **args);
-int		exec_redir(t_ast *ast);
-int		exec_args(t_ast *ast);
-int		is_builtin(char *cmd);
-int		exec_ast(t_ast *ast);
-size_t	ft_argslen(char **args);
+int				exec_redir(t_ast *ast);
+int				exec_args(t_ast *ast);
+int				is_builtin(char *cmd);
+int				exec_ast(t_ast *ast);
+size_t			ft_argslen(char **args);
+char			*ft_file_param(t_ast *ast, char *file);
+
+int				exec_child(t_ast *ast);
+int				exec_parent(t_ast *ast);
+void			exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/17 10:46:15 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:50:40 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 	return (0);
 }
 
-static void ft_prit_inval_name(char *str)
+static void	ft_prit_inval_name(char *str)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(str, 2);
@@ -77,7 +77,7 @@ int	ft_add_env(t_ast *ast, char *str)
 	return (0);
 }
 
-int		ft_export(t_ast *ast, char **args)
+int	ft_export(t_ast *ast, char **args)
 {
 	args++;
 	if (args[0] == NULL)

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 05:36:32 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/16 07:55:07 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 08:45:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	ft_pwd(t_ast *ast, char **args)
 	{
 		ft_putstr_fd("minishell: pwd: getcwd: ", 2);
 		perror("");
-		ft_putstr_fd("\n", 2);
 		return (1);
 	}
 	else

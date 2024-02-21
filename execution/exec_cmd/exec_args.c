@@ -6,23 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/20 17:18:42 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 10:58:17 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_args(char **args)
-{
-	int	j;
-
-	j = 0;
-	while (args && args[j])
-		free(args[j++]);
-	free(args);
-}
-
-static void ft_cmd_nf_err(char *cmd, int status)
+static void	ft_cmd_nf_err(char *cmd, int status)
 {
 	if (status == 127)
 	{
@@ -42,7 +32,31 @@ static void ft_cmd_nf_err(char *cmd, int status)
 	}
 }
 
-static char *ft_get_path(t_ast *ast, char *cmd, int *status)
+static char	*ft_check_path(char **paths, char *cmd, int *status)
+{
+	int		i;
+	char	*path;
+	char	*to_free;
+
+	i = -1;
+	while (paths && paths[++i])
+	{
+		to_free = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(to_free, cmd);
+		if (!to_free || !path)
+		{
+			ft_putstr_fd(ALLOC_ERR, 2);
+			return (*status = 1, free(to_free), free(path), NULL);
+		}
+		if (access(path, X_OK))
+			return (free(to_free), path);
+		if (access(path, F_OK) == 0)
+			return (free(to_free), path);
+		(free(to_free), free(path));
+	}
+}
+
+static char	*ft_get_path(t_ast *ast, char *cmd, int *status)
 {
 	char	**paths;
 	char	*path;
@@ -60,7 +74,8 @@ static char *ft_get_path(t_ast *ast, char *cmd, int *status)
 		to_free = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(to_free, cmd);
 		if (!to_free || !path)
-			return (*status = 1, free(to_free), free(path), ft_free_args(paths), NULL);
+			return (*status = 1, free(to_free), free(path),
+				ft_free_args(paths), NULL);
 		if (access(path, F_OK) == 0)
 			return (ft_free_args(paths), free(to_free), path);
 		(free(to_free), free(path));
@@ -74,7 +89,7 @@ static char *ft_get_path(t_ast *ast, char *cmd, int *status)
 	return (ft_cmd_nf_err(cmd, 127), *status = 127, NULL);
 }
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (1);
@@ -93,7 +108,7 @@ int is_builtin(char *cmd)
 	return (0);
 }
 
-static int exec_builtin(t_ast *ast, char **args)
+static int	exec_builtin(t_ast *ast, char **args)
 {
 	if (!ft_strcmp(args[0], "echo"))
 		return (ft_echo(ast, args));

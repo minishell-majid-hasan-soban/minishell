@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:37:18 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 07:56:15 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int	add_word(char **prompt, t_token_arr *tokens, t_ast *ast)
 	if (!word)
 		return (0);
 	*prompt += prompt_ptr - (*prompt);
-	printf("tokens->count - 1 = %ld\n", tokens->count - 1);
 	if(tokens->arr[tokens->count - 1 * ((tokens->count - 1) >= 0)].type == TOKEN_DLESS)
 		tokens->arr[tokens->count - 1 * ((tokens->count - 1) >= 0)].heredoc_fd = init_here_doc(ast, word);
 	return (add_token_word(tokens, word));
