@@ -26,7 +26,7 @@ PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  test.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 RL = $(shell brew --prefix readline)
 NAME = minishell
 INC = includes
@@ -34,7 +34,7 @@ INC = includes
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ) 
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
 %.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h $(INC)/ast_handler.h $(INC)/builtins.h

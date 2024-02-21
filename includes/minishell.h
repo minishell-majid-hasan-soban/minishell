@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 18:54:16 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 23:42:55 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,12 @@ typedef struct		s_shell
 	t_error			error;
 }					t_shell;
 
+
+void 			print_args(char **args, char *name);
+
+// // main
+void			ft_free_shell(t_shell *shell);
+
 // // string_utils
 void			ft_free_args(char **args);
 
@@ -203,7 +209,7 @@ char			**ft_strsjoin(char **dst, char **src);
 struct dirent	*ft_readdir(DIR *dir);
 int				ft_entryjoin(struct dirent *entry, char ***files, char *pattern);
 int				match(char *pattern, char *string);
-int				glob_asterisk(char ***globed_args, char *args);
+int				glob_asterisk(char ***globed_args, char *args, bool quoted);
 
 // // exec
 int				exec_redir(t_ast *ast);
