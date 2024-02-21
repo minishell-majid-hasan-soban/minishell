@@ -6,17 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:50:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 16:20:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	clear_shell(t_shell *shell, int status)
-{
-	(void)shell;
-	exit(status);
-}
 
 static bool	is_number(char *str)
 {
@@ -53,18 +47,20 @@ int	ft_exit(t_ast *ast, char **args)
 	i = 0;
 	printf("exit\n");
 	if (args[1] == NULL)
-		return (clear_shell(ast->shell, 0), 1);
+		return (ast->shell->exit_status = 0,ft_free_shell(ast->shell), 1);
 	else if (is_number(args[1]))
 	{
 		i = ft_atoi(args[1]);
 		if (args[2])
 			return (printf("minishell: exit: too many arguments\n"), 0);
-		clear_shell(ast->shell, i);
+		ast->shell->exit_status = i;
+		ft_free_shell(ast->shell);
 	}
 	else
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-		clear_shell(ast->shell, 255);
+		ast->shell->exit_status = 255;
+		ft_free_shell(ast->shell);
 	}
 	return (0);
 }

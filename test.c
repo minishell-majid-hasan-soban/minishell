@@ -6,13 +6,26 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 07:57:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 16:24:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 unsigned int	g_signal;
+
+void print_args(char **args, char *name)
+{
+	int i;
+
+	i = 0;
+	printf("%s\n", name);
+	while (args[i])
+	{
+		printf("args[%d]: %s\n", i, args[i]);
+		i++;
+	}
+}
 
 static void	ft_env_to_list(t_env **env, char **envp)
 {
@@ -120,7 +133,7 @@ static void	ft_free_ast(t_ast **ast)
 	*ast = NULL;
 }
 
-static void	ft_free_shell(t_shell *shell)
+void	ft_free_shell(t_shell *shell)
 {
 	int	status;
 	
@@ -134,85 +147,7 @@ static void	ft_free_shell(t_shell *shell)
 	exit(status);
 }
 
-// static void print_redir(t_redirection *redir)
-// {
-// 	if (redir == NULL)
-// 		return ;
-// 	else if (redir->type == R_INPUT)
-// 		ft_putstr_fd("R_INPUT\n", 1);
-// 	else if (redir->type == R_OUTPUT)
-// 		ft_putstr_fd("R_OUTPUT\n", 1);
-// 	else if (redir->type == R_APPEND)
-// 		ft_putstr_fd("R_APPEND\n", 1);
-// 	else if (redir->type == R_HEREDOC)
-// 		ft_putstr_fd("R_HEREDOC\n", 1);
-// 	else
-// 		ft_putstr_fd("UNKNOWN\n", 1);
-// }
-
-// static void print_node_type(t_ast *ast)
-// {
-// 	ft_putstr_fd("type: ", 1);
-// 	if (ast->type == N_CMD)
-// 		ft_putstr_fd("COMMAND\n", 1);
-// 	else if (ast->type == N_PIPE)
-// 		ft_putstr_fd("PIPE\n", 1);
-// 	else if (ast->type == N_AND)
-// 		ft_putstr_fd("AND\n", 1);
-// 	else if (ast->type == N_OR)
-// 		ft_putstr_fd("OR\n", 1);
-// 	else
-// 		ft_putstr_fd("UNKNOWN\n", 1);
-// }
-
-// static int	ft_read_here_doc(t_ast *ast, int fd_w, char *file)
-// {
-// 	char			*line;
-	
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (line == NULL)
-// 			return (0);
-// 		if (ft_strcmp(line, file) == 0)
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		(ft_putstr_fd(line, fd_w), ft_putstr_fd("\n", fd_w), free(line));
-// 	}
-// 	ft_close(ast, fd_w);
-// 	return (0);
-// }
-
-// static int	init_here_doc(t_ast *ast)
-// {
-// 	t_redirection	*redir;
-// 	int				fd_w;
-
-// 	redir = ast->command->redirections;
-// 	while (redir)
-// 	{
-// 		if (redir->type == R_HEREDOC)
-// 		{
-// 			fd_w = open("/tmp/.minishell_heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 			if (fd_w == -1)
-// 				return (ft_putstr_fd("minishell: ", 2),
-// 					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
-// 			redir->heredoc_fd = open("/tmp/.minishell_heredoc", O_RDONLY);
-// 			if (redir->heredoc_fd == -1)
-// 				return (ft_close(ast, fd_w), ft_putstr_fd("minishell: ", 2),
-// 					ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
-// 			unlink("/tmp/.minishell_heredoc");
-// 			if (ft_read_here_doc(ast, fd_w, redir->file))
-// 				return (1);
-// 		}
-// 		redir = redir->next;
-// 	}
-// 	return (0);
-// }
-
-static int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
+int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
 {
 	int		status;
 	
@@ -229,8 +164,6 @@ static int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
 	(*ast)->shell = shell;
 	(*ast)->piped = piped;
 	(*ast)->error = T_NONE;
-	// if ((*ast)->type == N_CMD)
-		// status = init_here_doc(*ast);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:05:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:33:30 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	**glob_arg(char *pattern)
 	dir = opendir(".");
 	if (!dir)
 		return (ft_putstr_fd("minishell: opendir: ", 2), perror(""), NULL);
-	files = ft_calloc(1, sizeof(char *));
+	files = ft_calloc(2, sizeof(char *));
 	if (!files)
 		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	entry = ft_readdir(dir);
@@ -33,6 +33,11 @@ static char	**glob_arg(char *pattern)
 	}
 	if (closedir(dir) == -1)
 		return (ft_putstr_fd("minishell: closedir error\n", 2), files);
+	if (files[0])
+		return (files);
+	files[0] = ft_strdup(pattern);
+	if (!files[0])
+		return (free(files), ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	return (files);
 }
 
@@ -51,15 +56,26 @@ static int	handle_no_asterisk(char ***globed_args, char *args)
 	return (0);
 }
 
-int	glob_asterisk(char ***globed_args, char *args)
+int	glob_asterisk(char ***globed_args, char *args, bool quoted)
 {
 	char	**new_args;
 	char	**tmp;
 
-	new_args = glob_arg(args);
+	if (!quoted)
+		new_args = glob_arg(args);
+	else
+	{
+		new_args = ft_calloc(2, sizeof(char *));
+		if (!new_args)
+			return (ft_putstr_fd(ALLOC_ERR, 2), ft_free_args(*globed_args),
+				*globed_args = NULL, 1);
+		new_args[0] = ft_strdup(args);
+		if (!new_args[0])
+			return (free(new_args), ft_putstr_fd(ALLOC_ERR, 2),
+				ft_free_args(*globed_args), *globed_args = NULL, 1);
+	}
 	if (!new_args)
-		return (ft_free_args(*globed_args), *globed_args = NULL,
-			ft_putstr_fd(ALLOC_ERR, 2), 1);
+		return (ft_free_args(*globed_args), *globed_args = NULL, 1);
 	tmp = *globed_args;
 	(*globed_args) = ft_strsjoin(*globed_args, new_args);
 	if (!(*globed_args))
@@ -68,6 +84,27 @@ int	glob_asterisk(char ***globed_args, char *args)
 	free(tmp);
 	free(new_args);
 	return (0);
+}
+
+bool	is_quoted(char *arg)
+{
+	int	i;
+	int	quote;
+
+	i = 0;
+	quote = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'' || arg[i] == '\"')
+		{
+			if (quote == 0)
+				quote = arg[i];
+			else if (quote == arg[i])
+				quote = 0;
+		}
+		i++;
+	}
+	return (quote != 0);
 }
 
 char	**ft_glob_args(t_ast *ast, char **args)
@@ -87,7 +124,7 @@ char	**ft_glob_args(t_ast *ast, char **args)
 		if (ft_strchr(args[i], '*') == NULL)
 			ret = handle_no_asterisk(&globed_args, args[i]);
 		else
-			ret = glob_asterisk(&globed_args, args[i]);
+			ret = glob_asterisk(&globed_args, args[i], false);
 		if (ret)
 			return (NULL);
 		i++;

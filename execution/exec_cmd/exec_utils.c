@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:12:49 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:35:12 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:33:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_file_param(t_ast *ast, char *file)
 	if (!file_globed)
 		return (free(file_exp), ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	if (ft_strchr(file_exp, '*'))
-		ret = glob_asterisk(&file_globed, file_exp);
+		ret = glob_asterisk(&file_globed, file_exp, false);
 	if (ret)
 		return (free(file_exp), NULL);
 	if (!*file_exp || ft_strchr(file_exp, ' ') || ft_argslen(file_globed) > 1)
