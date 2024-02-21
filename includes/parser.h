@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:54:20 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:51:55 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int					add_separator(t_token_type type, char **prompt, t_token_arr *tokens);
 int					add_eof(t_token_arr *tokens);
 int					handle_seperator(char **prompt, t_token_arr *tokens);
 int					skip_str(char **str, char quote);
-int					add_word(char **prompt, t_token_arr *tokens, t_ast *ast);
-t_token_arr			tokenize(char *prompt, t_ast *ast);
+int					add_word(char **prompt, t_token_arr *tokens);
+t_token_arr			tokenize(char *prompt);
 void				free_token_arr(t_token_arr *tokens);
 t_ast				*create_ast_node(t_node_type type, t_command* command);
 void				free_args(t_command *command);
@@ -61,4 +61,5 @@ void				print_ast(const t_ast* node, const char* prefix, int isLeft);
 char				*skip_quotes(char *str);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand);
 int					init_here_doc(t_ast *ast, char *limiter);
+int					check_errors_tokens(t_token_arr *tokens, t_ast *ast);
 #endif

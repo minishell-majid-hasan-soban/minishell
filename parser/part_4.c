@@ -6,18 +6,18 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:45:14 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:15:12 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 
-t_token_arr	tokenize(char *prompt, t_ast *ast)
+t_token_arr	tokenize(char *prompt)
 {
 	t_token_arr	tokens;
 	int			ret;
 
-	(void)ast;
 	tokens = (t_token_arr){0, 1000, 0};
 	tokens.arr = ft_realloc(tokens.arr, 0, tokens.size * sizeof(t_token));
 	if (!tokens.arr)
@@ -32,7 +32,7 @@ t_token_arr	tokenize(char *prompt, t_ast *ast)
 		if (is_separator(prompt))
 			ret = handle_seperator(&prompt, &tokens);
 		else if (*prompt)
-			ret = add_word(&prompt, &tokens, ast);
+			ret = add_word(&prompt, &tokens);
 		if (ret == -1)
 		{
 			free_token_arr(&tokens);
@@ -41,14 +41,7 @@ t_token_arr	tokenize(char *prompt, t_ast *ast)
 		}
 	}
 	add_eof(&tokens);
-	if (tokens.arr[tokens.count - 2 * (tokens.count > 1)].type == TOKEN_AND
-		|| tokens.arr[tokens.count - 2 * (tokens.count > 1)].type == TOKEN_OR
-		|| tokens.arr[tokens.count - 2 * (tokens.count > 1)].type == TOKEN_PIPE)
-	{
-		print_parse_error_near(&tokens.arr[tokens.count - 1 * (tokens.count > 0)]);
-		free_token_arr(&tokens);
-		return (tokens);
-	}
+	
 	return (tokens);
 }
 

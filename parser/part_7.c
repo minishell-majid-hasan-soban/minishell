@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   part_7.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 16:21:59 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 23:30:25 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include "parser.h"
 
-t_ast	*parse_expression(t_token **curr_token,
-int min_precedence, bool in_op)
+t_ast	*parse_expression(t_token **curr_token, int min_precedence, bool in_op)
 {
 	t_ast	*l_ast;
 	t_token	*op_token;
@@ -32,7 +33,10 @@ int min_precedence, bool in_op)
 		if ((*curr_token)->type == TOKEN_WORD)
 			printf("minishell: parse error near '%s'\n", (*curr_token)->value);
 		else
+		{
+			// printf("here!!!!!\n");
 			print_parse_error_near((*curr_token));
+		}
 		free_ast(l_ast);
 		return (NULL);
 	}
@@ -48,7 +52,8 @@ int min_precedence, bool in_op)
 			free_ast(l_ast);
 			return (NULL);
 		}
-		new_ast = create_ast_node(determine_node_type(op_token), NULL);
+		new_ast = create_ast_node(determine_node_type(op_token),
+				ft_calloc(sizeof(t_command), 1));
 		new_ast->left = l_ast;
 		new_ast->right = r_ast;
 		l_ast = new_ast;
@@ -100,7 +105,7 @@ void	print_command_args(t_command *cmd)
 		}
 	}
 	print_redirections(cmd->redirections);
-	printf("\n");
+	// printf("\n");
 }
 
 void	print_ast(const t_ast *node, const char *prefix, int is_left)
@@ -119,15 +124,22 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 	else
 		printf("%s", "\\--");
 	if (node->type == N_CMD)
+	{
 		print_command_args(node->command);
+			printf("\n");
+	}
 	else
 	{
 		if ((node->type == N_PIPE))
-			printf("%s\n", "Pipe");
+			printf("%s", "Pipe");
 		else if (node->type == N_AND)
-			printf("%s\n", "AND");
+			printf("%s", "AND");
 		else
-			printf("%s\n", "OR");
+			printf("%s", "OR");
+		if (node->command)
+			print_command_args(node->command);
+		else
+			printf("\n");
 	}
 	ft_strlcat(next_prefix, prefix, 256);
 	if (is_left)

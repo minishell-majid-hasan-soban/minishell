@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 15:21:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:54:16 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "ast_handler.h"
 # include "builtins.h"
 # include "parser.h"
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 # define YELLOW "\033[0;33m"
 # define RED "\033[0;31m"

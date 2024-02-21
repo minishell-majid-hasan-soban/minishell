@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 16:28:15 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:58:32 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 
 void	print_parse_error_near(t_token *token)
 {
-	char	types[15][100];
+	char	types[15][10000];
 
-	ft_strlcpy(types[0], "", 100);
+	if (token->value)
+		ft_strlcpy(types[0], token->value, 10000);
 	ft_strlcpy(types[1], "|", 100);
 	ft_strlcpy(types[2], ">", 100);
 	ft_strlcpy(types[3], "<", 100);

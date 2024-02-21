@@ -3,50 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   part_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 07:56:15 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:48:01 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "enum.h"
 #include "minishell.h"
-
-int	add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
-{
-	t_token_type	past_token_type;
-
-	if (tokens->count + 1 > tokens->size)
-	{
-		tokens->arr = ft_realloc(tokens->arr, tokens->size
-				* sizeof(t_token), tokens->size * 2 * sizeof(t_token));
-		if (!tokens->arr)
-			return (-1);
-		tokens->size *= 2;
-	}
-	tokens->arr[tokens->count++] = (t_token){NULL, type, T_NONE, -1};
-	(*prompt)++;
-	if (type == TOKEN_DLESS || type == TOKEN_DGREAT
-		|| type == TOKEN_OR || type == TOKEN_AND)
-		(*prompt)++;
-	if ((type == TOKEN_AND || type == TOKEN_OR
-			|| type == TOKEN_PIPE) && tokens->count == 1)
-	{
-		print_parse_error_near(&tokens->arr[tokens->count - 1]);
-		return -1;
-	}
-	past_token_type = tokens->arr[tokens->count - 2
-		* (tokens->count >= 2)].type;
-	if ((type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE || type == TOKEN_CP)
-		&& (past_token_type == TOKEN_AND || past_token_type == TOKEN_OR
-			|| past_token_type == TOKEN_PIPE || past_token_type == TOKEN_OP))
-	{
-		print_parse_error_near(&tokens->arr[tokens->count - 1]);
-		return (-1);
-	}
-	return (1);
-}
 
 int	add_eof(t_token_arr *tokens)
 {
@@ -100,7 +65,7 @@ int	skip_str(char **str, char quote)
 	return (1);
 }
 
-int	add_word(char **prompt, t_token_arr *tokens, t_ast *ast)
+int	add_word(char **prompt, t_token_arr *tokens)
 {
 	char	*prompt_ptr;
 	char	*word;
@@ -120,7 +85,5 @@ int	add_word(char **prompt, t_token_arr *tokens, t_ast *ast)
 	if (!word)
 		return (0);
 	*prompt += prompt_ptr - (*prompt);
-	if(tokens->arr[tokens->count - 1 * ((tokens->count - 1) >= 0)].type == TOKEN_DLESS)
-		tokens->arr[tokens->count - 1 * ((tokens->count - 1) >= 0)].heredoc_fd = init_here_doc(ast, word);
 	return (add_token_word(tokens, word));
 }

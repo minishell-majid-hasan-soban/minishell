@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 07:57:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/21 22:42:25 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/parser.h"
 #include "minishell.h"
 
 unsigned int	g_signal;
@@ -256,10 +257,15 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(shell.line);
-		tokens = tokenize(shell.line, &token_ast);
-		if(tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
+		tokens = tokenize(shell.line);
+		if (check_errors_tokens(&tokens, &token_ast) == -1)
+		{
+			free_token_arr(&tokens);
+		}
+		if (tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
 			shell.exit_status = 2;
 		ast = parse_expression(&tokens.arr, 1, false);
+		print_ast(ast, " ", 0);
 		if (ast)
 		{
 			// print_ast(ast, " ", 0);

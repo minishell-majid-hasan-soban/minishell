@@ -28,7 +28,7 @@ int main() {
 	t_token *arr = tokens.arr;
 	t_ast *ast = parse_expression(&arr, 1, 0);
 	print_ast(ast, " ", 0);
-	// free_token_arr(&tokens);
-	// free_ast(ast);
+	free_token_arr(&tokens);
+	free_ast(ast);
 }
 

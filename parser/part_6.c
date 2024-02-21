@@ -6,12 +6,14 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:56:50 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/21 23:26:25 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 t_redirection_type	get_redirection_type(t_token_type type)
 {
@@ -35,6 +37,7 @@ t_ast	*extract_command(t_token **curr_token)
 		return (NULL);
 	if ((*curr_token)->type == TOKEN_OP)	// segfault input is minishell> "
 	{
+		free_command(command);
 		(*curr_token)++;
 		ast = parse_expression(curr_token, 1, true);
 		if ((*curr_token)->type != TOKEN_CP)
@@ -44,6 +47,30 @@ t_ast	*extract_command(t_token **curr_token)
 			return (NULL);
 		}
 		(*curr_token)++;
+		while ((*curr_token)->type != TOKEN_AND && (*curr_token)->type != TOKEN_OR
+			&& (*curr_token)->type != TOKEN_PIPE && (*curr_token)->type != TOKEN_EOF
+			&& (*curr_token)->type != TOKEN_OP && (*curr_token)->type != TOKEN_CP)
+		{
+			if ((*curr_token)->type != TOKEN_WORD)
+			{
+				redir = create_redirection((*curr_token), *((*curr_token) + 1));
+				if (redir == NULL)
+				{
+					printf(ALLOC_ERR);
+					free_ast(ast);
+					return (NULL);
+				}
+				add_back_redirection(ast->command, redir);
+				(*curr_token)++;
+			}
+			else
+			{
+				print_parse_error_near((*curr_token));
+				free_ast(ast);
+				return (NULL);
+			}
+			(*curr_token)++;
+		}
 		return (ast);
 	}
 	while ((*curr_token)->type != TOKEN_AND && (*curr_token)->type != TOKEN_OR
