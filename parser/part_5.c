@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 18:56:09 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:30:54 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ t_redirection	*create_redirection(t_token *token_op, t_token file)
 	return (redir);
 }
 
-int	add_back_redirection(t_command *command, t_redirection *redir)
+int	add_back_redirection(t_redirection **head, t_redirection *redir)
 {
 	t_redirection	*curr;
 
-	if (!(command->redirections))
+	if (!((*head)))
 	{
-		command->redirections = redir;
+		(*head) = redir;
 		return (1);
 	}
-	curr = command->redirections;
+	curr = (*head);
 	while (curr->next)
 		curr = curr->next;
 	curr->next = redir;

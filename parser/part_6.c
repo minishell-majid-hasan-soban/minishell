@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 23:26:25 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:31:35 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_ast	*extract_command(t_token **curr_token)
 					free_ast(ast);
 					return (NULL);
 				}
-				add_back_redirection(ast->command, redir);
+				add_back_redirection(&ast->redirections, redir);
 				(*curr_token)++;
 			}
 			else
@@ -87,7 +87,7 @@ t_ast	*extract_command(t_token **curr_token)
 				free_command(command);
 				return (NULL);
 			}
-			add_back_redirection(command, redir);
+			add_back_redirection(&command->redirections, redir);
 			(*curr_token)++;
 		}
 		(*curr_token)++;

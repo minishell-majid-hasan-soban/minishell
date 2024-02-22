@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 09:25:04 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:30:48 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void				free_command(t_command *command);
 void				free_ast(t_ast* node);
 int					add_node_arg(t_command *command, char *arg);
 t_redirection		*create_redirection(t_token *token_op, t_token file);
-int					add_back_redirection(t_command *command, t_redirection *redir);
+int					add_back_redirection(t_redirection **head, t_redirection *redir);
 t_redirection_type	get_redirection_type(t_token_type type);
 t_ast				*extract_command(t_token** curr_token);
 char				token_is_operator(t_token *curr_token);

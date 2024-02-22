@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 23:30:25 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:35:38 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,9 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 	if (node->type == N_CMD)
 	{
 		print_command_args(node->command);
-			printf("\n");
+		if(node->redirections)
+			print_redirections(node->redirections);
+		printf("\n");
 	}
 	else
 	{
@@ -136,8 +138,8 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 			printf("%s", "AND");
 		else
 			printf("%s", "OR");
-		if (node->command)
-			print_command_args(node->command);
+		if (node->redirections)
+			print_redirections(node->redirections);
 		else
 			printf("\n");
 	}

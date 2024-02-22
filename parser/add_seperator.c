@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_seperator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 08:46:45 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:36:30 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 	{
 		past_type = tokens->arr[index - 1 * (index > 0)].type;
 		type = tokens->arr[index].type;
-		// print_token(&tokens->arr[index]);
+		print_token(&tokens->arr[index]);
 		if (is_in_op <= 0 && type == TOKEN_CP)
 		{
 			print_parse_error_near(&tokens->arr[index]);

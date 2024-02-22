@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 09:28:50 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:32:32 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// ((ls < k < g | nl < mm|| echo a < nn) > ll >> o && (cat Makefile) <k >o || echo ooooo) < h << l > q
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -131,6 +133,7 @@ typedef struct	s_ast
 {
 	t_node_type			type;
 	t_command			*command;
+	t_redirection		*redirections;
 	t_node_dir			direction;
 	int					fd[2];
 	bool				piped;
