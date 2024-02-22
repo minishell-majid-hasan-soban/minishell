@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 22:23:23 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 17:35:38 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 21:54:13 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	print_redirections(t_redirection *redirection)
 			tmp->file);
 		tmp = tmp->next;
 	}
-	printf("\n");
+	// printf("\n");
 }
 
 void	print_command_args(t_command *cmd)
@@ -139,9 +139,10 @@ void	print_ast(const t_ast *node, const char *prefix, int is_left)
 		else
 			printf("%s", "OR");
 		if (node->redirections)
+		{
 			print_redirections(node->redirections);
-		else
-			printf("\n");
+		}
+		printf("\n");
 	}
 	ft_strlcat(next_prefix, prefix, 256);
 	if (is_left)
