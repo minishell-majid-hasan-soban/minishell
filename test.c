@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 23:42:51 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 08:45:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ int main(int argc, char **argv, char **envp)
 		if (tokens.arr == NULL || tokens.size == 0 || tokens.count == 0)
 			shell.exit_status = 2;
 		ast = parse_expression(&tokens.arr, 1, false);
-		print_ast(ast, " ", 0);
 		if (ast)
 		{
 			// print_ast(ast, " ", 0);

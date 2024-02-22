@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 21:51:55 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 09:25:04 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char*				redirection_type_to_string(t_redirection_type type);
 void				print_redirections(t_redirection* redirection);
 void				print_command_args(t_command* cmd);
 void				print_ast(const t_ast* node, const char* prefix, int isLeft);
-char				*skip_quotes(char *str);
+// char				*skip_quotes(char *str);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand);
 int					init_here_doc(t_ast *ast, char *limiter);
 int					check_errors_tokens(t_token_arr *tokens, t_ast *ast);

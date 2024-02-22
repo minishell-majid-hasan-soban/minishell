@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 15:52:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 09:22:40 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	expanded = ft_calloc(ft_argslen(args) + 1, sizeof(char *));
 	while (args && args[i])
 	{
-		tmp = ft_expand_arg(ast, args[i++]);
-		expanded[j++] = skip_quotes(tmp);
-		free(tmp);
-		if (!expanded[j - 1])
+		tmp = ft_expand_arg(ast, args[i]);
+		if (!tmp)
 			return (ft_free_args(expanded), NULL);
+		expanded[j] = tmp;
+		i++;
+		j++;
 	}
 	return (expanded);
 }

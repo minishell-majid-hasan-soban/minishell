@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 23:42:55 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/22 09:28:50 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct	s_command
 {
 	char			**args;
 	char			**expanded_args;
+	char			**skiped_args;
 	char			**globed_args;
 	long			arg_count;
 	long			arg_size;
@@ -190,8 +191,9 @@ char			*ft_strchr(const char *s, int c);
 size_t			ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 
-// // redirections
-int				red_in(char **args, t_shell *data);
+// // parser
+char			**ft_skip_args(char **args);
+char			*skip_quotes(char *str);
 
 // // hanlders
 int				dup2_handle(int fd1, int fd2);
@@ -210,6 +212,7 @@ struct dirent	*ft_readdir(DIR *dir);
 int				ft_entryjoin(struct dirent *entry, char ***files, char *pattern);
 int				match(char *pattern, char *string);
 int				glob_asterisk(char ***globed_args, char *args, bool quoted);
+bool			is_quoted(char *arg);
 
 // // exec
 int				exec_redir(t_ast *ast);

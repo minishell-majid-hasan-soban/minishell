@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 18:33:30 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 08:47:11 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,30 @@ int	glob_asterisk(char ***globed_args, char *args, bool quoted)
 	if (!(*globed_args))
 		return (ft_free_args(tmp), ft_free_args(new_args),
 			ft_putstr_fd(ALLOC_ERR, 2), 1);
-	free(tmp);
-	free(new_args);
+	(free(tmp), free(new_args));
 	return (0);
 }
 
 bool	is_quoted(char *arg)
 {
-	int	i;
-	int	quote;
+	int		i;
+	bool	squote;
+	bool	dquote;
 
 	i = 0;
-	quote = 0;
+	squote = false;
+	dquote = false;
 	while (arg[i])
 	{
-		if (arg[i] == '\'' || arg[i] == '\"')
-		{
-			if (quote == 0)
-				quote = arg[i];
-			else if (quote == arg[i])
-				quote = 0;
-		}
+		if (arg[i] == '\'')
+			squote = !squote;
+		if (arg[i] == '\"')
+			dquote = !dquote;
+		if (arg[i] == '*' && (squote || dquote))
+			return (true);
 		i++;
 	}
-	return (quote != 0);
+	return (false);
 }
 
 char	**ft_glob_args(t_ast *ast, char **args)
@@ -124,7 +124,7 @@ char	**ft_glob_args(t_ast *ast, char **args)
 		if (ft_strchr(args[i], '*') == NULL)
 			ret = handle_no_asterisk(&globed_args, args[i]);
 		else
-			ret = glob_asterisk(&globed_args, args[i], false);
+			ret = glob_asterisk(&globed_args, args[i], is_quoted(ast->command->args[i]));
 		if (ret)
 			return (NULL);
 		i++;

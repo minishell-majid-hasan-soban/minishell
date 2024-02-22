@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 16:28:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/22 09:22:07 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	exec_cmd(t_ast *ast)
 	status = 0;
 	args = ft_expand_args(ast, ast->command->args);
 	ast->command->expanded_args = args;
+	ast->command->skiped_args = ft_skip_args(args);
 	ast->command->globed_args = ft_glob_args(ast, args);
 	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
