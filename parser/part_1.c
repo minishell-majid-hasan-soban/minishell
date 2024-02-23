@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 08:46:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:09:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ void	print_parse_error_near(t_token *token)
 	ft_strlcpy(types[9], "(", 100);
 	ft_strlcpy(types[10], ")", 100);
 	ft_strlcpy(types[11], "newline", 100);
-	printf("minishell: syntax error near unexpected token '%s'\n",
-		types[token->type]);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(types[token->type], 2);
+	ft_putstr_fd("'\n", 2);
+	// printf("minishell: syntax error near unexpected token '%s'\n",
+	// 	types[token->type]);
 }
 
 void	print_token(t_token *token)

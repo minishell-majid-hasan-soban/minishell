@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 08:06:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:21:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ static void	ft_signal_handler(int signum)
 	}
 }
 
+static void	sig(int signum)
+{
+	(void)signum;
+}
+
 static t_shell	*ft_init_shell(t_shell *shell, char **envp)
 {
 	ft_env_to_list(&shell->env, envp);
@@ -81,6 +86,7 @@ static t_shell	*ft_init_shell(t_shell *shell, char **envp)
 	shell->g_signal = 0;
 	signal(SIGINT, ft_signal_handler);
 	signal(SIGQUIT, ft_signal_handler);
+	signal(SIGUSR1, sig);
 	return (shell);
 }
 
@@ -113,7 +119,7 @@ static void	ft_free_command(t_command *cmd)
 	{
 		tmp = redir;
 		if (redir->type == R_HEREDOC)
-			if (close(redir->heredoc_fd) == -1)
+			if (redir->heredoc_fd != -1 && close(redir->heredoc_fd) == -1)
 				ft_putstr_fd("minishell: close: ", 2), perror("");
 		redir = redir->next;
 		free(tmp->file);
@@ -181,7 +187,7 @@ int main(int argc, char **argv, char **envp)
 	token_ast.shell = &shell;
 	while (1)
 	{
-		shell.line = readline("minishell> ");
+		shell.line = readline(GREEN"minishell> "RESET);
 		if (shell.line == NULL)
 			(ft_putstr_fd("exit\n", 1), ft_free_shell(&shell));
 		if (ft_strlen(shell.line) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 21:48:01 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:07:41 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ int	skip_str(char **str, char quote)
 	(*str)++;
 	if (!is_in_str(*str, quote))
 	{
-		printf("minishell: syntax error, expected `%c`\n", quote);
+		ft_putstr_fd("minishell: syntax error, expected `", 2);
+		ft_putchar_fd(quote, 2);
+		ft_putstr_fd("`\n", 2);
 		return (-1);
 	}
 	while (**str != quote)

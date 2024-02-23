@@ -8,7 +8,9 @@ int	skip_quotes_work(char **dest, char **str, char quote)
 	(*str)++;
 	if (!is_in_str(*str, quote))
 	{
-		printf("minishell: syntax error, expected `%c`\n", quote);
+		ft_putstr_fd("minishell: syntax error, expected `", 2);
+		ft_putchar_fd(quote, 2);
+		ft_putstr_fd("`\n", 2);
 		return (-1);
 	}
 	while (**str != quote)

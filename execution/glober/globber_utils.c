@@ -6,11 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:02:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 16:53:28 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:01:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	match_all(char *pattern, char *string);
 
 char	**ft_strsjoin(char **dst, char **src)
 {
@@ -53,7 +55,7 @@ int	ft_entryjoin(struct dirent *entry, char ***files, char *pattern)
 	int				i;
 
 	i = ft_argslen(*files);
-	if (match(pattern, entry->d_name) && ft_strncmp(entry->d_name, ".", 1)
+	if (match_all(pattern, entry->d_name) && ft_strncmp(entry->d_name, ".", 1)
 		&& ft_strcmp(entry->d_name, ".."))
 	{
 		tmp = *files;
@@ -93,4 +95,18 @@ int	match(char *pattern, char *string)
 	while (*pattern == '*')
 		pattern++;
 	return (*pattern == '\0' && *string == '\0');
+}
+
+int	match_all(char *pattern, char *string)
+{
+	char	*cstring;
+
+	cstring = string;
+	while (*cstring)
+	{
+		if (match(pattern, cstring))
+			return (1);
+		cstring++;
+	}
+	return (0);
 }

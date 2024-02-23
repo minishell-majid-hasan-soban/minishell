@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:50:28 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 14:14:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	exec_redir_input(t_ast *ast, t_redirection *redir)
 	char	*file;
 
 	file = ft_file_param(ast, redir->file);
+	if (!file)
+		return (1);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
@@ -38,6 +40,8 @@ static int	exec_redir_output(t_ast *ast, t_redirection *redir)
 	char	*file;
 
 	file = ft_file_param(ast, redir->file);
+	if (!file)
+		return (1);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -58,6 +62,8 @@ static int	exec_redir_append(t_ast *ast, t_redirection *redir)
 	char	*file;
 
 	file = ft_file_param(ast, redir->file);
+	if (!file)
+		return (1);
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
@@ -76,6 +82,7 @@ static int	exec_redir_heredoc(t_ast *ast, t_redirection *redir)
 {
 	ft_dup2(ast, redir->heredoc_fd, 0);
 	ft_close(ast, redir->heredoc_fd);
+	redir->heredoc_fd = -1;
 	return (ast->error != T_NONE);
 }
 

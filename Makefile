@@ -29,6 +29,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 RL = $(shell brew --prefix readline)
 NAME = minishell
+NAME_BONUS = minishell_bonus
 INC = includes
 
 all: $(NAME)
@@ -41,7 +42,11 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -I$(RL)/include -I$(INC) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
-bonus: all
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJ)
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME_BONUS) $(OBJ) 
+	@echo "$(GREEN)$(NAME_BONUS) has been created successfully!$(RESET)"
 
 clean:
 	@rm -f $(OBJ)
