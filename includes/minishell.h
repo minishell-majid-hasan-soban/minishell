@@ -6,12 +6,16 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 17:32:32 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/23 01:02:40 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// this one should run ok otherwise its not working
 // ((ls < k < g | nl < mm|| echo a < nn) > ll >> o && (cat Makefile) <k >o || echo ooooo) < h << l > q
-
+// this one should not work otherwise its not working
+// (((ls d k f d s >> l && ls) | ls  > ls << l  && (cat | ls || l)) || (ls a idn sndu >> kkd) >> l )))) a > ls < l  >> l << d
+// this one also should not work if it did then its broken
+// (((ls d k f d s >> l && ls) > ls > l if_it_didnt_catch_this_then_it_is_not_workign << d | ls  > ls << l  && (cat | ls || l) >> ls < l ) || (ls a idn sndu >> kkd) >> l )  > ls < l  >> l << d
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
