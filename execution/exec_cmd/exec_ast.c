@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 09:22:07 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 08:14:26 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	exec_cmd(t_ast *ast)
 	args = ft_expand_args(ast, ast->command->args);
 	ast->command->expanded_args = args;
 	ast->command->skiped_args = ft_skip_args(args);
-	ast->command->globed_args = ft_glob_args(ast, args);
+	ast->command->globed_args = ft_glob_args(ast, ast->command->skiped_args);
 	if (!args || !args[0] || is_builtin(args[0]) == 1)
 		status = exec_parent(ast);
 	else
@@ -77,6 +77,8 @@ static int	exec_cmd(t_ast *ast)
 
 int	exec_ast(t_ast *ast)
 {
+	if (exec_redir(ast, ast->redirections) == 1)
+		return (1);
 	if (ast->type == N_PIPE)
 		return (exec_pipe(ast));
 	else if (ast->type == N_AND)

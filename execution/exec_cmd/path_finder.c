@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:05:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 15:34:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 09:49:30 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_cmd_nf_err(char *cmd, int status)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
+		ft_putstr_fd(": is a directory\n", 2);
 	}
 }
 
@@ -79,7 +79,8 @@ static char	*check_relative_path(char *cmd, int *status)
 	free(new_cmd);
 	if (access(cmd, F_OK) == 0)
 		return (ft_cmd_nf_err(cmd, 126), *status = 126, NULL);
-	return (NULL);
+	return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(cmd, 2),
+		ft_putstr_fd(": No such file or directory\n", 2), *status = 127, NULL);
 }
 
 char	*ft_get_path(t_ast *ast, char *cmd, int *status)
@@ -88,6 +89,8 @@ char	*ft_get_path(t_ast *ast, char *cmd, int *status)
 	char	*path;
 	t_env	*env;
 
+	if (!cmd)
+		return (*status = 0, NULL);
 	if (ft_strchr(cmd, '/'))
 		return (check_relative_path(cmd, status));
 	env = ft_getenv(ast->shell->env, "PATH");

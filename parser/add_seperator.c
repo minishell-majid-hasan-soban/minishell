@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_seperator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/23 00:54:07 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:12:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	check_errors_part1(t_token_arr *tokens, t_err *d)
 		print_parse_error_near(&tokens->arr[d->index]);
 		return (-1);
 	}
-	print_token(&tokens->arr[d->index]);
+	// print_token(&tokens->arr[d->index]);
 	if (d->type == TOKEN_OP)
 		d->is_in_op++;
 	if (d->type == TOKEN_CP)
 		d->is_in_op--;
-	printf("is_in_op = %ld\n", d->is_in_op);
+	// printf("is_in_op = %ld\n", d->is_in_op);
 	if (d->type == TOKEN_CP && d->is_in_op >= 0)
 		d->is_after_parantheses = true;
 	if (d->type == TOKEN_PIPE || d->type == TOKEN_AND || d->type == TOKEN_OR)
@@ -97,8 +97,8 @@ int	check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d)
 	while (tokens->arr[d->index].type != TOKEN_EOF)
 	{
 		d->index++;
-		printf("here\n");
-		print_token(&tokens->arr[d->index]);
+		// printf("here\n");
+		// print_token(&tokens->arr[d->index]);
 		if (!d->is_word_found && tokens->arr[d->index].type != TOKEN_WORD)
 		{
 			print_parse_error_near(&tokens->arr[d->index]);

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 09:01:09 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 16:11:13 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:47:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef enum e_node_type
 	N_PIPE,
 	N_AND,
 	N_OR,
-	AST_ROOT
 }				t_node_type;
 
 /*

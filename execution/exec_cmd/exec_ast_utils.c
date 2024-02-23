@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:35:51 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:40:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:53:04 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exec_child(t_ast *ast)
 		return (1);
 	else if (pid == 0)
 	{
-		if (exec_redir(ast) == 1)
+		if (exec_redir(ast, ast->command->redirections) == 1)
 			exit(1);
 		status = exec_args(ast);
 		exit(status);
@@ -38,7 +38,7 @@ int	exec_parent(t_ast *ast)
 	int	status;
 
 	status = 0;
-	if (exec_redir(ast) == 1)
+	if (exec_redir(ast, ast->command->redirections) == 1)
 		return (1);
 	status = exec_args(ast);
 	return (status);

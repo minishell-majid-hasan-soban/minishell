@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:16:11 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 07:50:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ static int	exec_redir_heredoc(t_ast *ast, t_redirection *redir)
 	return (ast->error != T_NONE);
 }
 
-int	exec_redir(t_ast *ast)
+int	exec_redir(t_ast *ast, t_redirection *redir)
 {
 	int				ret;
-	t_redirection	*redir;
-
-	redir = ast->command->redirections;
+	
 	ret = 0;
 	while (redir)
 	{

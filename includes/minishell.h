@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 01:02:40 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/23 10:23:26 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,10 @@ struct dirent	*ft_readdir(DIR *dir);
 int				ft_entryjoin(struct dirent *entry, char ***files, char *pattern);
 int				match(char *pattern, char *string);
 int				glob_asterisk(char ***globed_args, char *args, bool quoted);
-bool			is_quoted(char *arg);
+bool			is_quoted(char *arg, char target, bool all);
 
 // // exec
-int				exec_redir(t_ast *ast);
+int				exec_redir(t_ast *ast, t_redirection *redir);
 int				exec_args(t_ast *ast);
 int				is_builtin(char *cmd);
 int				exec_ast(t_ast *ast);

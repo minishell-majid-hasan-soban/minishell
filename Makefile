@@ -41,6 +41,8 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -I$(RL)/include -I$(INC) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
+bonus: all
+
 clean:
 	@rm -f $(OBJ)
 	@echo "$(RED)Object files have been removed!$(RESET)"

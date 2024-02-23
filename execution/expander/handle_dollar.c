@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 14:13:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 09:33:02 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,21 @@ static char	*handle_alphanum(t_ast *ast, char **arg, bool quoted)
 {
 	char	*var;
 	char	*to_free;
+	char	*tmp;
 	int		i;
 
 	i = 0;
 	while ((*arg)[i] && (ft_isalnum((*arg)[i]) || (*arg)[i] == '_'))
 		i++;
+	tmp = (void *)-1;
 	if (i == 0 && !quoted)
-		return (ft_strdup(""));
+		tmp = ft_strdup("");
 	else if (i == 0)
-		return (ft_strdup("$"));
+		tmp = ft_strdup("$");
+	if (tmp == NULL)
+		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	else if (tmp != (void *)-1)
+		return (tmp);
 	to_free = ft_substr(*arg, 0, i);
 	var = get_value(ast->shell->env, to_free);
 	free(to_free);

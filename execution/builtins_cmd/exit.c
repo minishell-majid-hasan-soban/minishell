@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 16:20:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:54:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,25 @@ int	ft_exit(t_ast *ast, char **args)
 {
 	unsigned char	i;
 
+	ft_putstr_fd("exit\n", 1);
 	i = 0;
-	printf("exit\n");
 	if (args[1] == NULL)
-		return (ast->shell->exit_status = 0,ft_free_shell(ast->shell), 1);
+		return (ft_putstr_fd("exit\n", 1),
+			ast->shell->exit_status = 0,ft_free_shell(ast->shell), 1);
 	else if (is_number(args[1]))
 	{
 		i = ft_atoi(args[1]);
 		if (args[2])
-			return (printf("minishell: exit: too many arguments\n"), 0);
+			return (ft_putstr_fd("minishell: exit: ", 2),
+				ft_putstr_fd("too many arguments\n", 2), 1);
 		ast->shell->exit_status = i;
 		ft_free_shell(ast->shell);
 	}
 	else
 	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		ast->shell->exit_status = 255;
 		ft_free_shell(ast->shell);
 	}

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:46:11 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:53:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_cd_error(char *arg)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": ", 2);
 		perror("");
 	}
 }

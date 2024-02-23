@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 09:22:40 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 09:58:20 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*ft_expand_arg(t_ast *ast, char *arg)
 	char	*to_free;
 	char	*tmp;
 
+	if (!arg)
+		return (NULL);
 	expanded = ft_strdup("");
 	while (*arg)
 	{

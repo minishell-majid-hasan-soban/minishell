@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 15:34:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/23 09:47:38 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,17 @@ int	exec_args(t_ast *ast)
 		return (0);
 	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0
 		|| ft_strcmp(args[0], "..") == 0)
-		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
-	if (ft_strcmp(args[0], "") == 0)
-		return (0);
+		return (ft_cmd_nf_err(ast->command->skiped_args[0], 127), 127);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
-	if (is_builtin(ast->command->expanded_args[0]) == 1)
+	if (is_builtin(ast->command->skiped_args[0]) == 1)
 		return (exec_builtin(ast, ast->command->globed_args));
-	path = ft_get_path(ast, ast->command->globed_args[0], &status);
+	args = ast->command->globed_args;
+	while (*args && ft_strcmp(*args, "") == 0)
+		args++;
+	path = ft_get_path(ast, args[0], &status);
 	if (!path || path == (void *)-1 || !*path)
 		return (status);
-	ft_execve(ast, path, ast->command->globed_args);
+	ft_execve(ast, path, args);
 	return (126);
 }
