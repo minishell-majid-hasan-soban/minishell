@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:12:05 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 09:17:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/24 08:58:07 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 	char	*tmp2;
 
 	tmp = ft_getenv(shell->env, name);
-	if (tmp && ft_strcmp(name, "_") != 0)
+	if (tmp)
 	{
 		if (append && tmp->value)
 		{
@@ -30,12 +30,14 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 			return (0);
 		}
 		free(tmp->value);
+		if (!value)
+			return (tmp->value = NULL, 0);
 		tmp->value = ft_strdup(value);
 		if (tmp->value == NULL)
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
 		return (0);
 	}
-	else if (tmp == NULL && ft_strcmp(name, "_") != 0)
+	else if (tmp == NULL)
 		if (ft_env_addback(&shell->env, name, value))
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
 	return (0);
@@ -86,14 +88,17 @@ int	ft_add_env(t_ast *ast, char *str)
 
 int	ft_export(t_ast *ast, char **args)
 {
+	int	status;
+	
+	status = 0;
 	args++;
 	if (args[0] == NULL)
 		return (ft_env(ast, NULL, true), 0);
 	while (*args)
 	{
 		if (ft_add_env(ast, *args))
-			return (1);
+			status = 1;
 		args++;
 	}
-	return (0);
+	return (status);
 }
