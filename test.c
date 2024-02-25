@@ -6,21 +6,32 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/24 17:10:48 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 15:31:20 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/parser.h"
 #include "minishell.h"
 
-unsigned int	g_signal;
+void	ast_exitstatus(int *status)
+{
+	if (exit_status(0, false) != 0)
+		*status = exit_status(0, false);
+}
 
+int	ast_running(bool flag, bool set)
+{
+	static bool	executed;
 
-int	exitstatus(int newstatus, int flag)
+	if (set)
+		executed = flag;
+	return (executed);
+}
+
+int	exit_status(int newstatus, bool set)
 {
 	static int status;
 
-	if (flag == 1)
+	if (set)
 		status = newstatus;
 	return (status);
 }
@@ -58,48 +69,90 @@ static void	ft_env_to_list(t_env **env, char **envp)
 	}
 }
 
-void sig_()
-{
-	g_signal |= 2;
-}
-
 static void	ft_signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		// printf("flag %d", g_signal & 1);
-		if ((g_signal && 1) == 0)
+		if (ast_running(false, false))
+			exit_status(130, true);
+		else
 		{
-			// if ((g_signal & 2) == 0)
-			sig_();
 			ft_putstr_fd("\n", 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+			exit_status(1, true);
 		}
 	}
 	else if (signum == SIGQUIT)
 	{
-		if (g_signal & 1 && (g_signal & 4) == 0)
+		if (ast_running(false, false))
 		{
 			ft_putstr_fd("Quit: 3\n", 1);
-			// rl_on_new_line();
-			// rl_replace_line("", 0);
-			// rl_redisplay();
-			g_signal |= 4;
+			exit_status(131, true);
 		}
 	}
 }
-// static void ft_sigquit_handler(int signum)
+
+// static int	ft_setpwd(t_env *env)
 // {
-// 	if (signum == SIGQUIT)
+// 	char	*pwd;
+	
+// 	pwd = getcwd(NULL, 0);
+// 	if (!pwd)
+// 		return (1);
+// 	if (ft_setenv(env, "PWD", pwd, true))
+// 		return (1);
+// 	free(pwd);
+// 	return (0);
+// }
+
+// static int	ft_setshlvl(t_env *env)
+// {
+// 	char	*shlvl;
+// 	int		lvl;
+
+// 	if (env->value)
 // 	{
-// 		if (g_signal & 1)
-// 		{
-// 			ft_putstr_fd("Quit: 3\n", 1);
-// 			g_signal |= 4;
-// 		}
+// 		lvl = ft_atoi(env->value);
+// 		if (lvl < 0)
+// 			return (1);
+// 		lvl++;
 // 	}
+// 	else
+// 		lvl = 1;
+// 	shlvl = ft_itoa(lvl);
+// 	if (!shlvl)
+// 		return (1);
+// 	if (ft_setenv(env, "SHLVL", shlvl, true))
+// 		return (1);
+// 	free(shlvl);
+// 	return (0);
+// }
+
+// static int	ft_setunderscore(t_env *env)
+// {
+// 	if (ft_setenv(env, "_", "/usr/bin/env", true))
+// 		return (1);
+// 	return (0);
+// }
+
+// static int	ft_set_minimal_env(t_env *env)
+// {
+// 	t_env	*tmp;
+
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp(tmp->name, "PWD") == 0)
+// 			ft_setpwd(env);
+// 		else if (ft_strcmp(tmp->name, "SHLVL") == 0)
+// 			ft_setshlvl(env);
+// 		else if (ft_strcmp(tmp->name, "_") == 0)
+// 			ft_setunderscore(env);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
 // }
 
 static t_shell	*ft_init_shell(t_shell *shell, char **envp, t_ast *ast)
@@ -107,6 +160,8 @@ static t_shell	*ft_init_shell(t_shell *shell, char **envp, t_ast *ast)
 	(void)ast;
 	
 	ft_env_to_list(&shell->env, envp);
+	// ft_set_minimal_env(shell->env);
+	ft_add_env(ast, "OLDPWD");
 	shell->exit_status = 0;
 	shell->line = NULL;
 	shell->fd_in = dup(0);
@@ -115,8 +170,6 @@ static t_shell	*ft_init_shell(t_shell *shell, char **envp, t_ast *ast)
 		(perror("dup"), exit(1));
 	shell->ast = NULL;
 	shell->error = T_NONE;
-	shell->g_signal = 0;
-	ft_add_env(ast, ft_strdup("OLDPWD"));
 	signal(SIGINT, ft_signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	return (shell);
@@ -236,37 +289,29 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(shell.line);
-		g_signal |= 1;
+		ast_running(true, true);
 		tokens = tokenize(shell.line);
 		her_status = check_errors_tokens(&tokens, &token_ast);
-		if (her_status == -1 || her_status == 130 || her_status == 131)
+		if (her_status == -1 || her_status == 130)
 		{
 			if (her_status == -1)
 				shell.exit_status = 2;
 			else
-				shell.exit_status = her_status;
+				shell.exit_status = 1;
 			free_token_arr(&tokens);
 			tokens = (t_token_arr){NULL, 0, 0};
 		}
 		ast = parse_expression(&tokens.arr, 1, false);
-		// print_ast(ast, " ", 0);
 		if (ast)
 		{
-			ft_init_ast(&ast, &shell, false);
 			signal(SIGQUIT, ft_signal_handler);
+			ft_init_ast(&ast, &shell, false);
 			shell.exit_status = exec_ast(ast);
-			if (g_signal & 2)
-			{
-				shell.exit_status = 130;
-			}
-			else if (g_signal & 4)
-			{
-				shell.exit_status = 131;
-			}
 			signal(SIGQUIT, SIG_IGN);
 			ft_free_ast(&ast);
 		}
-		g_signal = 0;
+		exit_status(shell.exit_status, true);
+		ast_running(false, true);
 		free(shell.line);
 		(dup2(shell.fd_in, 0), dup2(shell.fd_out, 1));
 	}

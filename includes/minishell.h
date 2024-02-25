@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/24 13:48:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 12:49:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@
 
 # define ALLOC_ERR "minishell: malloc: Cannot allocate memory\n"
 
-extern unsigned int		exit_status;
 typedef struct s_shell	t_shell;
 typedef struct s_env	t_env;
 typedef struct s_command	t_command;
@@ -178,7 +177,6 @@ typedef struct		s_shell
 	int				fd_in;
 	int				fd_out;
 	int				exit_status;
-	unsigned int	*g_signal;
 	t_error			error;
 }					t_shell;
 
@@ -187,6 +185,7 @@ void 			print_args(char **args, char *name);
 
 // // main
 void			ft_free_shell(t_shell *shell);
+int				exit_status(int newstatus, bool flag);
 
 // // string_utils
 void			ft_free_args(char **args);

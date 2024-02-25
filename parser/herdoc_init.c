@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/24 10:21:39 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 15:29:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 void	sig_heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
 		exit(130);
-	else if (signum == SIGQUIT)
-		exit(131);
+	}
 }
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
@@ -65,7 +66,7 @@ int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
 	if (pid == 0)
 	{
 		signal(SIGINT, sig_heredoc_handler);
-		signal(SIGQUIT, sig_heredoc_handler);
+		signal(SIGQUIT, SIG_IGN);
 		status = ft_read_here_doc(ast, fd_w, limiter, expand);
 		if (status != 0)
 		{
@@ -76,7 +77,11 @@ int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
-	return ((unsigned char)(status >> 8));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
 }
 
 int	init_here_doc(t_ast *ast, char *limiter, int *status)

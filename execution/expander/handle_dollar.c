@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/24 13:47:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 12:50:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static char	*handle_question(t_ast *ast, char **arg)
 {
 	char	*var;
 
+	(void)ast;
 	(*arg)++;
-	var = ft_itoa(ast->shell->exit_status);
+	var = ft_itoa(exit_status(0, false));
 	return (var);
 }
 

@@ -35,7 +35,8 @@ INC = includes
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ) 
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ)
+	@clear
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
 %.o : %.c $(INC)/minishell.h $(INC)/libft.h $(INC)/enum.h $(INC)/ast_handler.h $(INC)/builtins.h
@@ -53,7 +54,7 @@ clean:
 	@echo "$(RED)Object files have been removed!$(RESET)"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@echo "$(RED)$(NAME) has been removed!$(RESET)"
 
 re: fclean all

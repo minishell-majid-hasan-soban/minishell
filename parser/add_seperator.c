@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/24 13:55:27 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 15:32:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 		d->j = d->index;
 		d->is_word_found = false;
 		status = check_errors_part3(tokens, ast, d);
-		if (status == -1 || status == 130 || status == 131)
+		if (status == -1 || status == 130)
 			return (status);
 		return (2);
 	}
@@ -169,7 +169,7 @@ int	check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d)
 	d->past_type = tokens->arr[d->index - 1 * (d->index > 0)].type;
 	d->type = tokens->arr[d->index].type;
 	ret = check_errors_part4(tokens, ast, d);
-	if (ret == -1 || ret == 130 || ret == 131)
+	if (ret == -1 || ret == 130)
 		return (ret);
 	if (ret == 2)
 		return (2);
@@ -202,7 +202,7 @@ int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 	while (d.index < tokens->count)
 	{
 		ret = check_errors_part5(tokens, ast, &d);
-		if (ret == -1 || ret == 130 || ret == 131)
+		if (ret == -1 || ret == 130)
 			return (ret);
 	}
 	if (d.is_in_op > 0)
