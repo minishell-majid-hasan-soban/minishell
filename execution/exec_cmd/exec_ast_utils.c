@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:35:51 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:53:04 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 13:59:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	exec_child(t_ast *ast)
 		return (1);
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (exec_redir(ast, ast->command->redirections) == 1)
 			exit(1);
 		status = exec_args(ast);
@@ -46,6 +47,7 @@ int	exec_parent(t_ast *ast)
 
 void	exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2])
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (dir == N_LEFT)
 	{
 		ft_close(ast, fd[0]);

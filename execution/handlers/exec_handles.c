@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 09:23:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:47:06 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exit_status(void)
+static void	ft_exit_status(void)
 {
 	if (errno == 13 || errno == 20 || errno == 8 || errno == 21)
 		exit(126);
@@ -41,6 +41,6 @@ void	ft_execve(t_ast *ast, char *path, char **args)
 		ft_putstr_fd(": ", 2);
 		perror("");
 		ft_free_args(env);
-		exit_status();
+		ft_exit_status();
 	}
 }

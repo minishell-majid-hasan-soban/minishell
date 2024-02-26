@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/23 08:12:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/25 15:32:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	check_errors_part2(t_token_arr *tokens, t_err *d)
 
 int	check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d)
 {
+	int	status;
+	
 	while (tokens->arr[d->index].type != TOKEN_EOF)
 	{
 		d->index++;
@@ -106,8 +108,12 @@ int	check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d)
 		}
 		if (tokens->arr[d->index - 1].type == TOKEN_DLESS
 			&& tokens->arr[d->index].type == TOKEN_WORD)
-			tokens->arr[d->index - 1].heredoc_fd
-				= init_here_doc(ast, tokens->arr[d->index].value);
+			{
+				tokens->arr[d->index - 1].heredoc_fd
+					= init_here_doc(ast, tokens->arr[d->index].value, &status);
+				if (status != 0)
+					return (status);
+			}
 		if (d->is_word_found && (tokens->arr[d->index].type == TOKEN_WORD
 				|| tokens->arr[d->index].type == TOKEN_OP))
 		{
@@ -129,6 +135,8 @@ int	check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d)
 
 int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 {
+	int	status;
+	
 	if (check_errors_part2(tokens, d) == -1)
 		return (-1);
 	if ((d->type == TOKEN_DGREAT || d->type == TOKEN_DLESS
@@ -137,8 +145,9 @@ int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 	{
 		d->j = d->index;
 		d->is_word_found = false;
-		if (check_errors_part3(tokens, ast, d) == -1)
-			return (-1);
+		status = check_errors_part3(tokens, ast, d);
+		if (status == -1 || status == 130)
+			return (status);
 		return (2);
 	}
 	if (((d->type == TOKEN_OP && d->past_type != TOKEN_OP)
@@ -155,12 +164,13 @@ int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 int	check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d)
 {
 	int	ret;
+	int	status;
 
 	d->past_type = tokens->arr[d->index - 1 * (d->index > 0)].type;
 	d->type = tokens->arr[d->index].type;
 	ret = check_errors_part4(tokens, ast, d);
-	if (ret == -1)
-		return (-1);
+	if (ret == -1 || ret == 130)
+		return (ret);
 	if (ret == 2)
 		return (2);
 	if ((d->past_type == TOKEN_AND || d->past_type == TOKEN_OR
@@ -170,8 +180,12 @@ int	check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d)
 		return (-1);
 	}
 	if (d->past_type == TOKEN_DLESS && d->type == TOKEN_WORD)
+	{
 		tokens->arr[d->index - 1 * (d->index > 0)].heredoc_fd
-			= init_here_doc(ast, tokens->arr[d->index].value);
+			= init_here_doc(ast, tokens->arr[d->index].value, &status);
+		if (status != 0)
+			return (status);
+	}
 	d->index++;
 	return (1);
 }
@@ -180,7 +194,7 @@ int	check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d)
 int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 {
 	t_err	d;
-	int ret;
+	int 	ret;
 
 	d.is_in_op = 0;
 	d.index = 0;
@@ -188,8 +202,8 @@ int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 	while (d.index < tokens->count)
 	{
 		ret = check_errors_part5(tokens, ast, &d);
-		if (ret == -1)
-			return (-1);
+		if (ret == -1 || ret == 130)
+			return (ret);
 	}
 	if (d.is_in_op > 0)
 	{

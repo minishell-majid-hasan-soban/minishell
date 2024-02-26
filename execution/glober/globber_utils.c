@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:02:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 16:01:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:33:01 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,11 @@ int	match(char *pattern, char *string)
 
 int	match_all(char *pattern, char *string)
 {
-	char	*cstring;
-
-	cstring = string;
-	while (*cstring)
+	while (*string)
 	{
-		if (match(pattern, cstring))
+		if (match(pattern, string))
 			return (1);
-		cstring++;
+		string++;
 	}
 	return (0);
 }

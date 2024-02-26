@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 17:30:48 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/24 10:01:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void				print_command_args(t_command* cmd);
 void				print_ast(const t_ast* node, const char* prefix, int isLeft);
 // char				*skip_quotes(char *str);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand);
-int					init_here_doc(t_ast *ast, char *limiter);
+int					init_here_doc(t_ast *ast, char *limiter, int *status);
 int					check_errors_tokens(t_token_arr *tokens, t_ast *ast);
 #endif

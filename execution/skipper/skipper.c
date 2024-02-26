@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:11:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 16:04:48 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:40:37 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,45 @@ int	skip_quotes_work(char **dest, char **str, char quote)
 	return (1);
 }
 
-char *skip_quotes(char *str)
+static	int	handle_quotes(char *dest, char *str, int *i, int *j)
 {
-	int i = 0;
-	int j = 0;
-	if (!str)
-		return NULL;
-	char *result = ft_calloc(ft_strlen(str) + 2, 1);
-	char *tmp_str;
-	char *tmp_result;
-	while(str[i] && !is_space(str[i]))
+	char	*tmp_str;
+	char	*tmp_dest;
+
+	tmp_str = str + *i;
+	tmp_dest = dest + *j;
+	if (skip_quotes_work(&tmp_dest, &tmp_str, str[*i]))
 	{
-		if(str[i] == '\'' || str[i] == '"')
-		{
-			tmp_str = str + i;
-			tmp_result = result + j;
-			skip_quotes_work(&tmp_result, &tmp_str, str[i]);
-			i += tmp_str - (str + i);
-			j += tmp_result - (result + j);
-			continue;
-		}
-		result[j] = str[i];
-		i++;
-		j++;
+		*i += tmp_str - (str + *i);
+		*j += tmp_dest - (dest + *j);
+	}
+	else
+		return (-1);
+	return (1);
+}
+
+char	*skip_quotes(char *str)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	if (!str)
+		return (NULL);
+	result = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	if (!result)
+		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	i = 0;
+	j = 0;
+	while (str[i] && !is_space(str[i]))
+	{
+		if (str[i] == '\'' || str[i] == '"')
+			handle_quotes(result, str, &i, &j);
+		else
+			result[j++] = str[i++];
 	}
 	result[j] = 0;
-	return result;
+	return (result);
 }
 
 char	**ft_skip_args(char **args)

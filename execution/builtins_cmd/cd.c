@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 10:53:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 09:35:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	ft_setpwd(t_shell *shell, char *pwd)
 	char	*tmp;
 
 	tmp = ft_getenv(shell->env, "PWD")->value;
-	ft_setenv(shell, "OLDPWD", tmp, 0);
-	ft_setenv(shell, "PWD", pwd, 0);
+	ft_setenv(shell, "OLDPWD", tmp, false);
+	ft_setenv(shell, "PWD", pwd, false);
 	return (0);
 }
 

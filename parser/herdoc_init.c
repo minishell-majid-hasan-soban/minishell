@@ -6,12 +6,14 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/22 09:36:26 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 10:34:26 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+
+
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 {
@@ -45,7 +47,37 @@ int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 	return (close(fd_w));
 }
 
-int	init_here_doc(t_ast *ast, char *limiter)
+int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+		return (ft_putstr_fd("minishell: ", 2),
+			ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), -1);
+	if (pid == 0)
+	{
+		signal(SIGINT, sig_heredoc_handler);
+		signal(SIGQUIT, SIG_IGN);
+		status = ft_read_here_doc(ast, fd_w, limiter, expand);
+		if (status != 0)
+		{
+			if (status == -1)
+				(ft_putstr_fd("minishell: close: ", 2), perror(""));
+			exit(1);
+		}
+		exit(0);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
+}
+
+int	init_here_doc(t_ast *ast, char *limiter, int *status)
 {
 	int				fd_w;
 	int				fd_r;
@@ -59,9 +91,9 @@ int	init_here_doc(t_ast *ast, char *limiter)
 		return (ft_close(NULL, fd_w), ft_putstr_fd("minishell: ", 2),
 			ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), -1);
 	unlink("/tmp/.minishell_heredoc");
-	if (ft_read_here_doc(ast, fd_w, limiter, (ft_strchr(limiter, '\'') == NULL
-		&& ft_strchr(limiter, '\"') == NULL)))
-		return (ft_putstr_fd("minishell: ", 2),
-			ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), -1);
-	return (fd_r);
+	*status = ft_fork_heredoc(ast, fd_w, limiter,(ft_strchr(limiter, '\'') == NULL
+		&& ft_strchr(limiter, '\"') == NULL));
+	if (*status != 0)
+		return (ft_close(ast, fd_w), ft_close(ast, fd_r), -1);
+	return (ft_close(ast, fd_w), fd_r);
 }

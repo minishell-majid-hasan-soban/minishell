@@ -6,43 +6,45 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:12:49 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 11:23:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:18:27 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*handle_amb_redir(char *file, char **file_globed)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	free(file);
+	ft_free_args(file_globed);
+	return (NULL);
+}
+
 char	*ft_file_param(t_ast *ast, char *file)
 {
 	char	**file_globed;
-	char	*file_exp;
-	char	*file_skip;
+	char	*exp;
+	char	*skip;
 	int		ret;
 
 	ret = 0;
-	file_exp = ft_expand_arg(ast, file);
-	file_skip = skip_quotes(file_exp);
-	if (!file_skip)
-		return (free(file_exp), ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	exp = ft_expand_arg(ast, file);
+	skip = skip_quotes(exp);
+	if (!skip)
+		return (free(exp), ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	file_globed = ft_calloc(1, sizeof(char *));
 	if (!file_globed)
-		return (free(file_skip), ft_putstr_fd(ALLOC_ERR, 2), NULL);
-	if (ft_strchr(file_skip, '*'))
-		ret = glob_asterisk(&file_globed, file_skip, is_quoted(file, '*', false));
+		return (free(skip), ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	if (ft_strchr(skip, '*'))
+		ret = glob_asterisk(&file_globed, skip, is_quoted(file, '*', false));
 	if (ret)
-		return (free(file_skip), ft_free_args(file_globed), NULL);
-	if (!*file_skip || !is_quoted(file, ' ', true) || ft_argslen(file_globed) > 1)
-	{
-		printf("file: %s\n", file);
-		printf("file_exp: %s\n", file_exp);
-		printf("file_skip: %s\n", file_skip);
-		printf("file_globed: %ld\n", ft_argslen(file_globed));
-		(ft_putstr_fd("minishell: ", 2), ft_putstr_fd(file, 2));
-		ft_putstr_fd(": ambiguous redirect\n", 2);
-		return (free(file_skip), ft_free_args(file_globed), NULL);
-	}
+		return (free(skip), ft_free_args(file_globed), NULL);
+	if (!*skip || !is_quoted(file, ' ', true) || ft_argslen(file_globed) > 1)
+		return (handle_amb_redir(file, file_globed));
 	if (ft_argslen(file_globed) == 1)
-		return (free(file_skip), file_skip = ft_strdup(file_globed[0]),
-			ft_free_args(file_globed), file_skip);
-	return (ft_free_args(file_globed), file_skip);
+		return (free(skip), skip = ft_strdup(file_globed[0]),
+			ft_free_args(file_globed), skip);
+	return (ft_free_args(file_globed), skip);
 }
