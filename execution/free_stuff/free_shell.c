@@ -6,13 +6,23 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:42:53 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 12:53:10 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_free_env(t_env **env)
+void	ft_free_args(char **args)
+{
+	int	j;
+
+	j = 0;
+	while (args && args[j])
+		free(args[j++]);
+	free(args);
+}
+
+void	ft_free_env(t_env **env)
 {
 	t_env	*tmp;
 
@@ -26,7 +36,7 @@ static void	ft_free_env(t_env **env)
 	}
 }
 
-static void	ft_free_command(t_command *cmd)
+void	ft_free_command(t_command *cmd)
 {
 	t_redirection	*redir;
 	t_redirection	*tmp;
@@ -51,7 +61,7 @@ static void	ft_free_command(t_command *cmd)
 	free(cmd);
 }
 
-static void	ft_free_ast(t_ast **ast)
+void	ft_free_ast(t_ast **ast)
 {
 	if (ast == NULL || *ast == NULL)
 		return ;

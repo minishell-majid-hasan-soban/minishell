@@ -2,6 +2,7 @@ BLUE = \033[0;34m
 GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
+
 LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       libft/ft_strjoin.c      libft/ft_substr.c \
 	 	libft/ft_isascii.c      libft/ft_lstlast.c      libft/ft_putchar_fd.c   libft/ft_strlcat.c      libft/ft_tolower.c \
 	 	libft/ft_isdigit.c      libft/ft_lstmap.c       libft/ft_putendl_fd.c   libft/ft_strlcpy.c      libft/ft_toupper.c \
@@ -20,7 +21,8 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
 		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c \
-		string_utils/string_utils1.c 
+		init_shell/init_ast.c			init_shell/init_env.c			init_shell/init_shell.c 		exec_cmd/run_cmd.c \
+		free_stuff/free_shell.c			signals/signals.c
 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c					\

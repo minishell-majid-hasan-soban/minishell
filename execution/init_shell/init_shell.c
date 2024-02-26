@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:37:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:51:58 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:22:21 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	ft_env_to_list(t_env **env, char **envp)
 	*env = NULL;
 	while (envp[++i])
 	{
-		printf("envp[%d]: %s\n", i, envp[i]);
 		name = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') - envp[i]);
 		if (!name)
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
@@ -47,9 +46,8 @@ static int	ft_env_to_list(t_env **env, char **envp)
 	return (0);
 }
 
-t_shell	*ft_init_shell(t_shell *shell, char **envp, t_ast *ast)
+t_shell	*ft_init_shell(t_shell *shell, char **envp)
 {
-	(void)ast;
 	ft_env_to_list(&shell->env, envp);
 	ft_set_minimal_env(shell);
 	shell->exit_status = 0;

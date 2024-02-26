@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/25 12:49:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:22:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,5 +237,26 @@ void			ft_cmd_nf_err(char *cmd, int status);
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);
 void			exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2]);
+void			run_cmd(t_shell *shell);
+
+// // free
+void			ft_free_args(char **args);
+void			ft_free_env(t_env **env);
+void			ft_free_command(t_command *cmd);
+void			ft_free_ast(t_ast **ast);
+void			ft_free_shell(t_shell *shell);
+
+// // init
+int				ft_init_ast(t_ast **ast, t_shell *shell, bool piped);
+int				ft_set_minimal_env(t_shell *shell);
+t_shell			*ft_init_shell(t_shell *shell, char **envp);
+
+// // signals
+void			ft_signal_handler(int signum);
+void			sig_heredoc_handler(int signum);
+
+// // static
+int				ast_running(bool flag, bool set);
+int				exit_status(int newstatus, bool set);
 
 #endif
