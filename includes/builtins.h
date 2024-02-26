@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:32:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/19 13:47:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:51:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		ft_env_addback(t_env **env, char *name, char *value);
 t_env	*ft_getenv(t_env *env, char *name);
 int		ft_setenv(t_shell *shell, char *name, char *value, bool append);
 int		ft_add_env(t_ast *ast, char *str);
-// void	ft_perror(char *name, char *str, char *suffix);
 char	**ft_env_to_arr(t_env *env);
 char	*get_value(t_env *env, char *name);
 bool	ft_valid_name(char *name);

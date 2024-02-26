@@ -6,21 +6,14 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/25 15:29:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 10:34:26 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-void	sig_heredoc_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-		exit(130);
-	}
-}
+
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 {

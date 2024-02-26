@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:58:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/25 13:00:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:40:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_exit(t_ast *ast, char **args)
 	ft_putstr_fd("exit\n", 1);
 	i = 0;
 	if (args[1] == NULL)
-		return (ft_putstr_fd("exit\n", 1),ft_free_shell(ast->shell), 1);
+		return (ft_putstr_fd("exit\n", 1), ft_free_shell(ast->shell), 1);
 	else if (is_number(args[1]))
 	{
 		i = ft_atoi(args[1]);

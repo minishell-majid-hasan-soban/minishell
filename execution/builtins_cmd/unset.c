@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:23:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 18:30:42 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:18:49 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_unset(t_ast *ast, char **args)
 {
 	int	i;
 	int	ret;
-	
+
 	ret = 0;
 	i = 1;
 	while (args[i])

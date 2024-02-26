@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/21 10:47:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 09:46:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ int	ft_env(t_ast *ast, char **args, bool export)
 	{
 		if (export)
 		{
-			if (tmp->value)
+			if (ft_strcmp(tmp->name, "_") == 0)
+				;
+			else if (tmp->value)
 				printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
 			else
 				printf("declare -x %s\n", tmp->name);

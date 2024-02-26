@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 15:47:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:13:49 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ char	**ft_glob_args(t_ast *ast, char **args)
 		if (ft_strchr(args[i], '*') == NULL)
 			ret = handle_no_asterisk(&globed_args, args[i]);
 		else
-			ret = glob_asterisk(&globed_args, args[i], is_quoted(ast->command->args[i], '*', false));
+			ret = glob_asterisk(&globed_args, args[i],
+					is_quoted(ast->command->args[i], '*', false));
 		if (ret)
 			return (NULL);
 		i++;

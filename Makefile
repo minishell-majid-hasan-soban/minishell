@@ -10,19 +10,22 @@ LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       
 		libft/ft_atoi.c         libft/ft_lstadd_back.c  libft/ft_memchr.c       libft/ft_split.c        libft/ft_strncmp.c \
 		libft/ft_bzero.c        libft/ft_lstadd_front.c libft/ft_memcmp.c       libft/ft_strchr.c       libft/ft_strnstr.c \
 		libft/ft_calloc.c       libft/ft_lstclear.c     libft/ft_memcpy.c       libft/ft_strdup.c       libft/ft_strrchr.c \
-		libft/ft_isalnum.c      libft/ft_lstdelone.c    libft/ft_memmove.c
+		libft/ft_isalnum.c      libft/ft_lstdelone.c    libft/ft_memmove.c \
+
 EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c					redirections/red_in.c \
 		builtins_cmd/cd.c               builtins_cmd/handlers.c         handlers/error_handle.c         redirections/red_out.c \
 		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c         redirections/her_doc.c \
-		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utis.c 		glober/globber_utils.c\
-		builtins_cmd/exit.c             exec_cmd/exec_ast.c             redirections/append.c           string_utils/string_utils1.c \
+		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utils1.c 		glober/globber_utils.c\
+		builtins_cmd/exit.c             builtins_cmd/env_utils2.c 		exec_cmd/exec_ast.c             redirections/append.c \
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
-		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c\
+		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c \
+		string_utils/string_utils1.c 
 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c					\
 		parser/herdoc_init.c 			parser/add_seperator.c
+
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  test.c
 OBJ = $(SRC:.c=.o)
 CC = cc
