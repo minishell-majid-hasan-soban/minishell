@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 14:22:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:32:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,12 @@ void			ft_cmd_nf_err(char *cmd, int status);
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);
 void			exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2]);
-void			run_cmd(t_shell *shell);
+
+// // shell
+int				run_cmd(t_shell *shell);
+t_token_arr		ft_get_token(t_shell *shell);
+int				ft_readline(t_shell *shell);
+int				count_nodes(t_ast *ast);
 
 // // free
 void			ft_free_args(char **args);

@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 03:23:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 14:29:03 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:29:32 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int	ft_unset(t_ast *ast, char **args)
 {
 	int	i;
 
+	int	status;
+	int	ret;
+
 	int	ret;
 	ret = 0;
 	i = 1;
@@ -56,8 +59,9 @@ int	ft_unset(t_ast *ast, char **args)
 			ret = 1;
 		}
 		else
-			ft_unsetenv(args[i], ast->shell);
+			status = ft_unsetenv(args[i], ast->shell);
 		i++;
 	}
-	return (ret);
+
+	return (status);
 }
