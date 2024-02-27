@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/27 15:42:48 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:46:29 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
 
 int	add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
 {
+	t_token	*token;
+	
 	if (tokens->count + 1 > tokens->size)
 	{
-		tokens->arr = ft_realloc(tokens->arr, tokens->size
+		token = ft_realloc(tokens->arr, tokens->size
 				* sizeof(t_token), tokens->size * 2 * sizeof(t_token));
+		free(tokens->arr);
+		tokens->arr = token;
 		if (!tokens->arr)
 			return (-1);
 		tokens->size *= 2;

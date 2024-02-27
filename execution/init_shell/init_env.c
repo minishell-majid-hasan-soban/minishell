@@ -6,11 +6,26 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:43:27 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:43:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:14:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_setoldpwd(t_shell *shell)
+{
+	char	*tmp;
+	t_env	*env;
+	
+	env = ft_getenv(shell->env, "OLDPWD");
+	if (env)
+		tmp = env->name;
+	else
+		tmp = ft_strdup("OLDPWD");
+	if (tmp == NULL)
+		return (ft_putstr_fd(ALLOC_ERR, 2), 1);
+	return (ft_setenv(shell, tmp, NULL, false));
+}
 
 static int	ft_setpwd(t_shell *shell)
 {
@@ -85,12 +100,7 @@ static int	ft_setunderscore(t_shell *shell)
 
 int	ft_set_minimal_env(t_shell *shell)
 {
-	char	*oldpwd;
-
-	oldpwd = ft_strdup("OLDPWD");
-	if (oldpwd == NULL)
-		return (ft_putstr_fd(ALLOC_ERR, 2), 1);
-	ft_setenv(shell, oldpwd, NULL, false);
+	ft_setoldpwd(shell);
 	ft_setpwd(shell);
 	ft_setshlvl(shell);
 	ft_setunderscore(shell);

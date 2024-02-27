@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 15:51:23 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 17:18:21 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_readline(t_shell *shell)
 	if (ft_empty(shell->line))
 	{
 		free(shell->line);
+		shell->line = NULL;
 		return (1);
 	}
 	add_history(shell->line);

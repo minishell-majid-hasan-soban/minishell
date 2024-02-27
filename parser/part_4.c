@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/26 18:38:54 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/27 16:19:30 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int	tokenizer_part1(char **prompt, t_token_arr *tokens)
 t_token_arr	tokenize(char *prompt)
 {
 	t_token_arr	tokens;
+	t_token		*token;
 	int			ret;
 
 	tokens = (t_token_arr){.arr = 0, .size = 2, .count = 0};
-	tokens.arr = ft_realloc(tokens.arr, 0, tokens.size * sizeof(t_token));
+	token = ft_realloc(tokens.arr, 0, tokens.size * sizeof(t_token));
+	free(tokens.arr);
+	tokens.arr = token;
 	if (!tokens.arr)
 	{
 		tokens = (t_token_arr){0};

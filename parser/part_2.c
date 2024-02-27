@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:29:16 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/26 17:11:21 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/27 17:16:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,19 @@ void	skip_space(char **prompt)
 
 int	add_token_word(t_token_arr *tokens, char *value)
 {
+	t_token	*token;
+
 	if (tokens->count + 1 > tokens->size)
 	{
-		tokens->arr = ft_realloc(tokens->arr, tokens->size * sizeof(t_token),
+		token = ft_realloc(tokens->arr, tokens->size * sizeof(t_token),
 				tokens->size * 2 * sizeof(t_token));
+		free(tokens->arr);
+		tokens->arr = token;
 		if (!tokens->arr)
 			return (-1);
 		tokens->size *= 2;
 	}
-	// printf("here\n");
 	tokens->arr[tokens->count++] = (t_token){value,
 		TOKEN_WORD, T_NONE, -1};
-	// printf("word2 = %s\n", tokens->arr[tokens->count-1].value);
 	return (1);
 }
