@@ -22,13 +22,13 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
 		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c \
 		init_shell/init_ast.c			init_shell/init_env.c			init_shell/init_shell.c 		exec_cmd/run_cmd.c \
-		free_stuff/free_shell.c			signals/signals.c
+		free_stuff/free_shell.c			signals/signals.c				expander/underscore.c			builtins_cmd/cd_utils.c 
 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c					\
 		parser/herdoc_init.c 			parser/add_seperator.c
 
-SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  test.c
+SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address

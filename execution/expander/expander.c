@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 09:58:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:12:11 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	**ft_expand_args(t_ast *ast, char **args)
 	int		i;
 	int		j;
 
+	if (!args)
+		return (NULL);
 	i = 0;
 	j = 0;
 	expanded = ft_calloc(ft_argslen(args) + 1, sizeof(char *));

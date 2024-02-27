@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/22 17:30:54 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/26 18:19:41 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	free_command(t_command *command)
 	free_redirections(command->redirections);
 	command->redirections = NULL;
 	free(command);
-} 
- 
-void	free_ast(t_ast* node)
+}
+
+void	free_ast(t_ast *node)
 {
 	if (node == NULL)
 		return ;

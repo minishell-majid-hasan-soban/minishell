@@ -6,14 +6,35 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:34:26 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:36:09 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
+static char	*expand_heredoc(t_ast *ast, char *line)
+{
+	char	*tmp;
+	char	*expanded;
+	char	*to_free;
 
+	expanded = ft_strdup("");
+	while (*line)
+	{
+		if (*line == '$')
+			handle_dollar(ast, &line, &expanded, false);
+		else
+		{
+			tmp = expanded;
+			to_free = ft_substr(line, 0, 1);
+			expanded = ft_strjoin(expanded, to_free);
+			(free(to_free), free(tmp));
+			line++;
+		}
+	}
+	return (expanded);
+}
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 {
@@ -34,9 +55,9 @@ int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 		free(tmp);
 		if (expand == true)
 		{
-			tmp = ft_expand_arg(ast, line);
+			tmp = expand_heredoc(ast, line);
 			if (!tmp)
-				return (ft_putstr_fd(ALLOC_ERR, 2), 1);
+				return (close(fd_w), ft_putstr_fd(ALLOC_ERR, 2), -11);
 			ft_putstr_fd(tmp, fd_w);
 			free(tmp);
 		}
@@ -65,7 +86,7 @@ int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
 		{
 			if (status == -1)
 				(ft_putstr_fd("minishell: close: ", 2), perror(""));
-			exit(1);
+			exit(42);
 		}
 		exit(0);
 	}

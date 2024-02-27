@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:29:16 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/20 16:30:07 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:11:21 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int	add_token_word(t_token_arr *tokens, char *value)
 			return (-1);
 		tokens->size *= 2;
 	}
+	// printf("here\n");
 	tokens->arr[tokens->count++] = (t_token){value,
 		TOKEN_WORD, T_NONE, -1};
+	// printf("word2 = %s\n", tokens->arr[tokens->count-1].value);
 	return (1);
 }

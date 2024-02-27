@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:11:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 08:40:37 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:09:09 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	**ft_skip_args(char **args)
 	char	**new_args;
 
 	i = 0;
+	if (!args)
+		return (NULL);
 	new_args = ft_calloc(ft_argslen(args) + 1, sizeof(char *));
 	if (!new_args)
 		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);

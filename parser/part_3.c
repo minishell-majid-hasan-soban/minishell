@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/23 16:07:41 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:11:30 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	add_eof(t_token_arr *tokens)
 	}
 	tokens->arr[tokens->count++] = (t_token){NULL,
 		TOKEN_EOF, T_NONE, -1};
+	// printf("word2 = %s\n, count = %ld\n", tokens->arr[0].value, tokens->count);
 	return (1);
 }
 
@@ -87,5 +88,6 @@ int	add_word(char **prompt, t_token_arr *tokens)
 	if (!word)
 		return (0);
 	*prompt += prompt_ptr - (*prompt);
+	// printf("word = %s\n", word);
 	return (add_token_word(tokens, word));
 }

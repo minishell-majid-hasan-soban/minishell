@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/25 15:32:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:42:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ int	check_errors_part1(t_token_arr *tokens, t_err *d)
 		print_parse_error_near(&tokens->arr[d->index]);
 		return (-1);
 	}
-	// print_token(&tokens->arr[d->index]);
 	if (d->type == TOKEN_OP)
 		d->is_in_op++;
 	if (d->type == TOKEN_CP)
 		d->is_in_op--;
-	// printf("is_in_op = %ld\n", d->is_in_op);
 	if (d->type == TOKEN_CP && d->is_in_op >= 0)
 		d->is_after_parantheses = true;
 	if (d->type == TOKEN_PIPE || d->type == TOKEN_AND || d->type == TOKEN_OR)
@@ -99,8 +97,6 @@ int	check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d)
 	while (tokens->arr[d->index].type != TOKEN_EOF)
 	{
 		d->index++;
-		// printf("here\n");
-		// print_token(&tokens->arr[d->index]);
 		if (!d->is_word_found && tokens->arr[d->index].type != TOKEN_WORD)
 		{
 			print_parse_error_near(&tokens->arr[d->index]);
@@ -146,7 +142,7 @@ int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 		d->j = d->index;
 		d->is_word_found = false;
 		status = check_errors_part3(tokens, ast, d);
-		if (status == -1 || status == 130)
+		if (status == -1 || status == 130 || status == 42)
 			return (status);
 		return (2);
 	}
@@ -169,7 +165,7 @@ int	check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d)
 	d->past_type = tokens->arr[d->index - 1 * (d->index > 0)].type;
 	d->type = tokens->arr[d->index].type;
 	ret = check_errors_part4(tokens, ast, d);
-	if (ret == -1 || ret == 130)
+	if (ret == -1 || ret == 130 || ret == 42)
 		return (ret);
 	if (ret == 2)
 		return (2);
@@ -202,7 +198,7 @@ int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 	while (d.index < tokens->count)
 	{
 		ret = check_errors_part5(tokens, ast, &d);
-		if (ret == -1 || ret == 130)
+		if (ret == -1 || ret == 130 || ret == 42)
 			return (ret);
 	}
 	if (d.is_in_op > 0)

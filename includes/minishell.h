@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 14:32:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:37:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ typedef struct		s_shell
 	int				fd_in;
 	int				fd_out;
 	int				exit_status;
+	bool			tty;
 	t_error			error;
 }					t_shell;
 
@@ -214,6 +215,7 @@ int				pipe_handle(int *pipefd);
 char			*ft_expand_arg(t_ast *ast, char *arg);
 char			**ft_expand_args(t_ast *ast, char **args);
 void			handle_dollar(t_ast *ast, char **arg, char **expanded, bool quoted);
+int				set_underscore(t_shell *shell);
 
 // // glober
 char			**ft_glob_args(t_ast *ast, char **args);

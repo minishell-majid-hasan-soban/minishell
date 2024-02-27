@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 12:53:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 07:48:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_free_ast(t_ast **ast)
 void	ft_free_shell(t_shell *shell)
 {
 	int	status;
-	
+
 	status = shell->exit_status;
 	ft_free_env(&shell->env);
 	ft_free_ast(&shell->ast);

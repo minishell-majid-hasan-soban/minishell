@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:32:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 08:51:59 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 10:15:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int		ft_add_env(t_ast *ast, char *str);
 char	**ft_env_to_arr(t_env *env);
 char	*get_value(t_env *env, char *name);
 bool	ft_valid_name(char *name);
+void	ft_cd_error(char *arg);
 
 #endif

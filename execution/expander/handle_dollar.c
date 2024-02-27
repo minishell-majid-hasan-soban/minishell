@@ -6,20 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/25 12:50:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:05:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*handle_undescore(t_ast *ast, char **arg)
-{
-	char	*var;
-
-	(*arg)++;
-	var = get_value(ast->shell->env, "_");
-	return (var);
-}
 
 static char	*handle_question(t_ast *ast, char **arg)
 {
@@ -63,12 +54,12 @@ void	handle_dollar(t_ast *ast, char **arg, char **expanded, bool quoted)
 	char	*to_free;
 
 	(*arg)++;
+	if (!expanded || !*expanded)
+		return ;
 	if (**arg == '\0')
 		var = ft_strdup("$");
 	else if (**arg == '?')
 		var = handle_question(ast, arg);
-	else if (**arg == '_')
-		var = handle_undescore(ast, arg);
 	else
 		var = handle_alphanum(ast, arg, quoted);
 	to_free = *expanded;

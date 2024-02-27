@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 09:01:09 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/23 07:47:39 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 11:11:33 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef enum t_error
 	T_NONE,
 	T_SYNTAX,
 	T_MALLOC,
-	T_FUNC
+	T_FUNC,
+	T_FATAL
 }				t_error;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:46:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:46:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 07:49:34 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
 {
 	int		status;
-	
+
 	status = 0;
 	if (*ast == NULL)
 		return (0);

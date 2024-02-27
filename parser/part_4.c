@@ -6,19 +6,34 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/21 22:15:12 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/26 18:38:54 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
 #include "parser.h"
+
+int	tokenizer_part1(char **prompt, t_token_arr *tokens)
+{
+	int	ret;
+
+	ret = 1;
+	if (is_space(**prompt))
+		skip_space(prompt);
+	if (is_separator(*prompt))
+		ret = handle_seperator(prompt, tokens);
+	else if (*prompt)
+		ret = add_word(prompt, tokens);
+	return (ret);
+}
 
 t_token_arr	tokenize(char *prompt)
 {
 	t_token_arr	tokens;
 	int			ret;
 
-	tokens = (t_token_arr){0, 1000, 0};
+	tokens = (t_token_arr){.arr = 0, .size = 2, .count = 0};
 	tokens.arr = ft_realloc(tokens.arr, 0, tokens.size * sizeof(t_token));
 	if (!tokens.arr)
 	{
@@ -27,12 +42,7 @@ t_token_arr	tokenize(char *prompt)
 	}
 	while (*prompt)
 	{
-		if (is_space(*prompt))
-			skip_space(&prompt);
-		if (is_separator(prompt))
-			ret = handle_seperator(&prompt, &tokens);
-		else if (*prompt)
-			ret = add_word(&prompt, &tokens);
+		ret = tokenizer_part1(&prompt, &tokens);
 		if (ret == -1)
 		{
 			free_token_arr(&tokens);
@@ -41,20 +51,21 @@ t_token_arr	tokenize(char *prompt)
 		}
 	}
 	add_eof(&tokens);
-	
 	return (tokens);
 }
 
-void	free_token_arr(t_token_arr *tokens)
+void	free_token_arr(t_token_arr	*tokens)
 {
 	int	i;
 
+	if (!tokens->arr)
+		return ;
 	i = -1;
 	while (++i < tokens->count)
 		if (tokens->arr[i].value && tokens->arr[i].type != TOKEN_EOF)
 			free(tokens->arr[i].value);
 	free(tokens->arr);
-	(*tokens) = (t_token_arr){0};
+	tokens->arr = NULL;
 }
 
 t_ast	*create_ast_node(t_node_type type, t_command *command)

@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:37:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 14:22:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:37:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static  struct termios	ft_settermios(void)
+static struct termios	ft_settermios(void)
 {
 	struct termios	og_term;
 	struct termios	md_term;
@@ -48,6 +48,8 @@ static int	ft_env_to_list(t_env **env, char **envp)
 
 t_shell	*ft_init_shell(t_shell *shell, char **envp)
 {
+	shell->error = T_NONE;
+	shell->tty = true;
 	ft_env_to_list(&shell->env, envp);
 	ft_set_minimal_env(shell);
 	shell->exit_status = 0;
@@ -55,9 +57,11 @@ t_shell	*ft_init_shell(t_shell *shell, char **envp)
 	shell->fd_in = dup(0);
 	shell->fd_out = dup(1);
 	if (shell->fd_in == -1 || shell->fd_out == -1)
-		(ft_putstr_fd("minishell: dup: ", 2), perror(""), exit(1));
+	{
+		(ft_putstr_fd("minishell: dup: ", 2), perror(""));
+		shell->error = T_FATAL;
+	}
 	shell->ast = NULL;
-	shell->error = T_NONE;
 	signal(SIGINT, ft_signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	shell->term = ft_settermios();

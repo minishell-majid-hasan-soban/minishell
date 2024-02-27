@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 08:38:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 09:24:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/26 18:31:38 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static int	handle_append_env(t_env *env, char *value)
 	char	*tmp;
 
 	tmp = env->value;
-	if (env->value)
+	if (tmp)
 	{
-		env->value = ft_strjoin(env->value, value);
+		free(env->value);
+		env->value = ft_strjoin(tmp, value);
 		free(tmp);
 		if (env->value == NULL)
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
@@ -35,16 +36,8 @@ static int	handle_append_env(t_env *env, char *value)
 
 static int	handle_assign_env(t_env *env, char *value)
 {
-	if (env->value)
-		free(env->value);
-	if (value == NULL)
-		env->value = NULL;
-	else
-	{
-		env->value = ft_strdup(value);
-		if (env->value == NULL)
-			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
-	}
+	free(env->value);
+	env->value = value;
 	return (0);
 }
 
