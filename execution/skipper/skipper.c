@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:11:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 15:09:09 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:04:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int	skip_quotes_work(char **dest, char **str, char quote)
 {
 	(*str)++;
-	if (!is_in_str(*str, quote))
-	{
-		ft_putstr_fd("minishell: syntax error, expected `", 2);
-		ft_putchar_fd(quote, 2);
-		ft_putstr_fd("`\n", 2);
-		return (-1);
-	}
-	while (**str != quote)
+	// if (!is_in_str(*str, quote))
+	// {
+	// 	ft_putstr_fd("minishell: syntax error, expected `", 2);
+	// 	ft_putchar_fd(quote, 2);
+	// 	ft_putstr_fd("`\n", 2);
+	// 	return (-1);
+	// }
+	while (**str && **str != quote)
 	{
 		*(*dest) = *(*str);
 		(*str)++;
