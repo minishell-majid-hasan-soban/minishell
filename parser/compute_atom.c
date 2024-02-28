@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:09:00 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:55:05 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:20:54 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	extract_command_part2(t_token **curr_token, t_command *command)
 	}
 	return (1);
 }
-
-
 
 t_ast	*extract_command(t_token **curr_token)
 {

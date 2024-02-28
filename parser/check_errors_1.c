@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:29:32 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:54:27 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:20:17 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,3 @@ int	check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d)
 	}
 	return (1);
 }
-

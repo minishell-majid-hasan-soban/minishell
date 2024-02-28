@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   part_4.c                                           :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:04:25 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:22:15 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-#include "parser.h"
 
 int	tokenizer_part1(char **prompt, t_token_arr *tokens)
 {
@@ -56,6 +54,3 @@ t_token_arr	tokenize(char *prompt)
 	add_eof(&tokens);
 	return (tokens);
 }
-
-
-

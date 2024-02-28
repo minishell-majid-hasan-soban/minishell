@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:06:19 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:20:00 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_redirection_type	get_redirection_type(t_token_type type)
 		return (R_APPEND);
 	return (R_HEREDOC);
 }
-
 
 char	token_is_operator(t_token *curr_token)
 {

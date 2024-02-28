@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:07:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 22:05:23 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:21:10 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	parse_expression_while_guts(t_token **curr_token,
 	data->l_ast = data->new_ast;
 	return (1);
 }
-
 
 t_ast	*parse_expression(t_token **curr_token, int min_precedence, bool in_op)
 {

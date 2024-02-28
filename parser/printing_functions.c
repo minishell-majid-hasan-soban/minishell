@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:02:00 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:02:25 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:21:42 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,47 +57,47 @@ void	print_command_args(t_command *cmd)
 	print_redirections(cmd->redirections);
 }
 
-void	print_ast(const t_ast *node, const char *prefix, int is_left)
-{
-	char	next_prefix[256];
-	int		i;
+// void	print_ast(const t_ast *node, const char *prefix, int is_left)
+// {
+// 	char	next_prefix[256];
+// 	int		i;
 
-	if (node == NULL)
-		return ;
-	printf("%s", prefix);
-	i = -1;
-	while (++i < 256)
-		next_prefix[i] = 0;
-	if (is_left)
-		printf("%s", "|--");
-	else
-		printf("%s", "\\--");
-	if (node->type == N_CMD)
-	{
-		print_command_args(node->command);
-		if(node->redirections)
-			print_redirections(node->redirections);
-		printf("\n");
-	}
-	else
-	{
-		if ((node->type == N_PIPE))
-			printf("%s", "Pipe");
-		else if (node->type == N_AND)
-			printf("%s", "AND");
-		else
-			printf("%s", "OR");
-		if (node->redirections)
-		{
-			print_redirections(node->redirections);
-		}
-		printf("\n");
-	}
-	ft_strlcat(next_prefix, prefix, 256);
-	if (is_left)
-		ft_strlcat(next_prefix, "|   ", 256);
-	else
-		ft_strlcat(next_prefix, "    ", 256);
-	print_ast(node->left, next_prefix, 1);
-	print_ast(node->right, next_prefix, 0);
-}
+// 	if (node == NULL)
+// 		return ;
+// 	printf("%s", prefix);
+// 	i = -1;
+// 	while (++i < 256)
+// 		next_prefix[i] = 0;
+// 	if (is_left)
+// 		printf("%s", "|--");
+// 	else
+// 		printf("%s", "\\--");
+// 	if (node->type == N_CMD)
+// 	{
+// 		print_command_args(node->command);
+// 		if(node->redirections)
+// 			print_redirections(node->redirections);
+// 		printf("\n");
+// 	}
+// 	else
+// 	{
+// 		if ((node->type == N_PIPE))
+// 			printf("%s", "Pipe");
+// 		else if (node->type == N_AND)
+// 			printf("%s", "AND");
+// 		else
+// 			printf("%s", "OR");
+// 		if (node->redirections)
+// 		{
+// 			print_redirections(node->redirections);
+// 		}
+// 		printf("\n");
+// 	}
+// 	ft_strlcat(next_prefix, prefix, 256);
+// 	if (is_left)
+// 		ft_strlcat(next_prefix, "|   ", 256);
+// 	else
+// 		ft_strlcat(next_prefix, "    ", 256);
+// 	print_ast(node->left, next_prefix, 1);
+// 	print_ast(node->right, next_prefix, 0);
+// }
