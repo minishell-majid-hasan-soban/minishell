@@ -6,11 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 10:16:50 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/25 13:06:56 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:02:12 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <libc.h>
+
+// ((ls < a | cat > b) < d < e && (cat >> t >> e) < a < b << r || echo fffff ) < a << e
 
 int main()
 {

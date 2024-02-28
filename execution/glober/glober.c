@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 08:13:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 08:53:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static char	**glob_arg(char *pattern)
 static int	handle_no_asterisk(char ***globed_args, char *args)
 {
 	char	**tmp;
+	char	*tmp2;
 
 	tmp = *globed_args;
 	*globed_args = ft_realloc((*globed_args),
@@ -52,7 +53,11 @@ static int	handle_no_asterisk(char ***globed_args, char *args)
 	if (!(*globed_args))
 		return (ft_free_args(tmp), ft_putstr_fd(ALLOC_ERR, 2), 1);
 	free(tmp);
-	(*globed_args)[ft_argslen(*globed_args)] = ft_strdup(args);
+	tmp2 = ft_strdup(args);
+	if (!tmp2)
+		return (ft_free_args(*globed_args), *globed_args = NULL,
+			ft_putstr_fd(ALLOC_ERR, 2), 1);
+	(*globed_args)[ft_argslen(*globed_args)] = tmp2;
 	return (0);
 }
 

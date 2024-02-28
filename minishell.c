@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 17:25:07 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 07:48:06 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,11 @@ int	main(int argc, char **argv, char **envp)
 		tokens_tmp = tokens;
 		shell.ast = parse_expression(&tokens_tmp.arr, 1, false);
 		free_token_arr(&tokens);
-		ft_free_ast(&shell.ast);
-		free(shell.line);
-		// ft_free_ast(&shell.ast);
-		// run_cmd(&shell);
-		// ast_running(false, true);
-		// if (!shell.tty)
-		// 	ft_free_shell(&shell);
-		// reset_shell(&shell);
+		run_cmd(&shell);
+		ast_running(false, true);
+		if (!shell.tty)
+			ft_free_shell(&shell);
+		reset_shell(&shell);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:00:57 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 08:07:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 09:57:11 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,22 @@ int	count_nodes(t_ast *ast)
 static int	empty_underscore(t_shell *shell)
 {
 	char	*arg;
+	char	*underscore;
 
 	arg = ft_strdup("");
 	if (arg == NULL)
 		return (ft_putstr_fd(ALLOC_ERR, 2), 1);
-	return (ft_setenv(shell, "_", arg, false));
+	underscore = ft_strdup("_");
+	if (underscore == NULL)
+		return (free(arg), ft_putstr_fd(ALLOC_ERR, 2), 1);
+	return (ft_setenv(shell, underscore, arg, true));
 }
 
 int	set_underscore(t_shell *shell)
 {
 	int		count;
 	char	*arg;
+	char	*under;
 	char	**args;
 
 	count = count_nodes(shell->ast);
@@ -49,5 +54,8 @@ int	set_underscore(t_shell *shell)
 	arg = ft_strdup(args[ft_argslen(args) - 1]);
 	if (arg == NULL)
 		return (ft_putstr_fd(ALLOC_ERR, 2), 1);
-	return (ft_setenv(shell, "_", arg, false));
+	under = ft_strdup("_");
+	if (under == NULL)
+		return (free(arg), ft_putstr_fd(ALLOC_ERR, 2), 1);
+	return (ft_setenv(shell, under, arg, false));
 }

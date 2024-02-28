@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 08:38:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 18:31:38 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 09:50:16 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,13 @@ static int	handle_append_env(t_env *env, char *value)
 	tmp = env->value;
 	if (tmp)
 	{
-		free(env->value);
 		env->value = ft_strjoin(tmp, value);
-		free(tmp);
+		(free(tmp), free(value));
 		if (env->value == NULL)
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
 	}
 	else
-	{
-		env->value = ft_strdup(value);
-		if (env->value == NULL)
-			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
-	}
+		env->value = value;
 	return (0);
 }
 
@@ -48,6 +43,7 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 	tmp = ft_getenv(shell->env, name);
 	if (tmp)
 	{
+		free(name);
 		if (append)
 			return (handle_append_env(tmp, value));
 		else
