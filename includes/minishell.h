@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 14:37:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 07:54:38 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ typedef struct	s_redirection
 {
 	t_redirection_type		type;
 	char					*file;
+	char					*expanded_file;
 	int						heredoc_fd;
 	bool					expanded;
-	char					*expanded_file;
 	struct	s_redirection	*next;
 	struct	s_redirection	*prev;
 	t_error					error;

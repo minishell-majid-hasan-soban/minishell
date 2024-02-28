@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 10:14:42 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 09:43:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,17 @@ static int	parent_dir(t_shell *shell)
 
 	oldpwd = getcwd(NULL, 0);
 	if (oldpwd == NULL)
-		return (chdir("/"), ft_cd_error(".."), 1);
+	{
+		chdir("/");
+		pwd = ft_strdup("/");
+		if (ft_getenv(shell->env, "OLDPWD"))
+			ft_setenv(shell, "OLDPWD", pwd, false);
+		if (ft_getenv(shell->env, "PWD"))
+			ft_setenv(shell, "PWD", pwd, false);
+		if (!ft_getenv(shell->env, "OLDPWD") && !ft_getenv(shell->env, "PWD"))
+			free(pwd);
+		return (ft_cd_error(".."), 1);
+	}
 	if (chdir("..") != -1)
 		return (ft_setoldnew_pwd(shell, getcwd(NULL, 0), oldpwd));
 	pwd = ft_strdup("/");

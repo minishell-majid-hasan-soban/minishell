@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 17:18:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 10:17:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ t_token_arr	ft_get_token(t_shell *shell)
 	if (her_status == -1 || her_status == 130 || her_status == 42)
 	{
 		if (her_status == -1)
-			shell->exit_status = 2;
+			shell->exit_status = 258;
 		else
 			shell->exit_status = 1;
+		exit_status(shell->exit_status, true);
 		free_token_arr(&tokens);
 		tokens = (t_token_arr){0};
+		free(shell->line);
 	}
 	return (tokens);
 }

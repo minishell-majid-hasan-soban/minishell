@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 07:48:32 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:45:56 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_free_command(t_command *cmd)
 		return ;
 	ft_free_args(cmd->args);
 	ft_free_args(cmd->expanded_args);
+	ft_free_args(cmd->skiped_args);
 	ft_free_args(cmd->globed_args);
 	redir = cmd->redirections;
 	while (redir)
@@ -63,11 +64,26 @@ void	ft_free_command(t_command *cmd)
 
 void	ft_free_ast(t_ast **ast)
 {
+	t_redirection	*redir;
+	t_redirection	*tmp;
+
 	if (ast == NULL || *ast == NULL)
 		return ;
 	ft_free_ast(&(*ast)->left);
 	ft_free_ast(&(*ast)->right);
 	ft_free_command((*ast)->command);
+	redir = (*ast)->redirections;
+	while (redir)
+	{
+		tmp = redir;
+		if (redir->type == R_HEREDOC)
+			if (redir->heredoc_fd != -1 && close(redir->heredoc_fd) == -1)
+				(ft_putstr_fd("minishell: close: ", 2), perror(""));
+		redir = redir->next;
+		free(tmp->file);
+		free(tmp->expanded_file);
+		free(tmp);
+	}
 	free(*ast);
 	*ast = NULL;
 }

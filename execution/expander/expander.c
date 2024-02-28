@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 15:12:11 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:45:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,35 @@ static void	append_squote(char **arg, char **expanded)
 {
 	int		i;
 	char	*tmp;
+	char	*to_free;
 
 	i = 1;
 	while ((*arg)[i] && (*arg)[i] != '\'')
 		i++;
 	tmp = *expanded;
-	*expanded = ft_strjoin(*expanded, ft_substr(*arg, 0, i + 1));
-	free(tmp);
+	to_free = ft_substr(*arg, 0, i + 1);
+	*expanded = ft_strjoin(*expanded, to_free);
+	(free(to_free), free(tmp));
 	*arg += i + ((*arg)[i] != '\0');
+}
+
+static void	append_char(char **arg, char **expanded)
+{
+	char	*to_free;
+	char	*to_free2;
+
+	to_free = *expanded;
+	to_free2 = ft_substr(*arg, 0, 1);
+	*expanded = ft_strjoin(*expanded, to_free2);
+	(free(to_free), free(to_free2));
+	(*arg)++;
 }
 
 static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 {
 	char	*tmp;
 	char	*to_free;
+	char	*to_free2;
 
 	tmp = ft_strdup("\"");
 	(*arg)++;
@@ -38,19 +53,14 @@ static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 		if (**arg == '$')
 			handle_dollar(ast, arg, &tmp, true);
 		else
-		{
-			to_free = tmp;
-			tmp = ft_strjoin(tmp, ft_substr(*arg, 0, 1));
-			free(to_free);
-			(*arg)++;
-		}
+			append_char(arg, &tmp);
 	}
-	to_free = tmp;
-	tmp = ft_strjoin(tmp, "\"");
-	free(to_free);
 	to_free = *expanded;
 	*expanded = ft_strjoin(*expanded, tmp);
 	(free(to_free), free(tmp));
+	to_free2 = *expanded;
+	*expanded = ft_strjoin(*expanded, "\"");
+	free(to_free2);
 	(*arg)++;
 }
 
