@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:31:31 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:00:29 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ typedef struct s_err
 	bool			is_word_found;
 	bool			is_after_parantheses;
 }	t_err;
+
+typedef struct s_parse_exp
+{
+	t_ast	*l_ast;
+	t_token	*op_token;
+	t_ast	*r_ast;
+	t_ast	*new_ast;
+}	t_parse_exp;
 
 void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void				print_parse_error_near(t_token *token);

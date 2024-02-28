@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:09:00 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 18:09:26 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 21:55:05 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_ast	*extract_command(t_token **curr_token)
 	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
-	if ((*curr_token)->type == TOKEN_OP)	// segfault input is minishell> "
+	if ((*curr_token)->type == TOKEN_OP)
 	{
 		free_command(command);
 		(*curr_token)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/23 16:09:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 21:56:33 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void	print_parse_error_near(t_token *token)
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(types[token->type], 2);
 	ft_putstr_fd("'\n", 2);
-	// printf("minishell: syntax error near unexpected token '%s'\n",
-	// 	types[token->type]);
 }
 
 void	print_token(t_token *token)

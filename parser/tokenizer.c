@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 17:30:19 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:04:25 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,56 +57,5 @@ t_token_arr	tokenize(char *prompt)
 	return (tokens);
 }
 
-void	free_token_arr(t_token_arr	*tokens)
-{
-	int	i;
 
-	if (!tokens->arr)
-		return ;
-	i = -1;
-	while (++i < tokens->count)
-		if (tokens->arr[i].value && tokens->arr[i].type != TOKEN_EOF)
-			free(tokens->arr[i].value);
-	free(tokens->arr);
-	tokens->arr = NULL;
-}
 
-t_ast	*create_ast_node(t_node_type type, t_command *command)
-{
-	t_ast	*node;
-
-	node = (t_ast *)ft_calloc(1, sizeof(t_ast));
-	if (node != NULL)
-	{
-		node->type = type;
-		node->command = command;
-		node->left = NULL;
-		node->right = NULL;
-	}
-	return (node);
-}
-
-void	free_args(t_command *command)
-{
-	char	**args;
-
-	if (command == NULL)
-		return ;
-	args = command->args;
-	while (args && *args)
-	{
-		free(*args);
-		args++;
-	}
-	if(command->args)
-		free(command->args);
-}
-
-void	free_redirections(t_redirection *redirections)
-{
-	if (redirections == NULL)
-		return ;
-	free_redirections(redirections->next);
-	free(redirections->file);
-	free(redirections);
-}

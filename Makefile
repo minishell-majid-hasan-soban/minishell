@@ -24,10 +24,12 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		init_shell/init_ast.c			init_shell/init_env.c			init_shell/init_shell.c 		exec_cmd/run_cmd.c \
 		free_stuff/free_shell.c			signals/signals.c				expander/underscore.c			builtins_cmd/cd_utils.c 
 
-PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
-		parser/part_5.c					parser/part_6.c					parser/part_7.c					\
-		parser/herdoc_init.c 			parser/add_seperator.c 			parser/compute_atom.c 			parser/check_errors_1.c \
-		parser/check_errors_main.c
+PARSER =	parser/add_seperator.c	       \
+			parser/ast_utils_1.c           parser/compute_atom.c          parser/tokenizer.c \
+			parser/ast_utils_2.c           parser/free_funcs.c            parser/tokenizer_part1.c \
+			parser/check_errors_1.c        parser/herdoc_init.c           parser/utils_1.c \
+			parser/check_errors_2.c        parser/parse_expression.c      parser/utils_2.c \
+			parser/check_errors_main.c     parser/printing_functions.c
 
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)

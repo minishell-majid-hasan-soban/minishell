@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:40:07 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 21:53:44 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ int	add_separator(t_token_type type, char **prompt, t_token_arr *tokens)
 		(*prompt)++;
 	return (1);
 }
-

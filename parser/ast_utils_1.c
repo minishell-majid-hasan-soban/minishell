@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   part_5.c                                           :+:      :+:    :+:   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:51:47 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/26 18:19:41 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 22:05:48 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_command(t_command *command)
+t_ast	*create_ast_node(t_node_type type, t_command *command)
 {
-	free_args(command);
-	command->args = NULL;
-	free_redirections(command->redirections);
-	command->redirections = NULL;
-	free(command);
-}
+	t_ast	*node;
 
-void	free_ast(t_ast *node)
-{
-	if (node == NULL)
-		return ;
-	free_ast(node->left);
-	free_ast(node->right);
-	if (node->command)
-		free_command(node->command);
-	free(node);
+	node = (t_ast *)ft_calloc(1, sizeof(t_ast));
+	if (node != NULL)
+	{
+		node->type = type;
+		node->command = command;
+		node->left = NULL;
+		node->right = NULL;
+	}
+	return (node);
 }
 
 int	add_node_arg(t_command *command, char *arg)
@@ -39,7 +34,8 @@ int	add_node_arg(t_command *command, char *arg)
 	new_args = malloc(sizeof(char *) * (ft_argslen(command->args) + 2));
 	if (!new_args)
 		return (1);
-	ft_memcpy(new_args, command->args, sizeof(char *) * ft_argslen(command->args));
+	ft_memcpy(new_args, command->args,
+		sizeof(char *) * ft_argslen(command->args));
 	new_args[ft_argslen(command->args)] = strdup(arg);
 	if (!new_args[ft_argslen(command->args)])
 		return (free(new_args), 1);

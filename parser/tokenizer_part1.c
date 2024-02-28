@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/27 18:02:33 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/28 21:56:53 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	add_eof(t_token_arr *tokens)
 {
 	t_token	*token;
-	
+
 	if (tokens->count + 1 > tokens->size)
 	{
 		token = ft_realloc(tokens->arr, tokens->size
@@ -29,7 +29,6 @@ int	add_eof(t_token_arr *tokens)
 	}
 	tokens->arr[tokens->count++] = (t_token){NULL,
 		TOKEN_EOF, T_NONE, -1};
-	// printf("word2 = %s\n, count = %ld\n", tokens->arr[0].value, tokens->count);
 	return (1);
 }
 
@@ -92,6 +91,5 @@ int	add_word(char **prompt, t_token_arr *tokens)
 	if (!word)
 		return (-1);
 	*prompt += prompt_ptr - (*prompt);
-	// printf("word = %s\n", word);
 	return (add_token_word(tokens, word));
 }
