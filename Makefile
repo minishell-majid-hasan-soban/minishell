@@ -31,7 +31,7 @@ PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RL = $(shell brew --prefix readline)
 NAME = minishell
 NAME_BONUS = minishell_bonus

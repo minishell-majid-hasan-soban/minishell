@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:46:09 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/27 16:19:30 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:30:19 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	tokenizer_part1(char **prompt, t_token_arr *tokens)
 		skip_space(prompt);
 	if (is_separator(*prompt))
 		ret = handle_seperator(prompt, tokens);
-	else if (*prompt)
+	else if (**prompt)
 		ret = add_word(prompt, tokens);
 	return (ret);
 }
