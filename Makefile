@@ -26,7 +26,8 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 
 PARSER =	parser/part_1.c				parser/part_2.c					parser/part_3.c					parser/part_4.c \
 		parser/part_5.c					parser/part_6.c					parser/part_7.c					\
-		parser/herdoc_init.c 			parser/add_seperator.c 			parser/compute_atom.c
+		parser/herdoc_init.c 			parser/add_seperator.c 			parser/compute_atom.c 			parser/check_errors_1.c \
+		parser/check_errors_main.c
 
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)

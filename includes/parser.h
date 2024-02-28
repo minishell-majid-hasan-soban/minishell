@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/26 15:24:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/28 21:31:31 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ typedef struct s_token_arr		t_token_arr;
 typedef struct	s_token			t_token;
 typedef struct	s_redirection	t_redirection;
 typedef struct	s_command		t_command;
+
+typedef struct s_err
+{
+	t_token_type	past_type;
+	t_token_type	type;
+	long			index;
+	long			is_in_op;
+	long			j;
+	bool			is_word_found;
+	bool			is_after_parantheses;
+}	t_err;
 
 void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void				print_parse_error_near(t_token *token);
@@ -62,4 +73,9 @@ void				print_ast(const t_ast* node, const char* prefix, int isLeft);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand);
 int					init_here_doc(t_ast *ast, char *limiter, int *status);
 int					check_errors_tokens(t_token_arr *tokens, t_ast *ast);
+int					check_errors_part1(t_token_arr *tokens, t_err *d);
+int					check_errors_part2(t_token_arr *tokens, t_err *d);
+int					check_errors_part3(t_token_arr *tokens, t_ast *ast, t_err *d);
+int					check_errors_part4(t_token_arr *tokens, t_ast *ast, t_err *d);
+int					check_errors_part5(t_token_arr *tokens, t_ast *ast, t_err *d);
 #endif
