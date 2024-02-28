@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:59:34 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/26 17:28:28 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/27 18:29:23 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ t_ast	*extract_command(t_token **curr_token)
 			{
 				redir = create_redirection((*curr_token), *((*curr_token) + 1));
 				if (redir == NULL)
-				{
-					printf(ALLOC_ERR);
-					free_ast(ast);
-					return (NULL);
-				}
+					return (ft_putstr_fd(ALLOC_ERR, 2), free_ast(ast), (NULL));
 				add_back_redirection(&ast->redirections, redir);
 				(*curr_token)++;
 			}

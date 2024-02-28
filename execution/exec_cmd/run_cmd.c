@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 17:18:21 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 18:24:20 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_token_arr	ft_get_token(t_shell *shell)
 			shell->exit_status = 1;
 		free_token_arr(&tokens);
 		tokens = (t_token_arr){0};
+		free(shell->line);
 	}
 	return (tokens);
 }

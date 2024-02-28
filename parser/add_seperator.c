@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   add_seperator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:58:17 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/27 16:46:29 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/27 18:23:44 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "enum.h"
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
 
@@ -199,6 +200,8 @@ int	check_errors_tokens(t_token_arr *tokens, t_ast *ast)
 	d.is_in_op = 0;
 	d.index = 0;
 	d.is_after_parantheses = false;
+	if (tokens->arr == NULL || tokens->count == 0)
+		return (ft_putstr_fd(ALLOC_ERR, 2), -1);
 	while (d.index < tokens->count)
 	{
 		ret = check_errors_part5(tokens, ast, &d);
