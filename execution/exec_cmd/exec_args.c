@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 16:02:23 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:04:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,6 @@ static int	check_empty_cmd(t_ast *ast)
 		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
-	if (!ast->command->expanded_args || !ast->command->expanded_args[0]
-		|| !*ast->command->expanded_args[0])
-		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	return (0);
 }
 
@@ -99,6 +96,8 @@ int	exec_args(t_ast *ast)
 		return (status);
 	if (ast->command->expanded_args == NULL)
 		return (1);
+	else if (ast->command->expanded_args[0] == NULL)
+		return (0);
 	if (is_builtin(ast->command->expanded_args[0]) == 1)
 		return (exec_builtin(ast, ast->command->globed_args));
 	status = skip_null_args(ast);
@@ -110,6 +109,5 @@ int	exec_args(t_ast *ast)
 	path = ft_get_path(ast, args[0], &status);
 	if (!path || path == (void *)-1 || !*path)
 		return (status);
-	ft_execve(ast, path, args);
-	return (126);
+	return (ft_execve(ast, path, args), 126);
 }
