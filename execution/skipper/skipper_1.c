@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:05:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 06:53:19 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 07:01:58 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*get_word(t_ast *ast, char **str)
 {
 	char	*word;
+	char	*tmp;
 	char	quote;
 	int		i;
 
@@ -23,8 +24,15 @@ static char	*get_word(t_ast *ast, char **str)
 	(*str)++;
 	while ((*str)[i] && (*str)[i] != quote)
 		i++;
-	word = ft_substr(*str, 0, i);
-	*str += i;
+	tmp = ft_substr(*str, 0, i);
+	*str += i + 1;
+	if (quote == '"')
+		word = ft_expand_arg(ast, tmp);
+	else
+		word = ft_strdup(tmp);
+	free(tmp);
+	if (!word)
+		return (NULL);
 	return (word);
 }
 
