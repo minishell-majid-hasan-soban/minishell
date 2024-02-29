@@ -6,16 +6,9 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 19:40:39 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:24:38 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// this one should run ok otherwise its not working
-// ((ls < k < g | nl < mm|| echo a < nn) > ll >> o && (cat Makefile) <k >o || echo ooooo) < h << l > q
-// this one should not work otherwise its not working
-// (((ls d k f d s >> l && ls) | ls  > ls << l  && (cat | ls || l)) || (ls a idn sndu >> kkd) >> l )))) a > ls < l  >> l << d
-// this one also should not work if it did then its broken
-// (((ls d k f d s >> l && ls) > ls > l if_it_didnt_catch_this_then_it_is_not_workign << d | ls  > ls << l  && (cat | ls || l) >> ls < l ) || (ls a idn sndu >> kkd) >> l )  > ls < l  >> l << d
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -179,6 +172,8 @@ int				set_underscore(t_shell *shell);
 void			append_char(char **arg, char **expanded);
 char			*handle_question(t_ast *ast, char **arg);
 char			*handle_alphanum(t_ast *ast, char **arg, bool quoted);
+char			*ft_strjoin_arr(char **arr);
+int				ft_strdupif_zero(char **expanded, int *size);
 
 // // glober
 char			**ft_glob_args(t_ast *ast, char **args);
@@ -200,6 +195,7 @@ size_t			ft_argslen(char **args);
 char			*ft_file_param(t_ast *ast, char *file);
 char			*ft_get_path(t_ast *ast, char *cmd, int *status);
 void			ft_cmd_nf_err(char *cmd, int status);
+int				check_file_name(char *file);
 
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);

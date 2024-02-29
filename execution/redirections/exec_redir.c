@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 18:01:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:19:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,6 @@ static int	exec_redir_heredoc(t_ast *ast, t_redirection *redir)
 	ft_close(ast, redir->heredoc_fd);
 	redir->heredoc_fd = -1;
 	return (ast->error != T_NONE);
-}
-
-static int	check_file_name(char *file)
-{
-	char	*skiped;
-
-	skiped = skip_quotes(file);
-	if (!skiped)
-		return (1);
-	if (!*skiped)
-		return (ft_putstr_fd("minishell: ", 2),
-			ft_putstr_fd(": No such file or directory\n", 2), free(skiped), 1);
-	free(skiped);
-	return (0);
 }
 
 int	exec_redir(t_ast *ast, t_redirection *redir)

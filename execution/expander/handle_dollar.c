@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 17:33:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:09:23 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	ft_strjoin_last(char ***expanded, char *var)
 	char	*last;
 	char	*new_last;
 	int		size;
-
 
 	size = ft_argslen(*expanded);
 	if (size == 0)

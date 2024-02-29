@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 18:15:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:16:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ void	append_char(char **arg, char **expanded)
 	int		size;
 
 	size = ft_argslen(expanded);
-	if (size == 0)
-	{
-		free(*expanded);
-		*expanded = ft_strdup("");
-		size++;
-	}
+	ft_strdupif_zero(expanded, &size);
 	tmp = expanded[size - 1];
 	to_free = ft_substr(*arg, 0, 1);
 	expanded[size - 1] = ft_strjoin(expanded[size - 1], to_free);
@@ -44,36 +39,12 @@ static void	append_squote(char **arg, char **expanded)
 	while ((*arg)[i] && (*arg)[i] != '\'')
 		i++;
 	size = ft_argslen(expanded);
-	if (size == 0)
-	{
-		free(*expanded);
-		*expanded = ft_strdup("");
-		size++;
-	}
+	ft_strdupif_zero(expanded, &size);
 	tmp = expanded[size - 1];
 	to_free = ft_substr(*arg, 0, i);
 	expanded[size - 1] = ft_strjoin(expanded[size - 1], to_free);
 	(free(tmp), free(to_free));
 	(*arg) += i + ((*arg)[i] != '\0');
-}
-
-static char	*ft_strjoin_arr(char **arr)
-{
-	char	*join;
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	join = ft_strdup("");
-	while (arr && arr[i])
-	{
-		tmp = join;
-		join = ft_strjoin(join, arr[i]);
-		(free(tmp), free(arr[i]));
-		i++;
-	}
-	free(arr);
-	return (join);
 }
 
 static void	append_dquote(t_ast *ast, char **arg, char **expanded)
@@ -94,37 +65,11 @@ static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 	}
 	join = ft_strjoin_arr(tmp);
 	size = ft_argslen(expanded);
-	if (size == 0)
-	{
-		free(*expanded);
-		*expanded = ft_strdup("");
-		size++;
-	}
+	ft_strdupif_zero(expanded, &size);
 	to_free = expanded[size - 1];
 	expanded[size - 1] = ft_strjoin(expanded[size - 1], join);
 	(free(to_free), free(join));
 	(*arg) += **arg != '\0';
-}
-
-char	**ft_expand_arg(t_ast *ast, char *arg)
-{
-	char	**expanded;
-
-	if (!arg)
-		return (NULL);
-	expanded = ft_calloc(2, sizeof(char *));
-	while (*arg)
-	{
-		if (*arg == '\'')
-			append_squote(&arg, expanded);
-		else if (*arg == '\"')
-			append_dquote(ast, &arg, expanded);
-		else if (*arg == '$')
-			handle_dollar(ast, &arg, &expanded, false);
-		else
-			append_char(&arg, expanded);
-	}
-	return (expanded);
 }
 
 char	**ft_expand_args(t_ast *ast, char **args)

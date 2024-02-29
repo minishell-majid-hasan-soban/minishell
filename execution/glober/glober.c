@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 17:05:45 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:08:01 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,32 +88,6 @@ int	glob_asterisk(char ***globed_args, char *args, bool quoted)
 			ft_putstr_fd(ALLOC_ERR, 2), 1);
 	(free(tmp), free(new_args));
 	return (0);
-}
-
-bool	is_quoted(char *arg, char target, bool all)
-{
-	int		i;
-	bool	squote;
-	bool	dquote;
-
-	i = 0;
-	squote = false;
-	dquote = false;
-	while (arg[i])
-	{
-		if (arg[i] == '\'')
-			squote = !squote;
-		if (arg[i] == '\"')
-			dquote = !dquote;
-		if (arg[i] == target && (squote || dquote) && !all)
-			return (true);
-		if (arg[i] == target && !squote && !dquote && all)
-			return (false);
-		i++;
-	}
-	if (!all)
-		return (false);
-	return (true);
 }
 
 int	ft_glob_arg(t_ast *ast, char *arg, char ***globed)

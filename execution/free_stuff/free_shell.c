@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 08:20:10 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:09:05 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	ft_free_command(t_command *cmd)
 		return ;
 	ft_free_args(cmd->args);
 	ft_free_args(cmd->expanded_args);
-	// ft_free_args(cmd->skiped_args);
 	ft_free_args(cmd->globed_args);
 	redir = cmd->redirections;
 	while (redir)

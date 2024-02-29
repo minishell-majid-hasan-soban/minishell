@@ -22,7 +22,8 @@ EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c				
 		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
 		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c \
 		init_shell/init_ast.c			init_shell/init_env.c			init_shell/init_shell.c 		exec_cmd/run_cmd.c \
-		free_stuff/free_shell.c			signals/signals.c				expander/underscore.c			builtins_cmd/cd_utils.c 
+		free_stuff/free_shell.c			signals/signals.c				expander/underscore.c			builtins_cmd/cd_utils.c \
+		glober/globber_utils2.c			expander/expander_utils.c \
 
 PARSER =	parser/add_seperator.c	       \
 			parser/ast_utils_1.c           parser/compute_atom.c          parser/tokenizer.c \
