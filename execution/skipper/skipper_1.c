@@ -6,15 +6,27 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:05:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 07:01:58 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 07:16:19 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_word(t_ast *ast, char **str)
+static void	append_char(char **arg, char **expanded)
 {
-	char	*word;
+	char	*to_free;
+	char	*to_free2;
+
+	to_free = *expanded;
+	to_free2 = ft_substr(*arg, 0, 1);
+	*expanded = ft_strjoin(*expanded, to_free2);
+	(free(to_free), free(to_free2));
+	(*arg)++;
+}
+
+static void	get_quoted_word(t_ast *ast, char **str, char **word)
+{
+	char	*subword;
 	char	*tmp;
 	char	quote;
 	int		i;
@@ -27,15 +39,32 @@ static char	*get_word(t_ast *ast, char **str)
 	tmp = ft_substr(*str, 0, i);
 	*str += i + 1;
 	if (quote == '"')
-		word = ft_expand_arg(ast, tmp);
+		subword = ft_expand_arg(ast, tmp);
 	else
-		word = ft_strdup(tmp);
+		subword = ft_strdup(tmp);
 	free(tmp);
-	if (!word)
-		return (NULL);
-	return (word);
+	tmp = *word;
+	*word = ft_strjoin(*word, subword);
+	(free(tmp), free(subword));
 }
 
+static char	*get_word(t_ast *ast, char *str)
+{
+	char	*word;
+	char	*tmp;
+
+	word = ft_strdup("");
+	while (*str)
+	{
+		if (*str == "\'" || *str == "\"")
+			get_quoted_word(ast, &str, &word);
+		else if (*str == '$')
+			handle_dollar(ast, &str, &word, false);
+		else
+			append_char(&str, &word);
+	}
+	return (word);
+}
 
 static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 {
