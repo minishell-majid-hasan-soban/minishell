@@ -6,11 +6,28 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:05:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 18:25:33 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 06:53:19 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*get_word(t_ast *ast, char **str)
+{
+	char	*word;
+	char	quote;
+	int		i;
+
+	i = 0;
+	quote = **str;
+	(*str)++;
+	while ((*str)[i] && (*str)[i] != quote)
+		i++;
+	word = ft_substr(*str, 0, i);
+	*str += i;
+	return (word);
+}
+
 
 static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 {
