@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:56:16 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/19 14:05:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 07:52:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ char	**ft_split(const char *s, char c)
 	char	**result;
 	int		check;
 
+	if (!s)
+		return (NULL);
 	check = safty_check(s);
 	if (!check)
 	{

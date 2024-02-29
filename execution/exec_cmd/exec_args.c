@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 15:17:04 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 08:19:57 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	check_empty_cmd(t_ast *ast)
 		return (0);
 	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0
 		|| ft_strcmp(args[0], "..") == 0)
-		return (ft_cmd_nf_err(ast->command->skiped_args[0], 127), 127);
+		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
 	return (0);
@@ -79,7 +79,7 @@ static int	skip_null_args(t_ast *ast)
 		exp++;
 	}
 	if (*args && **args == '\0')
-		return (ft_cmd_nf_err(ast->command->skiped_args[0], 127), 127);
+		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	return (0);
 }
 
@@ -94,9 +94,9 @@ int	exec_args(t_ast *ast)
 	status = check_empty_cmd(ast);
 	if (status != 0)
 		return (status);
-	if (ast->command->skiped_args == NULL)
+	if (ast->command->expanded_args == NULL)
 		return (1);
-	if (is_builtin(ast->command->skiped_args[0]) == 1)
+	if (is_builtin(ast->command->expanded_args[0]) == 1)
 		return (exec_builtin(ast, ast->command->globed_args));
 	status = skip_null_args(ast);
 	if (status != 0)

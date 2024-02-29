@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:12:49 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 08:43:23 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 13:28:45 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,27 @@ static char	*get_file(char **file_globed, char *skiped)
 char	*ft_file_param(t_ast *ast, char *file)
 {
 	char	**file_globed;
-	char	*exp;
-	char	*skip;
+	char	**exp;
 	int		ret;
 
 	ret = 0;
 	exp = ft_expand_arg(ast, file);
-	skip = skip_quotes(exp);
-	free(exp);
-	if (!skip)
-		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	if (!exp && ast->command->args)
+		return (ft_free_args(exp), ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	else if (ft_argslen(exp) == 0 || ft_argslen(exp) > 1)
+		return (handle_amb_redir(file, exp));
+	// skip = skip_quotes(exp);
+	// free(exp);
+	// if (!skip)
+	// 	return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	file_globed = ft_calloc(1, sizeof(char *));
 	if (!file_globed)
-		return (free(skip), ft_putstr_fd(ALLOC_ERR, 2), NULL);
-	if (ft_strchr(skip, '*'))
-		ret = glob_asterisk(&file_globed, skip, is_quoted(file, '*', false));
+		return (ft_free_args(exp), ft_putstr_fd(ALLOC_ERR, 2), NULL);
+	if (ft_strchr(exp[0], '*'))
+		ret = glob_asterisk(&file_globed, exp[0], is_quoted(file, '*', false));
 	if (ret)
-		return (free(skip), ft_free_args(file_globed), NULL);
-	if (!*skip || !is_quoted(file, ' ', true) || ft_argslen(file_globed) > 1)
-		return (handle_amb_redir(skip, file_globed));
-	return (get_file(file_globed, skip));
+		return (ft_free_args(exp), ft_free_args(file_globed), NULL);
+	if (!*exp[0] || !is_quoted(file, ' ', true) || ft_argslen(file_globed) > 1)
+		return (ft_free_args(exp), handle_amb_redir(exp[0], file_globed));
+	return (free(exp), get_file(file_globed, exp[0]));
 }

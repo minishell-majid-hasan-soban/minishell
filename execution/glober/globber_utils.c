@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:02:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 08:33:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 13:55:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@ char	**ft_strsjoin(char **dst, char **src)
 	int		j;
 	char	**new;
 
-	if (!src || !*src)
+	if (!dst || !src)
 		return (NULL);
-	new = ft_calloc(ft_argslen(dst) + ft_argslen(src) + 1, sizeof(char *));
+	new = ft_calloc(ft_argslen(dst) + ft_argslen(src) + 2, sizeof(char *));
 	if (!new)
 		return (NULL);
-	i = -1;
-	while (dst[++i])
+	i = 0;
+	while (dst[i])
+	{
 		new[i] = dst[i];
-	j = -1;
-	while (src[++j])
+		i++;
+	}
+	j = 0;
+	while (src[j])
+	{
 		new[i + j] = src[j];
+		j++;
+	}
 	return (new);
 }
 

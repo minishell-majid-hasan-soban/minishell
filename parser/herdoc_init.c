@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 15:36:09 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 13:31:51 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,27 @@
 
 static char	*expand_heredoc(t_ast *ast, char *line)
 {
-	char	*tmp;
-	char	*expanded;
-	char	*to_free;
+	// char	*tmp;
+	// char	**expanded;
+	// char	*to_free;
 
-	expanded = ft_strdup("");
-	while (*line)
-	{
-		if (*line == '$')
-			handle_dollar(ast, &line, &expanded, false);
-		else
-		{
-			tmp = expanded;
-			to_free = ft_substr(line, 0, 1);
-			expanded = ft_strjoin(expanded, to_free);
-			(free(to_free), free(tmp));
-			line++;
-		}
-	}
-	return (expanded);
+	// expanded = ft_strdup("");
+	// while (*line)
+	// {
+	// 	if (*line == '$')
+	// 		handle_dollar(ast, &line, &expanded, false);
+	// 	else
+	// 	{
+	// 		tmp = expanded;
+	// 		to_free = ft_substr(line, 0, 1);
+	// 		expanded = ft_strjoin(expanded, to_free);
+	// 		(free(to_free), free(tmp));
+	// 		line++;
+	// 	}
+	// }
+	// return (expanded);
+	(void)ast;
+	return (ft_strdup(line));
 }
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
@@ -58,7 +60,7 @@ int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 			tmp = expand_heredoc(ast, line);
 			if (!tmp)
 				return (close(fd_w), ft_putstr_fd(ALLOC_ERR, 2), -11);
-			ft_putstr_fd(tmp, fd_w);
+			ft_putstr_fd(line, fd_w);
 			free(tmp);
 		}
 		else

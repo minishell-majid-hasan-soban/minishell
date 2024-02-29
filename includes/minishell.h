@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 21:28:16 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/29 12:29:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ typedef struct	s_command
 {
 	char			**args;
 	char			**expanded_args;
-	char			**skiped_args;
+	// char			**skiped_args;
 	char			**globed_args;
 	long			arg_count;
 	long			arg_size;
@@ -212,9 +212,9 @@ int				close_handle(int fd);
 int				pipe_handle(int *pipefd);
 
 // // expansion
-char			*ft_expand_arg(t_ast *ast, char *arg);
+char			**ft_expand_arg(t_ast *ast, char *arg);
 char			**ft_expand_args(t_ast *ast, char **args);
-void			handle_dollar(t_ast *ast, char **arg, char **expanded, bool quoted);
+void			handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted);
 int				set_underscore(t_shell *shell);
 
 // // glober

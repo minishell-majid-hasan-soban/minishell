@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:05:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 07:16:19 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 08:08:42 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	get_quoted_word(t_ast *ast, char **str, char **word)
 	while ((*str)[i] && (*str)[i] != quote)
 		i++;
 	tmp = ft_substr(*str, 0, i);
-	*str += i + 1;
+	*str += i + ((*str)[i] != '\0');
 	if (quote == '"')
 		subword = ft_expand_arg(ast, tmp);
 	else
@@ -48,9 +48,10 @@ static void	get_quoted_word(t_ast *ast, char **str, char **word)
 	(free(tmp), free(subword));
 }
 
-static char	*get_word(t_ast *ast, char *str)
+static char	**get_expanded_words(t_ast *ast, char *str)
 {
 	char	*word;
+	char	**words;
 	char	*tmp;
 
 	word = ft_strdup("");
@@ -63,49 +64,30 @@ static char	*get_word(t_ast *ast, char *str)
 		else
 			append_char(&str, &word);
 	}
-	return (word);
+	words = ft_split(word, ' ');
+	free(word);
+	return (words);
 }
 
-static void	append_dquote(t_ast *ast, char **arg, char **expanded)
+char	**ft_expand_args(t_ast *ast, char **args)
 {
-	char	*tmp;
-	char	*to_free;
-	char	*to_free2;
+	char	**expanded;
+	char	**tmp2;
+	char	**tmp;
+	int		i;
 
-	tmp = ft_strdup("\"");
-	(*arg)++;
-	while (**arg && **arg != '\"')
-	{
-		if (**arg == '$')
-			handle_dollar(ast, arg, &tmp, true);
-		else
-			append_char(arg, &tmp);
-	}
-	to_free = *expanded;
-	*expanded = ft_strjoin(*expanded, tmp);
-	(free(to_free), free(tmp));
-	to_free2 = *expanded;
-	*expanded = ft_strjoin(*expanded, "\"");
-	free(to_free2);
-	(*arg)++;
-}
-
-char	*skip_quotes(t_ast *ast, char *str)
-{
-	char	*skiped;
-
-	if (!str)
+	if (!args)
 		return (NULL);
-	skiped = ft_strdup("");
-	while (*str)
+	i = 0;
+	expanded = ft_calloc(1, sizeof(char *));
+	while (args && args[i])
 	{
-		if (*str == '"')
-			handle_dquotes(ast, &str, &skiped);
-		else if (*str == '\'')
-			handle_squotes(ast, &str, &skiped);
-		else if (*str == '$')
-			handle_dollar(ast, str, &skiped, false);
-		else
-			handle_normal(&skiped, &str);
+		tmp = get_expanded_words(ast, args[i]);
+		if (!tmp)
+			return (ft_free_args(expanded), NULL);
+		tmp2 = expanded;
+		expanded = ft_strsjoin(expanded, tmp);
+		(free(tmp), free(tmp2));
 	}
+	return (expanded);
 }
