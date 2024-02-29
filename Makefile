@@ -29,12 +29,12 @@ PARSER =	parser/add_seperator.c	       \
 			parser/ast_utils_2.c           parser/free_funcs.c            parser/tokenizer_part1.c \
 			parser/check_errors_1.c        parser/herdoc_init.c           parser/utils_1.c \
 			parser/check_errors_2.c        parser/parse_expression.c      parser/utils_2.c \
-			parser/check_errors_main.c     parser/printing_functions.c
+			parser/check_errors_main.c     parser/printing_functions.c    parser/her_doc_utils.c
 
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 RL = $(shell brew --prefix readline)
 NAME = minishell
 NAME_BONUS = minishell_bonus

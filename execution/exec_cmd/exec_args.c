@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 08:19:57 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 16:02:23 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static int	check_empty_cmd(t_ast *ast)
 		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
+	if (!ast->command->expanded_args || !ast->command->expanded_args[0]
+		|| !*ast->command->expanded_args[0])
+		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	return (0);
 }
 

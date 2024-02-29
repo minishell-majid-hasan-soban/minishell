@@ -6,34 +6,29 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 09:01:09 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 11:11:33 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:37:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENUM_H
 # define ENUM_H
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
 	TOKEN_GREAT,
 	TOKEN_LESS,
-	TOKEN_DGREAT,		// >> double greater than, append
-	TOKEN_DLESS,		// << double less than, heredoc
+	TOKEN_DGREAT,
+	TOKEN_DLESS,
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_NEWLINE,
-	TOKEN_OP,			// open parenthesis
-	TOKEN_CP,			// close parenthesis
+	TOKEN_OP,
+	TOKEN_CP,
 	TOKEN_EOF
 }				t_token_type;
 
-/*
-** t_token_error: enum for token errors:
-** T_ERROR_NONE: no error
-** T_SYNTAX: syntax error like > at the end of the line, Example: echo >
-*/
 typedef enum t_error
 {
 	T_NONE,
@@ -43,13 +38,6 @@ typedef enum t_error
 	T_FATAL
 }				t_error;
 
-/*
-** t_node_type: enum for node types: node of the tree (ast)
-** NODE_COMMAND: a command node can be a simple command or a command with arguments + redirections
-** NODE_PIPE: a pipe node, a node with a pipe token
-** NODE_AND: a node with an and token
-** NODE_OR: a node with an or token
-*/
 typedef enum e_node_type
 {
 	N_CMD,
@@ -58,13 +46,6 @@ typedef enum e_node_type
 	N_OR,
 }				t_node_type;
 
-/*
-** t_redirection_type: enum for redirection types:
-** R_INPUT: input redirection, like "echo < file"
-** R_OUTPUT: output redirection, like "echo > file"
-** R_APPEND: append redirection, like "echo >> file"
-** R_HEREDOC: heredoc redirection, like "echo << file"
-*/
 typedef enum e_redirection_type
 {
 	R_INPUT,
@@ -73,10 +54,6 @@ typedef enum e_redirection_type
 	R_HEREDOC
 }				t_redirection_type;
 
-/*
-** t_builtin: enum for builtin commands:
-** B_NONE: no builtin command
-*/
 typedef enum e_builtin
 {
 	B_NONE,
@@ -95,6 +72,5 @@ typedef enum e_node_dir
 	N_LEFT,
 	N_RIGHT
 }				t_node_dir;
-
 
 #endif

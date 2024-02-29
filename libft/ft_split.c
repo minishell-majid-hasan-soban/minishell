@@ -6,18 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:56:16 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/29 07:52:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:24:44 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "libft.h"
-
-typedef struct double_size{
-	size_t	i;
-	size_t	count;
-}	t_double_size;
 
 static t_double_size	calc_str_count(const char *str, char c)
 {

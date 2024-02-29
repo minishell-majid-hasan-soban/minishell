@@ -6,68 +6,64 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 13:31:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:25:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-static char	*expand_heredoc(t_ast *ast, char *line)
+static int	ft_eof_not(char *line, char *limiter, int fd)
 {
-	// char	*tmp;
-	// char	**expanded;
-	// char	*to_free;
+	if (line == NULL)
+		return (1);
+	if (ft_strcmp(line, limiter) == 0)
+		return (1);
+	ft_putstr_fd(line, fd);
+	free(line);
+	return (0);
+}
 
-	// expanded = ft_strdup("");
-	// while (*line)
-	// {
-	// 	if (*line == '$')
-	// 		handle_dollar(ast, &line, &expanded, false);
-	// 	else
-	// 	{
-	// 		tmp = expanded;
-	// 		to_free = ft_substr(line, 0, 1);
-	// 		expanded = ft_strjoin(expanded, to_free);
-	// 		(free(to_free), free(tmp));
-	// 		line++;
-	// 	}
-	// }
-	// return (expanded);
-	(void)ast;
-	return (ft_strdup(line));
+static int	ft_eof_exp(t_ast *ast, char *line, char *limiter, int fd)
+{
+	char	*skipped;
+
+	if (line == NULL)
+		return (1);
+	if (ft_strcmp(line, limiter) == 0)
+		return (1);
+	skipped = expand_heredoc(ast, line);
+	if (!skipped)
+		return (ft_putstr_fd(ALLOC_ERR, 2), -11);
+	ft_putstr_fd(skipped, fd);
+	free(skipped);
+	free(line);
+	return (0);
 }
 
 int	ft_read_here_doc(t_ast *ast, int fd_w, char *limiter, bool expand)
 {
 	char			*line;
-	char			*tmp;
-	
+	char			*skip_limiter;
+	int				ret;
+
+	skip_limiter = skip_quotes(limiter);
+	if (skip_limiter == NULL)
+		return (close(fd_w), ft_putstr_fd(ALLOC_ERR, 2), -11);
+	ret = 0;
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL)
-			return (0);
-		tmp = skip_quotes(limiter);
-		if (ft_strcmp(line, tmp) == 0)
-		{
-			free(line);
-			break ;
-		}
-		free(tmp);
 		if (expand == true)
-		{
-			tmp = expand_heredoc(ast, line);
-			if (!tmp)
-				return (close(fd_w), ft_putstr_fd(ALLOC_ERR, 2), -11);
-			ft_putstr_fd(line, fd_w);
-			free(tmp);
-		}
+			ret = ft_eof_exp(ast, line, skip_limiter, fd_w);
 		else
-			ft_putstr_fd(line, fd_w);
-		(ft_putstr_fd("\n", fd_w), free(line));
+			ret = ft_eof_not(line, skip_limiter, fd_w);
+		if (ret != 0)
+			break ;
 	}
-	return (close(fd_w));
+	if (close(fd_w) == -1)
+		return (ft_putstr_fd("minishell: close: ", 2), perror(""), 1);
+	return (ret == -11);
 }
 
 int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
@@ -85,11 +81,7 @@ int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
 		signal(SIGQUIT, SIG_IGN);
 		status = ft_read_here_doc(ast, fd_w, limiter, expand);
 		if (status != 0)
-		{
-			if (status == -1)
-				(ft_putstr_fd("minishell: close: ", 2), perror(""));
 			exit(42);
-		}
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
@@ -114,8 +106,9 @@ int	init_here_doc(t_ast *ast, char *limiter, int *status)
 		return (ft_close(NULL, fd_w), ft_putstr_fd("minishell: ", 2),
 			ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), -1);
 	unlink("/tmp/.minishell_heredoc");
-	*status = ft_fork_heredoc(ast, fd_w, limiter,(ft_strchr(limiter, '\'') == NULL
-		&& ft_strchr(limiter, '\"') == NULL));
+	*status = ft_fork_heredoc(ast, fd_w, limiter,
+			(ft_strchr(limiter, '\'') == NULL
+				&& ft_strchr(limiter, '\"') == NULL));
 	if (*status != 0)
 		return (ft_close(ast, fd_w), ft_close(ast, fd_r), -1);
 	return (ft_close(ast, fd_w), fd_r);

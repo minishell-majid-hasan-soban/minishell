@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_part1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/02/29 16:19:52 by amajid           ###   ########.fr       */
+=======
+/*   Updated: 2024/02/29 15:05:18 by hsobane          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 

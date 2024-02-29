@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 15:49:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 16:40:47 by amajid           ###   ########.fr       */
+/*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
+/*   Updated: 2024/02/29 19:40:39 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // (((ls d k f d s >> l && ls) | ls  > ls << l  && (cat | ls || l)) || (ls a idn sndu >> kkd) >> l )))) a > ls < l  >> l << d
 // this one also should not work if it did then its broken
 // (((ls d k f d s >> l && ls) > ls > l if_it_didnt_catch_this_then_it_is_not_workign << d | ls  > ls << l  && (cat | ls || l) >> ls < l ) || (ls a idn sndu >> kkd) >> l )  > ls < l  >> l << d
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -43,7 +44,7 @@
 # include <termios.h>
 # include <sys/ioctl.h>
 # include <term.h>
- 
+
 # define YELLOW "\033[0;33m"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -58,22 +59,14 @@
 
 # define ALLOC_ERR "minishell: malloc: Cannot allocate memory\n"
 
-typedef struct s_shell	t_shell;
-typedef struct s_env	t_env;
-typedef struct s_command	t_command;
+typedef struct s_shell			t_shell;
+typedef struct s_env			t_env;
+typedef struct s_command		t_command;
 typedef struct s_redirection	t_redirection;
-typedef struct s_token	t_token;
-typedef struct s_ast	t_ast;
+typedef struct s_token			t_token;
+typedef struct s_ast			t_ast;
 
-/*
-** t_token: struct for tokens:
-** value: the value of the token if it's a word, like "echo" or "file" or "argument"
-** type: the type of the token
-** error: the error of the token, if TOKEN_NEWLINE is followed by nothing, it's a syntax error
-** next: the next token, list easy a sat
-** prev: the previous token
-*/
-typedef struct	s_token
+typedef struct s_token
 {
 	char				*value;
 	int					type;
@@ -89,35 +82,19 @@ typedef struct s_token_arr
 	int		status;
 }	t_token_arr;
 
-
-/*
-** t_redirection: struct for redirections:
-** type: the type of the redirection, like R_INPUT or R_OUTPUT [t_redirection_type enum above]
-** file: the file of the redirection, like "file" in "echo hello > file"
-** heredoc_fd: used if the redirection is a heredoc, it hodls the read end of the pipe
-** next: the next redirection
-** prev: the previous redirection
-*/
-typedef struct	s_redirection
+typedef struct s_redirection
 {
 	t_redirection_type		type;
 	char					*file;
 	char					*expanded_file;
 	int						heredoc_fd;
 	bool					expanded;
-	struct	s_redirection	*next;
-	struct	s_redirection	*prev;
+	struct s_redirection	*next;
+	struct s_redirection	*prev;
 	t_error					error;
 }							t_redirection;
 
-/*
-** t_command: struct for commands:
-** name: the name of the command, like "echo" or "ls"
-** args: the arguments of the command, like "echo hello" -> "hello" is the argument
-** redirections: the redirections of the command, like "echo hello > file" -> "file" is the redirection of type R_OUTPUT
-** t_redirection: is above this struct
-*/
-typedef struct	s_command
+typedef struct s_command
 {
 	char			**args;
 	char			**expanded_args;
@@ -130,13 +107,7 @@ typedef struct	s_command
 	t_error			error;
 }					t_command;
 
-/*
-** t_node: struct for the tree nodes:
-** token: the token of the node
-** left: the left child of the node
-** right: the right child of the node
-*/
-typedef struct	s_ast
+typedef struct s_ast
 {
 	t_node_type			type;
 	t_command			*command;
@@ -150,18 +121,7 @@ typedef struct	s_ast
 	t_shell				*shell;
 }						t_ast;
 
-/*
-** t_ast: struct for the abstract syntax tree:
-** graphical representation of the tree: cmd1 a > b > c | cmd2 d < e
-** 		      PIPE					  {node: pipe}
-** 		     /    	\				  
-** 		 COMMAND  	  COMMAND		  {node: command}
-** 	   / /  |  \  	  /  |    \
-** cmd1 a > b > c 	cmd2 d  <  e	  {same node command: redirection list}
-**
-*/
-
-typedef struct		s_env
+typedef struct s_env
 {
 	char			*name;
 	char			*value;
@@ -169,7 +129,7 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct		s_shell
+typedef struct s_shell
 {
 	char			*line;
 	t_ast			*ast;
@@ -182,8 +142,7 @@ typedef struct		s_shell
 	t_error			error;
 }					t_shell;
 
-
-void 			print_args(char **args, char *name);
+void			print_args(char **args, char *name);
 
 // // main
 void			ft_free_shell(t_shell *shell);
@@ -191,7 +150,6 @@ int				exit_status(int newstatus, bool flag);
 
 // // string_utils
 void			ft_free_args(char **args);
-
 
 // int		ft_strlen(const char *s);
 int				ft_strcmp(const char *s1, const char *s2);
@@ -215,17 +173,23 @@ int				pipe_handle(int *pipefd);
 // // expansion
 char			**ft_expand_arg(t_ast *ast, char *arg);
 char			**ft_expand_args(t_ast *ast, char **args);
-void			handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted);
+void			handle_dollar(t_ast *ast, char **arg, char ***expanded,
+					bool quoted);
 int				set_underscore(t_shell *shell);
+void			append_char(char **arg, char **expanded);
+char			*handle_question(t_ast *ast, char **arg);
+char			*handle_alphanum(t_ast *ast, char **arg, bool quoted);
 
 // // glober
 char			**ft_glob_args(t_ast *ast, char **args);
 char			**ft_strsjoin(char **dst, char **src);
 struct dirent	*ft_readdir(DIR *dir);
-int				ft_entryjoin(struct dirent *entry, char ***files, char *pattern);
+int				ft_entryjoin(struct dirent *entry, char ***files,
+					char *pattern);
 int				match(char *pattern, char *string);
 int				glob_asterisk(char ***globed_args, char *args, bool quoted);
 bool			is_quoted(char *arg, char target, bool all);
+int				ft_glob_arg(t_ast *ast, char *arg, char ***globed);
 
 // // exec
 int				exec_redir(t_ast *ast, t_redirection *redir);

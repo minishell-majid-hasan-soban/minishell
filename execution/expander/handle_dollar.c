@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 14:01:09 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 17:33:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_question(t_ast *ast, char **arg)
+char	*handle_question(t_ast *ast, char **arg)
 {
 	char	*var;
 
@@ -22,7 +22,7 @@ static char	*handle_question(t_ast *ast, char **arg)
 	return (var);
 }
 
-static char	*handle_alphanum(t_ast *ast, char **arg, bool quoted)
+char	*handle_alphanum(t_ast *ast, char **arg, bool quoted)
 {
 	char	*var;
 	char	*to_free;
@@ -55,10 +55,10 @@ static char	**ft_assemble_arr(char	**r1, char **r2)
 	int		size;
 	char	**arr;
 
-	if (!r1 || !*r1)
-		return (ft_free_args(r1), r2);
-	else if (!r2 || !*r2)
+	if (!r2 || !*r2)
 		return (ft_free_args(r2), r1);
+	else if (!r1 || !*r1)
+		return (ft_free_args(r1), r2);
 	size = ft_argslen(r1);
 	last = r1[size - 1];
 	new_last = ft_strjoin(last, r2[0]);
@@ -112,8 +112,6 @@ void	handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted)
 	else
 	{
 		split = ft_split(var, ' ');
-		print_args(split, "split");
-		print_args(*expanded, "expanded");
 		*expanded = ft_assemble_arr(*expanded, split);
 		free(var);
 	}

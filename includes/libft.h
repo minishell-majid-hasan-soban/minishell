@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:38:14 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/04 09:03:50 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:36:43 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct double_size
+{
+	size_t	i;
+	size_t	count;
+}			t_double_size;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

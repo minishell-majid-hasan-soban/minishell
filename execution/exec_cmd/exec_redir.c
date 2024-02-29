@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 11:09:08 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 18:01:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,20 @@ static int	exec_redir_heredoc(t_ast *ast, t_redirection *redir)
 	return (ast->error != T_NONE);
 }
 
+static int	check_file_name(char *file)
+{
+	char	*skiped;
+
+	skiped = skip_quotes(file);
+	if (!skiped)
+		return (1);
+	if (!*skiped)
+		return (ft_putstr_fd("minishell: ", 2),
+			ft_putstr_fd(": No such file or directory\n", 2), free(skiped), 1);
+	free(skiped);
+	return (0);
+}
+
 int	exec_redir(t_ast *ast, t_redirection *redir)
 {
 	int				ret;
@@ -99,9 +113,8 @@ int	exec_redir(t_ast *ast, t_redirection *redir)
 	ret = 0;
 	while (redir)
 	{
-		if (redir->type != R_HEREDOC && (!redir->file || !*redir->file))
-			return (ft_putstr_fd("minishell: ", 2),
-				ft_putstr_fd("No such file or directory\n", 2), 1);
+		if (redir->type != R_HEREDOC && check_file_name(redir->file))
+			return (1);
 		if (redir->type == R_INPUT)
 			ret = exec_redir_input(ast, redir);
 		else if (redir->type == R_OUTPUT)

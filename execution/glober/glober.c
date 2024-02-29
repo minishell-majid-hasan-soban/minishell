@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 08:53:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 17:05:45 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static char	**glob_arg(char *pattern)
 static int	handle_no_asterisk(char ***globed_args, char *args)
 {
 	char	**tmp;
+	int		size;
 	char	*tmp2;
 
 	tmp = *globed_args;
-	*globed_args = ft_realloc((*globed_args),
-			(ft_argslen(*globed_args) + 1) * sizeof(char *),
-			(ft_argslen(*globed_args) + 2) * sizeof(char *));
+	size = ft_argslen(*globed_args);
+	*globed_args = ft_realloc(*globed_args, (size + 1) * 8, (size + 2) * 8);
 	if (!(*globed_args))
 		return (ft_free_args(tmp), ft_putstr_fd(ALLOC_ERR, 2), 1);
 	free(tmp);
@@ -57,7 +57,7 @@ static int	handle_no_asterisk(char ***globed_args, char *args)
 	if (!tmp2)
 		return (ft_free_args(*globed_args), *globed_args = NULL,
 			ft_putstr_fd(ALLOC_ERR, 2), 1);
-	(*globed_args)[ft_argslen(*globed_args)] = tmp2;
+	(*globed_args)[size] = tmp2;
 	return (0);
 }
 
@@ -116,6 +116,20 @@ bool	is_quoted(char *arg, char target, bool all)
 	return (true);
 }
 
+int	ft_glob_arg(t_ast *ast, char *arg, char ***globed)
+{
+	int	ret;
+
+	ret = 0;
+	(void)ast;
+	if (ft_strchr(arg, '*') == NULL)
+		ret = handle_no_asterisk(globed, arg);
+	else
+		ret = glob_asterisk(globed, arg,
+				is_quoted(arg, '*', false));
+	return (ret);
+}
+
 char	**ft_glob_args(t_ast *ast, char **args)
 {
 	int		i;
@@ -130,12 +144,7 @@ char	**ft_glob_args(t_ast *ast, char **args)
 	globed_args = ft_calloc(1, sizeof(char *));
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '*') == NULL)
-			ret = handle_no_asterisk(&globed_args, args[i]);
-		else
-			ret = glob_asterisk(&globed_args, args[i],
-					is_quoted(ast->command->args[i], '*', false));
-		if (ret)
+		if (ft_glob_arg(ast, args[i], &globed_args))
 			return (NULL);
 		i++;
 	}
