@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 17:22:45 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/29 17:07:49 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ t_token_arr	ft_get_token(t_shell *shell)
 
 	token_ast.shell = shell;
 	tokens = tokenize(shell->line);
-	her_status = check_errors_tokens(&tokens, &token_ast);
-	if (her_status == -1 || her_status == 130 || her_status == 42)
+	if (tokens.status == -2)
+		her_status = -2;
+	else
+		her_status = check_errors_tokens(&tokens, &token_ast);
+	if (her_status == -1 || her_status == -2
+		|| her_status == 130 || her_status == 42)
 	{
 		if (her_status == -1)
 			shell->exit_status = 258;

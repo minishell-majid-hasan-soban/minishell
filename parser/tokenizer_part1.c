@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   part_3.c                                           :+:      :+:    :+:   */
+/*   tokenizer_part1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:40:35 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:56:53 by amajid           ###   ########.fr       */
+/*   Updated: 2024/02/29 16:19:52 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	skip_str(char **str, char quote)
 		ft_putstr_fd("minishell: syntax error, expected `", 2);
 		ft_putchar_fd(quote, 2);
 		ft_putstr_fd("`\n", 2);
-		return (-1);
+		return (-2);
 	}
 	while (**str != quote)
 		(*str)++;
@@ -81,8 +81,8 @@ int	add_word(char **prompt, t_token_arr *tokens)
 	{
 		if (is_str(*prompt_ptr))
 		{
-			if (skip_str(&prompt_ptr, *prompt_ptr) == -1)
-				return (-1);
+			if (skip_str(&prompt_ptr, *prompt_ptr) == -2)
+				return (-2);
 		}
 		else
 			prompt_ptr++;
