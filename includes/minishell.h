@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:24:38 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:29:07 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void			append_char(char **arg, char **expanded);
 char			*handle_question(t_ast *ast, char **arg);
 char			*handle_alphanum(t_ast *ast, char **arg, bool quoted);
 char			*ft_strjoin_arr(char **arr);
-int				ft_strdupif_zero(char **expanded, int *size);
+void			ft_strdupif_zero(char **expanded, int *size);
 
 // // glober
 char			**ft_glob_args(t_ast *ast, char **args);

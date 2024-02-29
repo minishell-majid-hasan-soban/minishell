@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:00:57 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 09:57:11 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:52:45 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	empty_underscore(t_shell *shell)
 	underscore = ft_strdup("_");
 	if (underscore == NULL)
 		return (free(arg), ft_putstr_fd(ALLOC_ERR, 2), 1);
-	return (ft_setenv(shell, underscore, arg, true));
+	return (ft_setenv(shell, underscore, arg, false));
 }
 
 int	set_underscore(t_shell *shell)

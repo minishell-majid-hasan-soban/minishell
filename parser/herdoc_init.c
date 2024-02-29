@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 19:25:55 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:39:31 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	ft_eof_not(char *line, char *limiter, int fd)
 	if (ft_strcmp(line, limiter) == 0)
 		return (1);
 	ft_putstr_fd(line, fd);
+	ft_putstr_fd("\n", fd);
 	free(line);
 	return (0);
 }
@@ -36,6 +37,7 @@ static int	ft_eof_exp(t_ast *ast, char *line, char *limiter, int fd)
 	if (!skipped)
 		return (ft_putstr_fd(ALLOC_ERR, 2), -11);
 	ft_putstr_fd(skipped, fd);
+	ft_putstr_fd("\n", fd);
 	free(skipped);
 	free(line);
 	return (0);

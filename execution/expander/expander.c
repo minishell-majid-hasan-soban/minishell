@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:55:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:16:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:27:00 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,27 @@ static void	append_dquote(t_ast *ast, char **arg, char **expanded)
 	expanded[size - 1] = ft_strjoin(expanded[size - 1], join);
 	(free(to_free), free(join));
 	(*arg) += **arg != '\0';
+}
+
+char	**ft_expand_arg(t_ast *ast, char *arg)
+{
+	char	**expanded;
+
+	if (!arg)
+		return (NULL);
+	expanded = ft_calloc(2, sizeof(char *));
+	while (*arg)
+	{
+		if (*arg == '\'')
+			append_squote(&arg, expanded);
+		else if (*arg == '\"')
+			append_dquote(ast, &arg, expanded);
+		else if (*arg == '$')
+			handle_dollar(ast, &arg, &expanded, false);
+		else
+			append_char(&arg, expanded);
+	}
+	return (expanded);
 }
 
 char	**ft_expand_args(t_ast *ast, char **args)

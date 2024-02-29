@@ -13,17 +13,17 @@ LIBFT = libft/ft_isalpha.c      libft/ft_lstiter.c      libft/ft_memset.c       
 		libft/ft_calloc.c       libft/ft_lstclear.c     libft/ft_memcpy.c       libft/ft_strdup.c       libft/ft_strrchr.c \
 		libft/ft_isalnum.c      libft/ft_lstdelone.c    libft/ft_memmove.c \
 
-EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c					redirections/red_in.c \
-		builtins_cmd/cd.c               builtins_cmd/handlers.c         handlers/error_handle.c         redirections/red_out.c \
-		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c         redirections/her_doc.c \
+EXEC =  builtins_cmd/args_utils.c		builtins_cmd/ft_perror.c		glober/glober.c					 \
+		builtins_cmd/cd.c               builtins_cmd/handlers.c         handlers/error_handle.c          \
+		builtins_cmd/echo.c             builtins_cmd/pwd.c              handlers/exec_handles.c          \
 		builtins_cmd/env.c              builtins_cmd/unset.c            builtins_cmd/env_utils1.c 		glober/globber_utils.c\
-		builtins_cmd/exit.c             builtins_cmd/env_utils2.c 		exec_cmd/exec_ast.c             redirections/append.c \
+		builtins_cmd/exit.c             builtins_cmd/env_utils2.c 		exec_cmd/exec_ast.c              \
 		builtins_cmd/export.c           expander/expander.c				string_utils/string_utils.c		exec_cmd/exec_args.c \
-		exec_cmd/exec_redir.c			handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
+		redirections/exec_redir.c		handlers/exec_handles2.c 		handlers/syscall_handle.c		expander/handle_dollar.c \
 		exec_cmd/exec_utils.c 			exec_cmd/exec_ast_utils.c 		exec_cmd/path_finder.c 			skipper/skipper.c \
 		init_shell/init_ast.c			init_shell/init_env.c			init_shell/init_shell.c 		exec_cmd/run_cmd.c \
 		free_stuff/free_shell.c			signals/signals.c				expander/underscore.c			builtins_cmd/cd_utils.c \
-		glober/globber_utils2.c			expander/expander_utils.c \
+		glober/globber_utils2.c			expander/expander_utils.c 		redirections/redirection_utils.c	\
 
 PARSER =	parser/add_seperator.c	       \
 			parser/ast_utils_1.c           parser/compute_atom.c          parser/tokenizer.c \
@@ -35,7 +35,7 @@ PARSER =	parser/add_seperator.c	       \
 SRC = $(LIBFT) $(addprefix execution/, $(EXEC)) $(PARSER)  minishell.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g 
 RL = $(shell brew --prefix readline)
 NAME = minishell
 NAME_BONUS = minishell_bonus
