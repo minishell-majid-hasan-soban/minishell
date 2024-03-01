@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 02:50:37 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 09:46:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:21:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ char	**ft_env_to_arr(t_env *env)
 	while (tmp)
 	{
 		if (tmp->value)
-			envp[i] = ft_joind_nv(tmp->name, tmp->value, "=");
-		i++;
+			envp[i++] = ft_joind_nv(tmp->name, tmp->value, "=");
 		tmp = tmp->next;
 	}
 	return (envp);

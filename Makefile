@@ -33,7 +33,7 @@ LIBFT = libft/libft.a
 SRC = $(EXEC) $(PARSER) minishell.c 
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RL = $(shell brew --prefix readline)
 NAME = minishell
 NAME_BONUS = minishell_bonus
