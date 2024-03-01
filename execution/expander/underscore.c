@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:00:57 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:52:45 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:16:52 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_nodes(t_ast *ast)
+static int	count_nodes(t_ast *ast)
 {
 	int	count;
 

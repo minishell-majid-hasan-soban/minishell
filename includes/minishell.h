@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 08:56:52 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 13:01:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <limits.h>
-# include <sys/types.h>
 # include <dirent.h>
 # include "libft.h"
 # include "enum.h"
@@ -91,7 +90,6 @@ typedef struct s_command
 {
 	char			**args;
 	char			**expanded_args;
-	// char			**skiped_args;
 	char			**globed_args;
 	long			arg_count;
 	long			arg_size;
@@ -205,7 +203,6 @@ void			exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2]);
 int				run_cmd(t_shell *shell);
 t_token_arr		ft_get_token(t_shell *shell);
 int				ft_readline(t_shell *shell);
-int				count_nodes(t_ast *ast);
 
 // // free
 void			ft_free_args(char **args);

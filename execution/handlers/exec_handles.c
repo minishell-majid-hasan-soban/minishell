@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/24 13:47:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:08:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	ft_exit_status(void)
 {
-	if (errno == 13 || errno == 20 || errno == 8 || errno == 21)
+	if (errno == 13 || errno == 20 || errno == 21)
 		exit(126);
 	else
 		exit(127);

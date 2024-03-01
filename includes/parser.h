@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/29 19:32:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:07:36 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void				print_redirections(t_redirection *redirection);
 void				print_command_args(t_command *cmd);
 void				print_ast(const t_ast *node, const char *prefix,
 						int isLeft);
-// char				*skip_quotes(char *str);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter,
 						bool expand);
 int					init_here_doc(t_ast *ast, char *limiter, int *status);
