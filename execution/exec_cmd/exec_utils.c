@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:04:16 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 18:15:26 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 10:02:16 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*ft_file_param(t_ast *ast, char *file)
 
 	ret = 0;
 	exp = ft_expand_arg(ast, file);
+	if (ast->error != T_NONE)
+		return (ft_free_args(exp), NULL);
 	if (!exp && ast->command->args)
 		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	else if (ft_argslen(exp) == 0 || ft_argslen(exp) > 1)

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:33:59 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:19:51 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 10:01:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	exec_redir_input(t_ast *ast, t_redirection *redir)
 	char	*file;
 
 	file = ft_file_param(ast, redir->file);
-	if (!file || !*file)
+	if (!file || !*file || ast->error != T_NONE)
 		return (free(file), 1);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)

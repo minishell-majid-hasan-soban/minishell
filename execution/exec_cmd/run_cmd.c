@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 17:07:49 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:30:14 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	ft_readline(t_shell *shell)
 		return (1);
 	}
 	add_history(shell->line);
+	if (shell->error == T_FATAL)
+		return (ft_putstr_fd("minishell: fatal error.\n", 2),
+			ft_putstr_fd("please restart the shell.\n", 2), 1);
 	return (0);
 }
 

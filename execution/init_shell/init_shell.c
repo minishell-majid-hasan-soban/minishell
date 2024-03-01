@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:37:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 07:10:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 11:42:02 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,16 @@ static int	ft_env_to_list(t_env **env, char **envp)
 
 t_shell	*ft_init_shell(t_shell *shell, char **envp)
 {
+	int	status;
+
+	status = 0;
+	shell->exit_status = 0;
 	shell->error = T_NONE;
 	shell->tty = true;
-	shell->exit_status = ft_env_to_list(&shell->env, envp);
-	ft_set_minimal_env(shell);
+	status = ft_env_to_list(&shell->env, envp);
+	shell->exit_status = status || shell->exit_status;
+	status = ft_set_minimal_env(shell);
+	shell->exit_status = status || shell->exit_status;
 	shell->line = NULL;
 	shell->fd_in = dup(0);
 	shell->fd_out = dup(1);
@@ -59,6 +65,7 @@ t_shell	*ft_init_shell(t_shell *shell, char **envp)
 	{
 		(ft_putstr_fd("minishell: dup: ", 2), perror(""));
 		shell->error = T_FATAL;
+		shell->exit_status = 42;
 	}
 	shell->ast = NULL;
 	signal(SIGINT, ft_signal_handler);

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:09:23 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 11:04:20 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*handle_question(t_ast *ast, char **arg)
 	(void)ast;
 	(*arg)++;
 	var = ft_itoa(exit_status(0, false));
+	if (!var)
+		return (ast->error = T_MALLOC, NULL);
 	return (var);
 }
 
@@ -38,23 +40,27 @@ char	*handle_alphanum(t_ast *ast, char **arg, bool quoted)
 	else if (i == 0)
 		tmp = ft_strdup("$");
 	if (tmp == NULL)
-		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
+		return (ast->error = T_MALLOC, NULL);
 	else if (tmp != (void *)-1)
 		return (tmp);
 	to_free = ft_substr(*arg, 0, i);
 	var = get_value(ast->shell->env, to_free);
 	free(to_free);
 	*arg += i;
+	if (!var)
+		return (ast->error = T_MALLOC, NULL);
 	return (var);
 }
 
-static char	**ft_assemble_arr(char	**r1, char **r2)
+static char	**ft_assemble_arr(t_ast *ast, char **r1, char **r2)
 {
 	char	*last;
 	char	*new_last;
 	int		size;
 	char	**arr;
 
+	if (ast->error != T_NONE)
+		return (ft_free_args(r1), ft_free_args(r2), NULL);
 	if (!r2 || !*r2)
 		return (ft_free_args(r2), r1);
 	else if (!r1 || !*r1)
@@ -70,7 +76,7 @@ static char	**ft_assemble_arr(char	**r1, char **r2)
 	return (arr);
 }
 
-static void	ft_strjoin_last(char ***expanded, char *var)
+static int	ft_strjoin_last(t_ast *ast, char ***expanded, char *var)
 {
 	char	*last;
 	char	*new_last;
@@ -82,14 +88,17 @@ static void	ft_strjoin_last(char ***expanded, char *var)
 		free(*expanded);
 		*expanded = ft_calloc(2, sizeof(char *));
 		if (!*expanded)
-			return ;
+			return (ast->error = T_MALLOC, 1);
 		(*expanded)[0] = var;
-		return ;
+		return (0);
 	}
 	last = (*expanded)[size - 1];
 	new_last = ft_strjoin(last, var);
 	(free(last), free(var));
 	(*expanded)[size - 1] = new_last;
+	if (!new_last)
+		return (ast->error = T_MALLOC, 1);
+	return (0);
 }
 
 void	handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted)
@@ -106,12 +115,16 @@ void	handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted)
 		var = handle_question(ast, arg);
 	else
 		var = handle_alphanum(ast, arg, quoted);
+	if (ast->error == T_MALLOC)
+		return ;
 	if (quoted)
-		ft_strjoin_last(expanded, var);
+		ft_strjoin_last(ast, expanded, var);
 	else
 	{
 		split = ft_split(var, ' ');
-		*expanded = ft_assemble_arr(*expanded, split);
 		free(var);
+		if (!split)
+			ast->error = T_MALLOC;
+		*expanded = ft_assemble_arr(ast, *expanded, split);
 	}
 }

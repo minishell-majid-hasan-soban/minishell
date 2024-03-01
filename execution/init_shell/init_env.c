@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:43:27 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 07:14:55 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 11:05:54 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static int	ft_setunderscore(t_shell *shell)
 int	ft_set_minimal_env(t_shell *shell)
 {
 	int	ret;
-	int status;
-	
+	int	status;
+
 	status = 0;
 	ret = ft_setoldpwd(shell);
 	status = status || ret;

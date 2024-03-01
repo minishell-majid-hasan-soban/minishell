@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 07:07:01 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 11:48:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ void	ft_free_shell(t_shell *shell)
 	ft_free_env(&shell->env);
 	ft_free_ast(&shell->ast);
 	free(shell->line);
-	if (close(shell->fd_in) || close(shell->fd_out))
+	if (close(shell->fd_in) && status == 0)
+		status = 1;
+	if (close(shell->fd_out) && status == 0)
 		status = 1;
 	rl_clear_history();
 	exit(status);
