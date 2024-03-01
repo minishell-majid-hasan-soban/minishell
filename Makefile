@@ -1,6 +1,6 @@
 BLUE = \033[0;34m
 GREEN = \033[0;32m
-RED = \033[0;31m
+RED = \033[0;91m
 RESET = \033[0m
 
 EXEC =	execution/builtins_cmd/cd.c						execution/expander/expander_utils.c \
@@ -29,6 +29,7 @@ PARSER =	parser/add_seperator.c			parser/compute_atom.c			parser/tokenizer.c \
 			parser/check_errors_2.c			parser/parse_expression.c \
 			parser/check_errors_main.c		parser/printing_functions.c 
 
+LIBFT = libft/libft.a 
 SRC = $(EXEC) $(PARSER) minishell.c 
 OBJ = $(SRC:.c=.o)
 CC = cc
@@ -39,35 +40,36 @@ NAME_BONUS = minishell_bonus
 INC = includes
 HEADER = $(INC)/minishell.h $(INC)/enum.h $(INC)/ast_handler.h $(INC)/builtins.h $(INC)/parser.h
 
-all: $(NAME)
+all: libft $(NAME)
 
-$(NAME): $(OBJ)
-	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ) 
-	@clear
+$(NAME): $(OBJ) $(LIBFT)
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
-%.o: %.c $(HEADER) libft/libft.a
+%.o: %.c $(HEADER)
 	@$(CC) -I$(INC) -I$(RL)/include $(CFLAGS) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$ $(RESET)"
 
-libft/libft.a:
+libft:
 	@make -C libft
 	@echo "$(GREEN)Libft has been created successfully!$(RESET)"
 
-bonus: $(NAME_BONUS)
+bonus: libft $(NAME_BONUS)
 
-$(NAME_BONUS): $(OBJ)
-	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME_BONUS) $(OBJ) 
+$(NAME_BONUS): $(OBJ) $(LIBFT)
+	@$(CC) -I$(INC) -L $(RL)/lib -lreadline $(CFLAGS) -o $(NAME_BONUS) $(OBJ) $(LIBFT)
 	@echo "$(GREEN)$(NAME_BONUS) has been created successfully!$(RESET)"
 
 clean:
 	@rm -f $(OBJ)
+	@make -C libft clean
 	@echo "$(RED)Object files have been removed!$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME) $(NAME_BONUS)
+	@make -C libft fclean
 	@echo "$(RED)$(NAME) has been removed!$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft bonus

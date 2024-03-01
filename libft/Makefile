@@ -26,7 +26,6 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
-	@echo "$(GREEN)$(NAME) has been created successfully!$(RESET)"
 
 %.o: %.c $(INC)/libft.h
 	@$(CC) -I$(INC) $(CFLAGS) -c $< -o $@
