@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:43:27 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 11:05:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:53:32 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ static int	ft_setshlvl(t_shell *shell)
 		return (ft_putstr_fd(ALLOC_ERR, 2), 1);
 	if (env && env->value)
 	{
-		lvl = ft_atoi(env->value);
-		if (lvl < 0)
-			lvl = 0;
-		lvl++;
+		lvl = ft_get_shlvl(env->value);
+		lvl = (lvl + 1) % 1000;
 	}
 	else
 		lvl = 1;

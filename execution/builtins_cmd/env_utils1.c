@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 08:38:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 09:50:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:59:12 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,31 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 		if (ft_env_addback(&shell->env, name, value))
 			return (ft_putstr_fd(ALLOC_ERR, 2), 1);
 	return (0);
+}
+
+int	ft_get_shlvl(char *str)
+{
+	long long	r;
+	int			s;
+
+	r = 0;
+	s = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-')
+		s = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		r = r * 10 + *str - '0';
+		if (r > 999 && s == 1)
+			return (0);
+		str++;
+	}
+	if (*str)
+		return (0);
+	if (s == -1)
+		return (-1);
+	return (r);
 }

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 22:01:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:12:29 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 
 static int	ft_setoldnew_pwd(t_shell *shell, char *pwd, char *oldpwd)
 {
-	if (!oldpwd || !pwd)
-		return (free(pwd), free(oldpwd), ft_putstr_fd("minishell: cd: ", 2),
+	char	*name1;
+	char	*name2;
+	
+	name1 = ft_strdup("OLDPWD");
+	name2 = ft_strdup("PWD");
+	if (!oldpwd || !pwd || !name1 || !name2)
+		return (free(pwd), free(oldpwd), free(name1),
+			free(name2), ft_putstr_fd("minishell: cd: ", 2),
 			perror(""), 1);
 	if (ft_getenv(shell->env, "OLDPWD"))
-		ft_setenv(shell, ft_strdup("OLDPWD"), oldpwd, false);
+		ft_setenv(shell, name1, oldpwd, false);
 	else
-		free(oldpwd);
+		(free(oldpwd), free(name1));
 	if (ft_getenv(shell->env, "PWD"))
-		ft_setenv(shell, ft_strdup("PWD"), pwd, false);
+		ft_setenv(shell, name2, pwd, false);
 	else
-		free(pwd);
+		(free(pwd), free(name2));
 	return (0);
 }
 
@@ -52,12 +58,8 @@ static int	parent_dir(t_shell *shell)
 	{
 		chdir("/");
 		pwd = ft_strdup("/");
-		if (ft_getenv(shell->env, "OLDPWD"))
-			ft_setenv(shell, ft_strdup("OLDPWD"), pwd, false);
-		if (ft_getenv(shell->env, "PWD"))
-			ft_setenv(shell, ft_strdup("PWD"), pwd, false);
-		if (!ft_getenv(shell->env, "OLDPWD") && !ft_getenv(shell->env, "PWD"))
-			free(pwd);
+		oldpwd = ft_strdup("/");
+		ft_setoldnew_pwd(shell, pwd, oldpwd);
 		return (ft_cd_error(".."), 1);
 	}
 	if (chdir("..") != -1)
