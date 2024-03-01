@@ -6,13 +6,13 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:37:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 11:42:02 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:49:58 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static struct termios	ft_settermios(void)
+struct termios	ft_settermios(void)
 {
 	struct termios	og_term;
 	struct termios	md_term;

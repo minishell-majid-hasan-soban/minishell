@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:33:16 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:39:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:41:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,11 @@ void	ft_signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (ast_running(false, false))
-			exit_status(130, true);
-		else
-		{
-			ft_putstr_fd("\n", 1);
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			exit_status(1, true);
-		}
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		exit_status(130, true);
 	}
 	else if (signum == SIGQUIT)
 	{

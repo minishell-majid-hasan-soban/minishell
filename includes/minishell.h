@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 13:01:03 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:50:44 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,10 @@ typedef struct s_shell
 	t_error			error;
 }					t_shell;
 
-void			print_args(char **args, char *name);
-
 // // main
 void			ft_free_shell(t_shell *shell);
 int				exit_status(int newstatus, bool flag);
+struct termios	ft_settermios(void);
 
 // // string_utils
 void			ft_free_args(char **args);

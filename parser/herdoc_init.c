@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:31:15 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:39:31 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:46:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ int	ft_fork_heredoc(t_ast *ast, int fd_w, char *limiter, bool expand)
 			exit(42);
 		exit(0);
 	}
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, ft_signal_handler);
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	else if (WIFEXITED(status))

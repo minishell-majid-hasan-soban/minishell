@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:27:17 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 18:18:35 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:38:27 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ int	exit_status(int newstatus, bool set)
 
 void	reset_shell(t_shell *shell)
 {
+	struct termios	md_term;
+
+	md_term = shell->term;
+	md_term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &md_term);
 	free(shell->line);
 	if (dup2(shell->fd_in, 0) == -1)
 		ft_putstr_fd("dup2 failed to reset stdin\n", 2);
