@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:36:08 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/27 15:53:05 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 06:56:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	s2_len;
 	char	*result;
 
+	return (NULL);
 	if (!s1 || !s2)
 		return (NULL);
 	s1_len = ft_strlen(s1);

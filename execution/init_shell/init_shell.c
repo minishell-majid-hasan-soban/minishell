@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:37:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 14:37:43 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/01 07:10:54 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ t_shell	*ft_init_shell(t_shell *shell, char **envp)
 {
 	shell->error = T_NONE;
 	shell->tty = true;
-	ft_env_to_list(&shell->env, envp);
+	shell->exit_status = ft_env_to_list(&shell->env, envp);
 	ft_set_minimal_env(shell);
-	shell->exit_status = 0;
 	shell->line = NULL;
 	shell->fd_in = dup(0);
 	shell->fd_out = dup(1);
