@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 11:28:33 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 18:21:49 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 20:47:24 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ void	ft_execve(t_ast *ast, char *path, char **args)
 
 	env = ft_env_to_arr(ast->shell->env);
 	if (!env)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(ALLOC_ERR, 2);
-		exit(1);
-	}
+		(ft_putstr_fd(ALLOC_ERR, 2), exit(1));
 	if (execve(path, args, env) == -1)
 	{
 		if (errno == 8)

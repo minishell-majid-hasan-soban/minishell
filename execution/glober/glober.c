@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 09:47:04 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 21:29:30 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	**ft_glob_args(t_ast *ast, char **args)
 		return (NULL);
 	i = 0;
 	ret = 0;
-	globed_args = ft_calloc(1, sizeof(char *));
+	globed_args = ft_calloc(2, sizeof(char *));
 	if (!globed_args)
 		return (ft_putstr_fd(ALLOC_ERR, 2), ast->error = T_MALLOC, NULL);
 	while (args[i])
