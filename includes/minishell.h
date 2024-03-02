@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/02 08:53:09 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 17:59:57 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ char			*ft_file_param(t_ast *ast, char *file);
 char			*ft_get_path(t_ast *ast, char *cmd, int *status);
 void			ft_cmd_nf_err(char *cmd, int status);
 int				check_file_name(char *file);
+void			check_input(t_shell *shell);
 
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);

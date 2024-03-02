@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:42:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 11:48:47 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 15:44:12 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	ft_free_shell(t_shell *shell)
 		status = 1;
 	if (close(shell->fd_out) && status == 0)
 		status = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->term);
 	rl_clear_history();
 	exit(status);
 }

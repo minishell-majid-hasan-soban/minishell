@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 20:12:29 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 18:00:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_setoldnew_pwd(t_shell *shell, char *pwd, char *oldpwd)
 {
 	char	*name1;
 	char	*name2;
-	
+
 	name1 = ft_strdup("OLDPWD");
 	name2 = ft_strdup("PWD");
 	if (!oldpwd || !pwd || !name1 || !name2)

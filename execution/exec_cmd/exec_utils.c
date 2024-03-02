@@ -6,11 +6,38 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:04:16 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 10:02:16 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 17:59:35 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_input(t_shell *shell)
+{
+	if (isatty(STDIN_FILENO) == 0)
+		shell->tty = false;
+	else
+		shell->tty = true;
+}
+
+int	is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	if (!ft_strcmp(cmd, "env"))
+		return (1);
+	if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	return (0);
+}
 
 static char	*handle_amb_redir(char *file, char **file_globed)
 {
