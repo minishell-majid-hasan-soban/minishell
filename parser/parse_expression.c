@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_expression.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:07:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 16:23:25 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 17:12:38 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parse_expression_while_guts(t_token **curr_token,
 		bool in_op, t_parse_exp *data)
 {
 	data->op_token = *curr_token;
-	*curr_token = ++(*curr_token);
+	++(*curr_token);
 	data->r_ast = parse_expression(curr_token,
 			token_precedence(data->op_token) + 1, in_op);
 	if (data->r_ast == NULL)
