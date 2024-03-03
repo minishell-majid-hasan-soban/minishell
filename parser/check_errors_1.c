@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:29:32 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:20:17 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:13:46 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,16 @@ int	check_errors_part2(t_token_arr *tokens, t_err *d)
 			|| d->type == TOKEN_PIPE || d->type == TOKEN_CP)
 		&& (d->past_type == TOKEN_AND || d->past_type == TOKEN_OR
 			|| d->past_type == TOKEN_PIPE || d->past_type == TOKEN_OP))
-	{
-		print_parse_error_near(&tokens->arr[d->index]);
-		return (-1);
-	}
+		return (print_parse_error_near(&tokens->arr[d->index]), -1);
 	if (((d->index - 1 * (d->index > 0)) != d->index) && d->type != TOKEN_WORD
 		&& (d->past_type == TOKEN_DGREAT
 			|| d->past_type == TOKEN_DLESS || d->past_type == TOKEN_GREAT
 			|| d->past_type == TOKEN_LESS) && !d->is_after_parantheses)
-	{
-		print_parse_error_near(&tokens->arr[d->index]);
-		return (-1);
-	}
+		return (print_parse_error_near(&tokens->arr[d->index]), -1);
+	if ((d->past_type == TOKEN_DGREAT || d->past_type == TOKEN_DLESS
+			|| d->past_type == TOKEN_GREAT || d->past_type == TOKEN_LESS)
+		&& d->type != TOKEN_WORD)
+		return (print_parse_error_near(&tokens->arr[d->index]), -1);
 	return (1);
 }
 

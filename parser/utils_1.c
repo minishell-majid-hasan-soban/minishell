@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/03/03 11:15:18 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:08:05 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	print_parse_error_near(t_token *token)
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\f' || c == '\r' || c == '\v')
+		|| c == '\f' || c == '\v')
 		return (1);
 	return (0);
 }
