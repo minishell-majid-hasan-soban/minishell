@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 08:36:35 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 11:01:40 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:27:09 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	ft_whitespace(char *str, int i)
 {
-	return (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13));
+	return (str[i] == ' ' || str[i] == '\t');
 }
 
 char	*ft_strstr(char *str, char *to_find)
