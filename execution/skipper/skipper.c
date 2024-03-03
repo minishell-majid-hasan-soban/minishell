@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:11:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:07:04 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:39:52 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*skip_quotes(char *str)
 		return (ft_putstr_fd(ALLOC_ERR, 2), NULL);
 	i = 0;
 	j = 0;
-	while (str[i] && !is_space(str[i]))
+	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
 			handle_quotes(result, str, &i, &j);
