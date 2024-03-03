@@ -6,11 +6,22 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 11:09:40 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 11:09:47 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:20:58 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_for_quotes(char **args)
+{
+	while (*args)
+	{
+		if (strchr(*args, '\'') || strchr(*args, '\"'))
+			return (1);
+		args++;
+	}
+	return (0);
+}
 
 int	skip_null_args(t_ast *ast)
 {

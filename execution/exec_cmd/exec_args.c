@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 11:09:19 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:20:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,6 @@ static int	check_empty_cmd(t_ast *ast)
 		return (status);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
-	return (0);
-}
-
-static int	check_for_quotes(char **args)
-{
-	while (*args)
-	{
-		if (strchr(*args, '\'') || strchr(*args, '\"'))
-			return (1);
-		args++;
-	}
 	return (0);
 }
 

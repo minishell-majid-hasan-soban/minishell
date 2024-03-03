@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:26:58 by amajid            #+#    #+#             */
-/*   Updated: 2024/03/01 12:07:36 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:17:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ typedef struct s_parse_exp
 	t_ast	*new_ast;
 }	t_parse_exp;
 
-void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+// void				print_token(t_token *token);
 void				print_parse_error_near(t_token *token);
-void				print_token(t_token *token);
+void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int					is_space(char c);
 int					is_str(char c);
 int					is_separator(char *str);
@@ -74,10 +74,10 @@ t_node_type			determine_node_type(t_token *op_token);
 t_ast				*parse_expression(t_token **curr_token, int min_precedence,
 						bool in_op);
 char				*redirection_type_to_string(t_redirection_type type);
-void				print_redirections(t_redirection *redirection);
-void				print_command_args(t_command *cmd);
-void				print_ast(const t_ast *node, const char *prefix,
-						int isLeft);
+// void				print_redirections(t_redirection *redirection);
+// void				print_command_args(t_command *cmd);
+// void				print_ast(const t_ast *node, const char *prefix,
+// 						int isLeft);
 int					ft_read_here_doc(t_ast *ast, int fd_w, char *limiter,
 						bool expand);
 int					init_here_doc(t_ast *ast, char *limiter, int *status);
