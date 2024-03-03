@@ -6,7 +6,7 @@
 /*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:29:32 by amajid            #+#    #+#             */
-/*   Updated: 2024/03/03 16:13:46 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 19:13:23 by amajid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_errors_part2(t_token_arr *tokens, t_err *d)
 		return (print_parse_error_near(&tokens->arr[d->index]), -1);
 	if ((d->past_type == TOKEN_DGREAT || d->past_type == TOKEN_DLESS
 			|| d->past_type == TOKEN_GREAT || d->past_type == TOKEN_LESS)
-		&& d->type != TOKEN_WORD)
+		&& d->type != TOKEN_WORD && d->index > 0)
 		return (print_parse_error_near(&tokens->arr[d->index]), -1);
 	return (1);
 }
