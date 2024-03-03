@@ -6,30 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:08:36 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 22:04:24 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:20:47 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_builtin(char *cmd)
-{
-	if (!ft_strcmp(cmd, "echo"))
-		return (1);
-	if (!ft_strcmp(cmd, "cd"))
-		return (1);
-	if (!ft_strcmp(cmd, "pwd"))
-		return (1);
-	if (!ft_strcmp(cmd, "export"))
-		return (1);
-	if (!ft_strcmp(cmd, "unset"))
-		return (1);
-	if (!ft_strcmp(cmd, "env"))
-		return (1);
-	if (!ft_strcmp(cmd, "exit"))
-		return (1);
-	return (0);
-}
 
 static int	exec_builtin(t_ast *ast, char **args)
 {
@@ -50,36 +31,38 @@ static int	exec_builtin(t_ast *ast, char **args)
 	return (0);
 }
 
+static int	is_empty_cmd(char **args)
+{
+	char	*arg;
+	char	*skiped;
+
+	arg = *args;
+	if (!arg)
+		return (0);
+	skiped = skip_quotes(arg);
+	if (!skiped)
+		return (1);
+	if (*skiped == '\0')
+		return (ft_cmd_nf_err(skiped, 127), free(skiped), 127);
+	free(skiped);
+	if (ft_strcmp(arg, "..") == 0)
+		return (ft_cmd_nf_err(arg, 127), 127);
+	return (0);
+}
+
 static int	check_empty_cmd(t_ast *ast)
 {
 	char	**args;
+	int		status;
 
 	args = ast->command->args;
 	if (!args || !args[0])
 		return (0);
-	if (ft_strcmp(args[0], "\"\"") == 0 || ft_strcmp(args[0], "''") == 0
-		|| ft_strcmp(args[0], "..") == 0)
-		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
+	status = is_empty_cmd(args);
+	if (status != 0)
+		return (status);
 	if (ft_strcmp(args[0], ".") == 0)
 		return (ft_cmd_nf_err(args[0], 2), 2);
-	return (0);
-}
-
-static int	skip_null_args(t_ast *ast)
-{
-	char	**exp;
-	char	**args;
-
-	exp = ast->command->expanded_args;
-	args = ast->command->globed_args;
-	while (*args && ft_strcmp(*args, "") == 0
-		&& !(strchr(*exp, '\'') || strchr(*exp, '\"')))
-	{
-		args++;
-		exp++;
-	}
-	if (*args && **args == '\0')
-		return (ft_cmd_nf_err(ast->command->expanded_args[0], 127), 127);
 	return (0);
 }
 

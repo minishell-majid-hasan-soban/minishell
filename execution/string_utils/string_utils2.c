@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_ast.c                                         :+:      :+:    :+:   */
+/*   string_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 10:46:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 12:26:16 by hsobane          ###   ########.fr       */
+/*   Created: 2024/03/03 08:36:35 by hsobane           #+#    #+#             */
+/*   Updated: 2024/03/03 11:01:40 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
+bool	ft_whitespace(char *str, int i)
 {
-	int		status;
+	return (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13));
+}
 
-	status = 0;
-	if (*ast == NULL)
+char	*ft_strstr(char *str, char *to_find)
+{
+	int	i;
+	int	j;
+
+	if (!to_find)
 		return (0);
-	if ((*ast)->type == N_PIPE)
-		piped = true;
-	if (ft_init_ast(&(*ast)->left, shell, piped)
-		|| ft_init_ast(&(*ast)->right, shell, piped))
-		return (1);
-	(*ast)->shell = shell;
-	(*ast)->piped = piped;
-	(*ast)->error = T_NONE;
-	return (status);
+	if (!to_find[0])
+		return (str);
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i + j] && str[i + j] == to_find[j])
+			j++;
+		if (!to_find[j])
+			return (str + i);
+		i++;
+	}
+	return (0);
 }

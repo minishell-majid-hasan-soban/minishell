@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 15:50:44 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:09:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,15 +133,14 @@ typedef struct s_shell
 	t_error			error;
 }					t_shell;
 
-// // main
+// main
 void			ft_free_shell(t_shell *shell);
 int				exit_status(int newstatus, bool flag);
 struct termios	ft_settermios(void);
 
-// // string_utils
+// string_utils
 void			ft_free_args(char **args);
 
-// int		ft_strlen(const char *s);
 int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_strdup(const char *s1);
 int				ft_strcmp(const char *s1, const char *s2);
@@ -150,17 +149,20 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strchr(const char *s, int c);
 size_t			ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
+char			**ft_spliter(char const *s, bool (*func)(char *, int));
+bool			ft_whitespace(char *str, int i);
+char			*ft_strstr(char *str, char *to_find);
 
-// // parser
+// parser
 char			**ft_skip_args(char **args);
 char			*skip_quotes(char *str);
 
-// // hanlders
+// hanlders
 int				dup2_handle(int fd1, int fd2);
 int				close_handle(int fd);
 int				pipe_handle(int *pipefd);
 
-// // expansion
+// expansion
 char			**ft_expand_arg(t_ast *ast, char *arg);
 char			**ft_expand_args(t_ast *ast, char **args);
 void			handle_dollar(t_ast *ast, char **arg, char ***expanded,
@@ -172,18 +174,19 @@ char			*handle_alphanum(t_ast *ast, char **arg, bool quoted);
 char			*ft_strjoin_arr(t_ast *ast, char **arr);
 void			ft_strdupif_zero(t_ast *ast, char **expanded, int *size);
 
-// // glober
+// glober
 char			**ft_glob_args(t_ast *ast, char **args);
 char			**ft_strsjoin(char **dst, char **src);
 struct dirent	*ft_readdir(DIR *dir);
 int				ft_entryjoin(struct dirent *entry, char ***files,
 					char *pattern);
 int				match(char *pattern, char *string);
-int				glob_asterisk(char ***globed_args, char *args, bool quoted);
+int				glob_asterisk(char ***globed_args, char *args);
 bool			is_quoted(char *arg, char target, bool all);
 int				ft_glob_arg(t_ast *ast, char *arg, char ***globed);
+bool			is_not_quoted(char *s, int i);
 
-// // exec
+// exec
 int				exec_redir(t_ast *ast, t_redirection *redir);
 int				exec_args(t_ast *ast);
 int				is_builtin(char *cmd);
@@ -193,33 +196,35 @@ char			*ft_file_param(t_ast *ast, char *file);
 char			*ft_get_path(t_ast *ast, char *cmd, int *status);
 void			ft_cmd_nf_err(char *cmd, int status);
 int				check_file_name(char *file);
+void			check_input(t_shell *shell);
+int				skip_null_args(t_ast *ast);
 
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);
 void			exec_child_pipe(t_ast *ast, t_node_dir dir, int fd[2]);
 
-// // shell
+// shell
 int				run_cmd(t_shell *shell);
 t_token_arr		ft_get_token(t_shell *shell);
 int				ft_readline(t_shell *shell);
 
-// // free
+// free
 void			ft_free_args(char **args);
 void			ft_free_env(t_env **env);
 void			ft_free_command(t_command *cmd);
 void			ft_free_ast(t_ast **ast);
 void			ft_free_shell(t_shell *shell);
 
-// // init
+// init
 int				ft_init_ast(t_ast **ast, t_shell *shell, bool piped);
 int				ft_set_minimal_env(t_shell *shell);
 t_shell			*ft_init_shell(t_shell *shell, char **envp);
 
-// // signals
+// signals
 void			ft_signal_handler(int signum);
 void			sig_heredoc_handler(int signum);
 
-// // static
+// static
 int				ast_running(bool flag, bool set);
 int				exit_status(int newstatus, bool set);
 

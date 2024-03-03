@@ -20,7 +20,8 @@ EXEC =	execution/builtins_cmd/cd.c						execution/expander/expander_utils.c \
 		execution/exec_cmd/exec_utils.c					execution/redirections/redirection_utils.c \
 		execution/exec_cmd/path_finder.c				execution/signals/signals.c \
 		execution/exec_cmd/run_cmd.c					execution/skipper/skipper.c \
-		execution/expander/expander.c					execution/string_utils/string_utils.c 
+		execution/expander/expander.c					execution/string_utils/string_utils.c \
+		execution/string_utils/string_utils2.c			execution/exec_cmd/exec_utils2.c \
 
 PARSER =	parser/add_seperator.c			parser/compute_atom.c			parser/tokenizer.c \
 			parser/ast_utils_1.c			parser/free_funcs.c				parser/tokenizer_part1.c \
@@ -33,7 +34,7 @@ LIBFT = libft/libft.a
 SRC = $(EXEC) $(PARSER) minishell.c 
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RL = $(shell brew --prefix readline)
 NAME = minishell
 NAME_BONUS = minishell_bonus

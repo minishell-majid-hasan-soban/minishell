@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 10:22:54 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 16:04:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 16:19:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	exec_pipe(t_ast *ast)
 	ft_pipe(ast, fd);
 	l_pid = ft_fork(ast);
 	if (l_pid < 0)
-		return (ft_close_pipe(ast, fd), 13);
+		return (ft_close_pipe(ast, fd), 1);
 	else if (l_pid == 0)
 		exec_child_pipe(ast->left, N_LEFT, fd);
 	r_pid = ft_fork(ast);

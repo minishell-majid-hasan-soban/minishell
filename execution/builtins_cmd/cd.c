@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 01:44:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 20:12:29 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 09:09:12 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_setoldnew_pwd(t_shell *shell, char *pwd, char *oldpwd)
 {
 	char	*name1;
 	char	*name2;
-	
+
 	name1 = ft_strdup("OLDPWD");
 	name2 = ft_strdup("PWD");
 	if (!oldpwd || !pwd || !name1 || !name2)
@@ -90,6 +90,7 @@ static int	ft_cd_oldpwd(t_shell *shell)
 int	ft_cd(t_ast *ast, char **args)
 {
 	char	*oldpwd;
+	char	*pwd;
 
 	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
 		return (go_home(ast->shell));
@@ -100,5 +101,7 @@ int	ft_cd(t_ast *ast, char **args)
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(args[1]) == -1)
 		return (free(oldpwd), ft_cd_error(args[1]), 1);
-	return (ft_setoldnew_pwd(ast->shell, getcwd(NULL, 0), oldpwd));
+	pwd = getcwd(NULL, 0);
+	ft_oldnew(ast->shell, pwd, oldpwd);
+	return (0);
 }

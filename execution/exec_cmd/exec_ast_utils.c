@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:35:51 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 15:37:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/02 16:24:03 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	exec_child(t_ast *ast)
 	status = 0;
 	pid = ft_fork(ast);
 	if (pid < 0)
-		return (1);
+		return (ft_putstr_fd("minishell: ", 2),
+			ft_putstr_fd(strerror(errno), 2), ft_putstr_fd("\n", 2), 1);
 	else if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);

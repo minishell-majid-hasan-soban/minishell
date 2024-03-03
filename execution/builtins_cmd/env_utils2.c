@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 07:59:30 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/26 10:01:06 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 09:02:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ t_env	*ft_getenv(t_env *env, char *name)
 {
 	t_env	*tmp;
 
+	if (env == NULL || name == NULL)
+		return (NULL);
 	tmp = env;
-	fflush(stdout);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, name) == 0)

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:16:12 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 11:04:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 08:36:19 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	handle_dollar(t_ast *ast, char **arg, char ***expanded, bool quoted)
 		ft_strjoin_last(ast, expanded, var);
 	else
 	{
-		split = ft_split(var, ' ');
+		split = ft_spliter(var, ft_whitespace);
 		free(var);
 		if (!split)
 			ast->error = T_MALLOC;

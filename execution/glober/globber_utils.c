@@ -6,13 +6,11 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:02:02 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 13:55:46 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:07:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	match_all(char *pattern, char *string);
 
 char	**ft_strsjoin(char **dst, char **src)
 {
@@ -61,8 +59,7 @@ int	ft_entryjoin(struct dirent *entry, char ***files, char *pattern)
 	int				i;
 
 	i = ft_argslen(*files);
-	if (match_all(pattern, entry->d_name) && ft_strncmp(entry->d_name, ".", 1)
-		&& ft_strcmp(entry->d_name, ".."))
+	if (ft_strncmp(entry->d_name, ".", 1) != 0 && match(pattern, entry->d_name))
 	{
 		tmp = *files;
 		*files = ft_realloc(*files, (i + 1) * sizeof(char *),
@@ -77,39 +74,53 @@ int	ft_entryjoin(struct dirent *entry, char ***files, char *pattern)
 	return (0);
 }
 
-int	match(char *pattern, char *string)
+static int	ft_check_first_last(char *pattern, char *string, char **strs)
 {
-	while (*pattern && *string)
+	size_t	first_len;
+	size_t	last_len;
+	size_t	s_len;
+
+	if (!*strs)
+		return (1);
+	first_len = ft_strlen(strs[0]);
+	last_len = ft_strlen(strs[ft_argslen(strs) - 1]);
+	s_len = ft_strlen(string);
+	if (*pattern != '*' && ft_strncmp(string, strs[0], first_len))
+		return (0);
+	if (pattern[ft_strlen(pattern) - 1] != '*')
 	{
-		if (*pattern == '*')
-		{
-			while (*pattern == '*')
-				pattern++;
-			if (*pattern == '\0')
-				return (1);
-			while (*string && *string != *pattern)
-				string++;
-		}
-		else if (*pattern == *string)
-		{
-			pattern++;
-			string++;
-		}
-		else
+		if (s_len < last_len)
 			return (0);
+		if (ft_strncmp(string + s_len - last_len, strs[ft_argslen(strs) - 1],
+				last_len))
+			return (0);
+		return (1);
 	}
-	while (*pattern == '*')
-		pattern++;
-	return (*pattern == '\0' && *string == '\0');
+	return (1);
 }
 
-int	match_all(char *pattern, char *string)
+int	match(char *pattern, char *string)
 {
-	while (*string)
+	char	**strs;
+	char	*ptr;
+	int		i;
+	int		j;
+
+	strs = ft_spliter(pattern, is_not_quoted);
+	if (!strs)
+		return (0);
+	if (ft_check_first_last(pattern, string, strs) == 0)
+		return (ft_free_args(strs), 0);
+	i = 0;
+	j = 0;
+	while (strs[i])
 	{
-		if (match(pattern, string))
-			return (1);
-		string++;
+		ptr = ft_strstr(string + j, strs[i]);
+		if (!ptr)
+			return (ft_free_args(strs), 0);
+		j = ptr - string + ft_strlen(strs[i]);
+		i++;
 	}
-	return (0);
+	ft_free_args(strs);
+	return (1);
 }

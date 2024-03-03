@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:05:11 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 11:54:20 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:48:11 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,30 @@ static char	*check_relative_path(char *cmd, int *status)
 		ft_putstr_fd(": No such file or directory\n", 2), *status = 127, NULL);
 }
 
+static bool	ft_split_path(char *str, int i)
+{
+	bool	squote;
+	bool	dquote;
+	int		j;
+
+	if (str[i] != ':')
+		return (false);
+	squote = false;
+	dquote = false;
+	j = 0;
+	while (str[j])
+	{
+		if (str[j] == '\'')
+			squote = !squote;
+		if (str[j] == '\"')
+			dquote = !dquote;
+		if (str[j] == ':' && !squote && !dquote)
+			return (true);
+		j++;
+	}
+	return (false);
+}
+
 char	*ft_get_path(t_ast *ast, char *cmd, int *status)
 {
 	char	**paths;
@@ -96,7 +120,7 @@ char	*ft_get_path(t_ast *ast, char *cmd, int *status)
 	env = ft_getenv(ast->shell->env, "PATH");
 	paths = NULL;
 	if (env)
-		paths = ft_split(env->value, ':');
+		paths = ft_spliter(env->value, ft_split_path);
 	path = ft_check_path(paths, cmd, status);
 	ft_free_args(paths);
 	if (!path)

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 08:38:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 18:59:12 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 09:03:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ft_setenv(t_shell *shell, char *name, char *value, bool append)
 {
 	t_env	*tmp;
 
+	if (name == NULL)
+		return (0);
 	tmp = ft_getenv(shell->env, name);
 	if (tmp)
 	{

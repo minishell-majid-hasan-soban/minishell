@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/01 11:30:14 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 12:26:54 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static void	reset_termios(struct termios og_term)
 int	ft_readline(t_shell *shell)
 {
 	shell->line = readline(GREEN"minishell> "RESET);
-	if (isatty(STDIN_FILENO) == 0)
-		shell->tty = false;
+	check_input(shell);
 	if (shell->line == NULL)
 		(reset_termios(shell->term), ft_putstr_fd("exit\n", 1),
 			ft_free_shell(shell));
@@ -67,7 +66,7 @@ t_token_arr	ft_get_token(t_shell *shell)
 	if (her_status == -1 || her_status == -2
 		|| her_status == 130 || her_status == 42)
 	{
-		if (her_status == -1)
+		if (her_status == -1 || her_status == -2)
 			shell->exit_status = 258;
 		else
 			shell->exit_status = 1;

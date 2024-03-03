@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   part_1.c                                           :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:25:25 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 21:56:33 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 11:15:18 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,24 @@ void	print_parse_error_near(t_token *token)
 	ft_putstr_fd("'\n", 2);
 }
 
-void	print_token(t_token *token)
-{
-	char	types[15][100];
+// void	print_token(t_token *token)
+// {
+// 	char	types[15][100];
 
-	ft_strlcpy(types[0], "TOKEN_WORD", 100);
-	ft_strlcpy(types[1], "TOKEN_PIPE", 100);
-	ft_strlcpy(types[2], "TOKEN_GREAT", 100);
-	ft_strlcpy(types[3], "TOKEN_LESS", 100);
-	ft_strlcpy(types[4], "TOKEN_DGREAT", 100);
-	ft_strlcpy(types[5], "TOKEN_DLESS", 100);
-	ft_strlcpy(types[6], "TOKEN_AND", 100);
-	ft_strlcpy(types[7], "TOKEN_OR", 100);
-	ft_strlcpy(types[8], "TOKEN_NEWLINE", 100);
-	ft_strlcpy(types[9], "TOKEN_OP", 100);
-	ft_strlcpy(types[10], "TOKEN_CP", 100);
-	ft_strlcpy(types[11], "TOKEN_EOF", 100);
-	printf("token type = %s, value = %s\n", types[token->type], token->value);
-}
+// 	ft_strlcpy(types[0], "TOKEN_WORD", 100);
+// 	ft_strlcpy(types[1], "TOKEN_PIPE", 100);
+// 	ft_strlcpy(types[2], "TOKEN_GREAT", 100);
+// 	ft_strlcpy(types[3], "TOKEN_LESS", 100);
+// 	ft_strlcpy(types[4], "TOKEN_DGREAT", 100);
+// 	ft_strlcpy(types[5], "TOKEN_DLESS", 100);
+// 	ft_strlcpy(types[6], "TOKEN_AND", 100);
+// 	ft_strlcpy(types[7], "TOKEN_OR", 100);
+// 	ft_strlcpy(types[8], "TOKEN_NEWLINE", 100);
+// 	ft_strlcpy(types[9], "TOKEN_OP", 100);
+// 	ft_strlcpy(types[10], "TOKEN_CP", 100);
+// 	ft_strlcpy(types[11], "TOKEN_EOF", 100);
+// 	printf("token type = %s, value = %s\n", types[token->type], token->value);
+// }
 
 int	is_space(char c)
 {
