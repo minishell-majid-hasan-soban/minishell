@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printing_functions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:02:00 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:21:42 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:23:55 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,37 @@ char	*redirection_type_to_string(t_redirection_type type)
 	return (NULL);
 }
 
-void	print_redirections(t_redirection *redirection)
-{
-	t_redirection	*tmp;
+// void	print_redirections(t_redirection *redirection)
+// {
+// 	t_redirection	*tmp;
 
-	tmp = redirection;
-	while (tmp)
-	{
-		printf(" (%s -> %s)", redirection_type_to_string(tmp->type),
-			tmp->file);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = redirection;
+// 	while (tmp)
+// 	{
+// 		printf(" (%s -> %s)", redirection_type_to_string(tmp->type),
+// 			tmp->file);
+// 		tmp = tmp->next;
+// 	}
+// }
 
-void	print_command_args(t_command *cmd)
-{
-	char	**args;
+// void	print_command_args(t_command *cmd)
+// {
+// 	char	**args;
 
-	if (cmd == NULL)
-		return ;
-	args = cmd->args;
-	if (args)
-	{
-		printf("- ");
-		while (*args)
-		{
-			printf("%s ", *args);
-			args++;
-		}
-	}
-	print_redirections(cmd->redirections);
-}
+// 	if (cmd == NULL)
+// 		return ;
+// 	args = cmd->args;
+// 	if (args)
+// 	{
+// 		printf("- ");
+// 		while (*args)
+// 		{
+// 			printf("%s ", *args);
+// 			args++;
+// 		}
+// 	}
+// 	print_redirections(cmd->redirections);
+// }
 
 // void	print_ast(const t_ast *node, const char *prefix, int is_left)
 // {

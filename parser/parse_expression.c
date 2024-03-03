@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_expression.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 08:07:44 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/28 22:21:10 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:23:25 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_ast	*parse_expression_part1(t_token **curr_token, bool in_op)
 	if ((*curr_token)->type != TOKEN_EOF && !token_is_operator(*curr_token))
 	{
 		if ((*curr_token)->type == TOKEN_WORD)
-			printf("minishell: parse error near '%s'\n", (*curr_token)->value);
+		{
+			ft_putstr_fd("minishell: parse error near '\n", 2);
+			ft_putendl_fd((*curr_token)->value, 2);
+		}
 		else
 			print_parse_error_near((*curr_token));
 		free_ast(l_ast);

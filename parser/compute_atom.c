@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_atom.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amajid <amajid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:09:00 by amajid            #+#    #+#             */
-/*   Updated: 2024/02/28 22:20:54 by amajid           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:21:22 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_ast	*extract_command(t_token **curr_token)
 		ast = parse_expression(curr_token, 1, true);
 		if ((*curr_token)->type != TOKEN_CP)
 		{
-			printf("minishell: expected ')'\n");
+			ft_putstr_fd("minishell: expected ')'\n", 2);
 			free_ast(ast);
 			return (NULL);
 		}
