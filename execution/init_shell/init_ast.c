@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:46:04 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/27 07:49:34 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 12:26:16 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	ft_init_ast(t_ast **ast, t_shell *shell, bool piped)
 		return (0);
 	if ((*ast)->type == N_PIPE)
 		piped = true;
-	else
-		piped = false;
 	if (ft_init_ast(&(*ast)->left, shell, piped)
 		|| ft_init_ast(&(*ast)->right, shell, piped))
 		return (1);
