@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:08:24 by hsobane           #+#    #+#             */
-/*   Updated: 2024/02/29 20:08:29 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:08:46 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,26 @@ bool	is_quoted(char *arg, char target, bool all)
 	if (!all)
 		return (false);
 	return (true);
+}
+
+bool	is_not_quoted(char *s, int i)
+{
+	bool	squoted;
+	bool	dquoted;
+	int		j;
+
+	if (s[i] != '*')
+		return (false);
+	squoted = false;
+	dquoted = false;
+	j = 0;
+	while (j < i)
+	{
+		if (s[j] == '\'')
+			squoted = !squoted;
+		if (s[j] == '\"')
+			dquoted = !dquoted;
+		j++;
+	}
+	return (!squoted && !dquoted);
 }

@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:16:55 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/02 21:29:30 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 09:37:28 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,12 @@ static int	handle_no_asterisk(char ***globed_args, char *args)
 	return (0);
 }
 
-int	glob_asterisk(char ***globed_args, char *args, bool quoted)
+int	glob_asterisk(char ***globed_args, char *args)
 {
 	char	**new_args;
 	char	**tmp;
 
-	if (!quoted)
-		new_args = glob_arg(args);
-	else
-	{
-		new_args = ft_calloc(2, sizeof(char *));
-		if (!new_args)
-			return (ft_putstr_fd(ALLOC_ERR, 2), ft_free_args(*globed_args),
-				*globed_args = NULL, 1);
-		new_args[0] = ft_strdup(args);
-		if (!new_args[0])
-			return (free(new_args), ft_putstr_fd(ALLOC_ERR, 2),
-				ft_free_args(*globed_args), *globed_args = NULL, 1);
-	}
-	if (!new_args)
-		return (ft_free_args(*globed_args), *globed_args = NULL, 1);
+	new_args = glob_arg(args);
 	tmp = *globed_args;
 	(*globed_args) = ft_strsjoin(*globed_args, new_args);
 	if (!(*globed_args))
@@ -99,8 +85,7 @@ int	ft_glob_arg(t_ast *ast, char *arg, char ***globed)
 	if (ft_strchr(arg, '*') == NULL)
 		ret = handle_no_asterisk(globed, arg);
 	else
-		ret = glob_asterisk(globed, arg,
-				is_quoted(arg, '*', false));
+		ret = glob_asterisk(globed, arg);
 	return (ret);
 }
 

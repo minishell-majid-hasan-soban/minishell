@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:38 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/02 17:59:57 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 11:09:59 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,9 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strchr(const char *s, int c);
 size_t			ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
+char			**ft_spliter(char const *s, bool (*func)(char *, int));
+bool			ft_whitespace(char *str, int i);
+char			*ft_strstr(char *str, char *to_find);
 
 // parser
 char			**ft_skip_args(char **args);
@@ -178,9 +181,10 @@ struct dirent	*ft_readdir(DIR *dir);
 int				ft_entryjoin(struct dirent *entry, char ***files,
 					char *pattern);
 int				match(char *pattern, char *string);
-int				glob_asterisk(char ***globed_args, char *args, bool quoted);
+int				glob_asterisk(char ***globed_args, char *args);
 bool			is_quoted(char *arg, char target, bool all);
 int				ft_glob_arg(t_ast *ast, char *arg, char ***globed);
+bool			is_not_quoted(char *s, int i);
 
 // exec
 int				exec_redir(t_ast *ast, t_redirection *redir);
@@ -193,6 +197,7 @@ char			*ft_get_path(t_ast *ast, char *cmd, int *status);
 void			ft_cmd_nf_err(char *cmd, int status);
 int				check_file_name(char *file);
 void			check_input(t_shell *shell);
+int				skip_null_args(t_ast *ast);
 
 int				exec_child(t_ast *ast);
 int				exec_parent(t_ast *ast);

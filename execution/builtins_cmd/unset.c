@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:01:18 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/02 21:59:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 08:16:48 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ int	ft_unsetenv(char *name, t_shell *shell)
 	return (1);
 }
 
+static int	invalid_identifier(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (false);
+	i++;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 int	ft_unset(t_ast *ast, char **args)
 {
 	int	i;
@@ -47,7 +64,7 @@ int	ft_unset(t_ast *ast, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (!ft_valid_name(args[i]))
+		if (!invalid_identifier(args[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(args[i], 2);
