@@ -6,7 +6,7 @@
 /*   By: hsobane <hsobane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:45:03 by hsobane           #+#    #+#             */
-/*   Updated: 2024/03/03 12:26:54 by hsobane          ###   ########.fr       */
+/*   Updated: 2024/03/03 20:47:29 by hsobane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	run_cmd(t_shell *shell)
 	signal(SIGQUIT, ft_signal_handler);
 	ft_init_ast(&shell->ast, shell, false);
 	shell->exit_status = exec_ast(shell->ast);
-	set_underscore(shell);
 	signal(SIGQUIT, SIG_IGN);
+	set_underscore(shell);
 	ft_free_ast(&shell->ast);
 	return (exit_status(shell->exit_status, true));
 }
